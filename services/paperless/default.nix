@@ -5,9 +5,10 @@
   ...
 }: let
   healthchecks-url = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
+  paperless-container-name = config.virtualisation.arion.projects.paperless.settings.webserver.service.container_name;
   backup = pkgs.writeShellScript "paperless-backup" ''
     set -eux
-    ${pkgs.docker}/bin/docker exec paperless-webserver-1 document_exporter /usr/src/paperless/export --zip
+    ${pkgs.docker}/bin/docker exec ${paperless-container-name} document_exporter /usr/src/paperless/export --zip
     cd /paperless/export
     mv *.zip paperlessExport.zip
     ${pkgs._7zz}/bin/7zz a -tzip paperlessExportEncrypted.zip -m0=lzma -pBaggage-Crisping-Gloating5 *.zip
