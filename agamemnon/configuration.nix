@@ -22,6 +22,7 @@ in {
       dataDir = "/data";
       useIpv6 = false;
     })
+    "${self}/services/audiobookshelf"
     "${self}/services/monitoring"
     "${self}/services/watchtower"
   ];
