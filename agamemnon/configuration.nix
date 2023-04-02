@@ -17,6 +17,11 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     "${self}/services/paperless"
+    (import "${self}/services/calibre-web" {
+      inherit lib;
+      dataDir = "/data";
+      useIpv6 = false;
+    })
     "${self}/services/monitoring"
     "${self}/services/watchtower"
   ];
