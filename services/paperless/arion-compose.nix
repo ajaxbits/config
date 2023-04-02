@@ -58,8 +58,8 @@
       command = [
         "gotenberg"
         "--chromium-disable-javascript=true"
-        "--chromium-allow-list=file=///tmp/.*"
-        "--chromium-allow-list=http://paperless-gotenberg:3000/.*"
+        # "--chromium-allow-list=file=///tmp/.*"
+        # "--chromium-allow-list=http://paperless-gotenberg:3000/.*"
       ];
     };
     tika.service = {
