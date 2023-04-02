@@ -3,6 +3,8 @@ let
 in {
   virtualisation.oci-containers.backend = "docker";
   virtualisation.oci-containers.containers = {
+  #' exit code is 'exited' and its exit status is 125.
+#Apr 02 18:43:42 agamemnon docker-audiobookshelf-post-stop[3708165]: Error: No such container: audiobookshelf
     audiobookshelf = {
       image = "ghcr.io/advplyr/audiobookshelf";
       volumes = [
