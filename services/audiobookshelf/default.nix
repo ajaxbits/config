@@ -1,7 +1,9 @@
 {
-  virtualisation.arion.projects.audiobookshelf.settings = {
-    imports = [./arion-compose.nix];
-  };
+  config,
+  self,
+  ...
+}: {
+  virtualisation.arion.projects.audiobookshelf.settings = import ./arion-compose.nix {secretsPath = config.age.secretsDir;};
 
   # Configure groups
   users.users = {
@@ -9,8 +11,29 @@
       isSystemUser = true;
       group = "audiobookshelf";
     };
+    libation = {
+      isSystemUser = true;
+      group = "libation";
+    };
   };
   users.groups = {
     audiobookshelf = {};
+    libation = {};
+  };
+
+  # auth to Audible
+  age.secrets = {
+    "libation/Settings.json" = {
+      file = "${self}/secrets/libation/unpoller-pass.age";
+      mode = "440";
+      owner = "libation";
+      group = "libation";
+    };
+    "libation/AccountSettings.json" = {
+      file = "${self}/secrets/libation/unpoller-pass.age";
+      mode = "440";
+      owner = "libation";
+      group = "libation";
+    };
   };
 }
