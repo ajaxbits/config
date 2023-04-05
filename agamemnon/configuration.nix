@@ -27,23 +27,27 @@ in {
     "${self}/services/watchtower"
   ];
 
-  nix.settings.trusted-users = ["@wheel"];
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+  nix = {
+    settings.trusted-users = ["@wheel"];
+    settings.auto-optimise-store = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
   };
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "agamemnon";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "agamemnon";
+    networkmanager.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -56,9 +60,16 @@ in {
     useXkbConfig = true; # use xkbOptions in tty.
   };
 
-  services.upower.ignoreLid = true;
-  services.logind.lidSwitch = "ignore";
-  services.logind.extraConfig = "HandleLidSwitch=ignore";
+  services = {
+    openssh.enable = true;
+
+    # Headless laptop
+    upower.ignoreLid = true;
+    logind = {
+      lidSwitch = "ignore";
+      extraConfig = "HandleLidSwitch=ignore";
+    };
+  };
 
   systemd.services.disable-screen-light = {
     script = ''
@@ -86,8 +97,6 @@ in {
     wget
     kitty.terminfo
   ];
-
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

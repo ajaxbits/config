@@ -8,17 +8,18 @@
   modulesPath,
   ...
 }: {
+  nixpkgs.config.allowUnfree = true; # required for mac firmware blobs
+
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) ["broadcom_sta"];
-  nixpkgs.config.allowUnfree = true;
-
-  boot.initrd.availableKernelModules = ["uhci_hcd" "ehci_pci" "ahci" "firewire_ohci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel" "wl"];
-  boot.extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
+  boot = {
+    initrd.availableKernelModules = ["uhci_hcd" "ehci_pci" "ahci" "firewire_ohci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
+    initrd.kernelModules = [];
+    kernelModules = ["kvm-intel" "wl"];
+    extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
+  };
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/8006f7a8-32f2-4174-ad50-96e9d4c8518d";

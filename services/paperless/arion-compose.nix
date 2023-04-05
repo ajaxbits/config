@@ -68,10 +68,10 @@
       restart = "unless-stopped";
     };
   };
-  docker-compose.raw = {
-    volumes.data = {};
-    volumes.media = {};
-    volumes.pgdata = {};
-    volumes.redisdata = {};
+  docker-compose.raw.volumes = {
+    data = {};
+    media = {};
+    pgdata = {};
+    redisdata = {};
   };
 }

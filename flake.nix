@@ -1,13 +1,15 @@
 {
   description = "A basic flake with a shell";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
 
-  inputs.deploy-rs.url = "github:serokell/deploy-rs";
-  inputs.arion.url = "github:hercules-ci/arion?rev=09ef2d13771ec1309536bbf97720767f90a5afa7";
-  inputs.agenix = {
-    url = "github:ryantm/agenix";
-    inputs.nixpkgs.follows = "nixpkgs";
+    deploy-rs.url = "github:serokell/deploy-rs";
+    arion.url = "github:hercules-ci/arion?rev=09ef2d13771ec1309536bbf97720767f90a5afa7";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
