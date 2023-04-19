@@ -6,5 +6,6 @@ in {
   # prometheus
   "prometheus/unpoller-pass.age".publicKeys = [ajax agamemnon];
   # libation
-  "libation/Settings.json".publicKeys = [ajax agamemnon];
+  "libation/Settings.json.age".publicKeys = [ajax agamemnon];
+  "libation/AccountsSettings.json.age".publicKeys = [ajax agamemnon];
 }

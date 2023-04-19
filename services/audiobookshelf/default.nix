@@ -24,13 +24,13 @@
   # auth to Audible
   age.secrets = {
     "libation/Settings.json" = {
-      file = "${self}/secrets/libation/unpoller-pass.age";
+      file = "${self}/secrets/libation/Settings.json.age";
       mode = "440";
       owner = "libation";
       group = "libation";
     };
-    "libation/AccountSettings.json" = {
-      file = "${self}/secrets/libation/unpoller-pass.age";
+    "libation/AccountsSettings.json" = {
+      file = "${self}/secrets/libation/AccountsSettings.json.age";
       mode = "440";
       owner = "libation";
       group = "libation";

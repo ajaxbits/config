@@ -17,28 +17,26 @@ in {
     };
 
     libation-prep.service = {
-      contaier_name = "libation-prep";
+      container_name = "libation-prep";
       user = "root";
-      image = {
-        enableRecommendedContents = true;
-        volumes = [
-          "${audiobooksDir}/libation:/config"
-          "${secretsPath}/libation:/secrets"
-        ];
-        command = [
-          "/bin/sh"
-          "-c"
-          "'cp /secrets/Settings.json /config/Settings.json && cp /secrets/AccountSettings.json /config/AccountSettings.json'"
-        ];
-      };
+      image = "busybox";
+      privileged = true;
+      volumes = [
+        "${audiobooksDir}/libation:/config"
+        "${secretsPath}/libation:/secrets"
+      ];
+      command = [
+        "/bin/sh"
+        "-c"
+        "'ls /secrets && ls /secrets/libation && cp /secrets/Settings.json /config/Settings.json && cp /secrets/AccountsSettings.json /config/AccountsSettings.json'"
+      ];
     };
 
     libation.service = {
       container_name = "libation";
       depends_on = ["libation-prep"];
-      user = "libation";
-
-      image = "rmcrackan/libation:latest";
+      user = "root";
+      image = "rmcrackan/libation:10.2.1";
       restart = "always";
       volumes = [
         "${audiobooksDir}/libation:/config"
