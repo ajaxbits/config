@@ -23,11 +23,12 @@ in {
       privileged = true;
       volumes = [
         "${audiobooksDir}/libation:/config"
+        "${secretsPath}:/secrets"
       ];
       command = [
         "/bin/sh"
         "-c"
-        "'ln -sf ${secretsPath}/Settings.json /config/Settings.json && ln -sf ${secretsPath}/AccountsSettings.json /config/AccountsSettings.json'"
+        "'cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
       ];
     };
 
