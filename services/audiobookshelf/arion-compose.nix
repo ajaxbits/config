@@ -27,7 +27,7 @@ in {
       command = [
         "/bin/sh"
         "-c"
-        "'ln -sf /run/agenix/libation/Settings.json /config/Settings.json && ln -sf /run/agenix/libation/AccountsSettings.json /config/AccountsSettings.json'"
+        "'ln -sf ${secretsPath}/Settings.json /config/Settings.json && ln -sf ${secretsPath}/AccountsSettings.json /config/AccountsSettings.json'"
       ];
     };
 

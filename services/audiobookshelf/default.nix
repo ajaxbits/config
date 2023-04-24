@@ -3,7 +3,7 @@
   self,
   ...
 }: {
-  virtualisation.arion.projects.audiobookshelf.settings = import ./arion-compose.nix {secretsPath = config.age.secretsDir;};
+  virtualisation.arion.projects.audiobookshelf.settings = import ./arion-compose.nix {secretsPath = "${config.age.secretsDir}/libation";};
 
   # Configure groups
   users.users = {
