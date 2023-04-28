@@ -3,6 +3,8 @@ let
   agamemnon = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCc1d8GMX5g84ZFflg8YWJ7rqUlLzVBrc2ENvUqNEGs";
   allKeys = [ajax agamemnon];
 in {
+  # cloudflare
+  "cloudflare-api-key.age".publicKeys = [ajax agamemnon];
   # prometheus
   "prometheus/unpoller-pass.age".publicKeys = [ajax agamemnon];
   # libation
