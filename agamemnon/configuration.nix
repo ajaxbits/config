@@ -16,7 +16,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    (import "${self}/services/paperless" {host = "paperless.ajaxbits.dev";})
+    "${self}/services/paperless"
     (import "${self}/services/calibre-web" {
       inherit lib;
       dataDir = "/data";
