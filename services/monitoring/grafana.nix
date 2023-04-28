@@ -1,16 +1,16 @@
 {config, ...}: {
-  services.nginx.virtualHosts.${config.services.grafana.settings.server.domain} = {
-    locations."/" = {
-      proxyPass = "http://0.0.0.0:${toString config.services.grafana.settings.server.http_port}";
-      proxyWebsockets = true;
-    };
-  };
+  # services.nginx.virtualHosts.${config.services.grafana.settings.server.domain} = {
+  #   locations."/" = {
+  #     proxyPass = "http://0.0.0.0:${toString config.services.grafana.settings.server.http_port}";
+  #     proxyWebsockets = true;
+  #   };
+  # };
 
   services.grafana = {
     enable = true;
     settings.analytics.reporting_enabled = false;
     settings.server = {
-      domain = "grafana.agamemnon";
+      domain = "127.0.0.1";
       protocol = "http";
       http_port = 2342;
       http_addr = "0.0.0.0";

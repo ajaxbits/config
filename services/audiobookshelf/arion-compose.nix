@@ -1,4 +1,8 @@
-{secretsPath, ...}: let
+{
+  secretsPath,
+  audiobookshelfPort,
+  ...
+}: let
   audiobooksDir = "/data/audiobooks";
 in {
   project.name = "audiobookshelf";
@@ -13,7 +17,7 @@ in {
         "${audiobooksDir}/audiobooks:/audiobooks"
         "${audiobooksDir}/podcasts:/podcasts"
       ];
-      ports = ["13378:80"];
+      ports = ["${audiobookshelfPort}:80"];
     };
 
     libation-prep.service = {

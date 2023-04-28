@@ -16,13 +16,13 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    "${self}/services/paperless"
+    (import "${self}/services/paperless" {host = "paperless.ajaxbits.dev";})
     (import "${self}/services/calibre-web" {
       inherit lib;
       dataDir = "/data";
       useIpv6 = false;
     })
-    "${self}/services/audiobookshelf"
+    (import "${self}/services/audiobookshelf" {host = "agamemnon.spotted-python.ts.net";})
     "${self}/services/monitoring"
     "${self}/services/watchtower"
   ];
