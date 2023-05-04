@@ -1,0 +1,4 @@
+{
+  services.gitea.settings = {
+  };
+}
