@@ -53,6 +53,15 @@ in
     };
 
     # auth to postgresql
+    users.users = {
+      gitea = {
+        isSystemUser = true;
+        group = "gitea";
+      };
+    };
+    users.groups = {
+      gitea = {};
+    };
     age.secrets = {
       "forgejo/postgresql-pass" = {
         file = "${self}/secrets/forgejo/postgresql-pass.age";
