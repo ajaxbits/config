@@ -22,7 +22,7 @@ in {
       dataDir = "/data";
       useIpv6 = false;
     })
-    (import "${self}/services/audiobookshelf" {host = "audiobooks.ajaxbits.dev";})
+    (import "${self}/services/audiobookshelf" {host = "agamemnon.spotted-python.ts.net";})
     # (import "${self}/services/forgejo" {host = "git.ajaxbits.dev";})
     "${self}/services/monitoring"
     "${self}/services/watchtower"

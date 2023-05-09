@@ -47,7 +47,7 @@ in
   // (
     if host != null
     then {
-      services.caddy.virtualHosts."http://${host}".extraConfig = ''
+      services.caddy.virtualHosts."${host}".extraConfig = ''
         encode gzip zstd
         reverse_proxy 127.0.0.1:${audiobookshelfPort}
       '';
