@@ -9,7 +9,7 @@ in {
   services = {
     audiobookshelf.service = {
       container_name = "audiobookshelf";
-      image = "ghcr.io/advplyr/audiobookshelf:2.2.19";
+      image = "ghcr.io/advplyr/audiobookshelf:2.2.20";
       restart = "unless-stopped";
       volumes = [
         "${audiobooksDir}/config:/config"
