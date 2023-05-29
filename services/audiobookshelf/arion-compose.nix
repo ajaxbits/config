@@ -9,7 +9,7 @@ in {
   services = {
     audiobookshelf.service = {
       container_name = "audiobookshelf";
-      image = "ghcr.io/advplyr/audiobookshelf:2.2.20";
+      image = "ghcr.io/advplyr/audiobookshelf:2.2.21";
       restart = "unless-stopped";
       volumes = [
         "${audiobooksDir}/config:/config"
@@ -40,7 +40,7 @@ in {
       container_name = "libation";
       depends_on = ["libation-prep"];
       user = "root";
-      image = "rmcrackan/libation:10.2.1";
+      image = "rmcrackan/libation:10.3.2";
       restart = "always";
       volumes = [
         "${audiobooksDir}/libation:/config"
