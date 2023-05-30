@@ -52,7 +52,7 @@
         };
 
         deploy.nodes.agamemnon = {
-          hostname = "172.22.0.5";
+          hostname = "100.103.179.99";
           fastConnection = true;
           profiles.system = {
             sshUser = "root";

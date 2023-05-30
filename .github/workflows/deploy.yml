@@ -1,0 +1,35 @@
+name: Deploy Config
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Tailscale
+      uses: tailscale/github-action@v1
+      with:
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@v3
+
+    - name: Check deployment
+      run: nix flake check
+
+    - name: Build and deploy
+      run: nix run github:serokell/deploy-rs#deploy
+
+    - name: Cache Nix store
+      uses: actions/cache@v2
+      with:
+        path: /nix/store
+        key: ${{ runner.os }}-nix-${{ hashFiles('**/lockfile.nix') }}
+        restore-keys: |
+          ${{ runner.os }}-nix-
