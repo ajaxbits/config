@@ -20,12 +20,6 @@ jobs:
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@v3
 
-    - name: Check deployment
-      run: nix flake check
-
-    - name: Build and deploy
-      run: nix run github:serokell/deploy-rs
-
     - name: Cache Nix store
       uses: actions/cache@v2
       with:
@@ -33,3 +27,10 @@ jobs:
         key: ${{ runner.os }}-nix-${{ hashFiles('**/lockfile.nix') }}
         restore-keys: |
           ${{ runner.os }}-nix-
+
+    - name: Check deployment
+      run: nix flake check
+
+    - name: Build and deploy
+      run: nix run github:serokell/deploy-rs
+
