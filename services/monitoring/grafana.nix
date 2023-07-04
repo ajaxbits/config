@@ -10,10 +10,11 @@
     enable = true;
     settings.analytics.reporting_enabled = false;
     settings.server = {
-      domain = "127.0.0.1";
+      domain = "172.22.0.5";
       protocol = "http";
       http_port = 2342;
       http_addr = "0.0.0.0";
+      enable_gzip = true; # recommended for perf, change if compat is bad
     };
     provision = {
       enable = true;
