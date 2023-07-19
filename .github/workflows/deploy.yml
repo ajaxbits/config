@@ -24,12 +24,14 @@ jobs:
     - name: Run the Magic Nix Cache
       uses: DeterminateSystems/magic-nix-cache-action@v2
 
-    # - name: Check deployment
-    #   run: nix flake check
+    - name: Add agamemnon to known hosts
+      id: ssh-known-hosts
+      uses: truemark/ssh-known-hosts-action@5c46d8607de56eefdd6f3dd52de754295ad2efdb
+      with:
+        scan-hosts: "agamemnon"
 
     - name: Build and deploy
       run: |
         set -euxo pipefail
-        ssh-keygen -R agamemnon
         nix run github:serokell/deploy-rs -- --hostname=agamemnon
 
