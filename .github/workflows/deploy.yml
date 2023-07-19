@@ -17,6 +17,7 @@ jobs:
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
         tags: tag:ci
+        args: "--accept-dns=true"
 
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@v4
