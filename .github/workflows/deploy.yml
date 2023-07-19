@@ -28,7 +28,8 @@ jobs:
     #   run: nix flake check
 
     - name: Build and deploy
-      run: 
+      run: |
+        set -euxo pipefail
         ssh-keygen -R agamemnon
         nix run github:serokell/deploy-rs -- --hostname=agamemnon
 
