@@ -48,7 +48,6 @@
         PAPERLESS_TIKA_ENABLED = "1";
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://paperless-gotenberg:3000";
         PAPERLESS_TIKA_ENDPOINT = "http://paperless-tika:9998";
-        PAPERLESS_OCR_MODE = "redo";
       };
     };
     gotenberg.service = {
@@ -58,8 +57,6 @@
       command = [
         "gotenberg"
         "--chromium-disable-javascript=true"
-        # "--chromium-allow-list=file=///tmp/.*"
-        # "--chromium-allow-list=http://paperless-gotenberg:3000/.*"
       ];
     };
     tika.service = {

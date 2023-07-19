@@ -27,11 +27,4 @@ in {
     serviceConfig = {User = "root";};
     startAt = "daily";
   };
-
-  services.syncthing = {
-    enable = true;
-    dataDir = "/syncthing"; # Default folder for new synced folders
-    configDir = "/syncthing/.config/syncthing"; # Folder for Syncthing's settings and keys
-    guiAddress = "0.0.0.0:8384";
-  };
 }
