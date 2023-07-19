@@ -16,21 +16,17 @@ jobs:
       uses: tailscale/github-action@main
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+        tags: tag:ci
 
     - name: Install Nix
-      uses: DeterminateSystems/nix-installer-action@v3
+      uses: DeterminateSystems/nix-installer-action@v4
 
-    - name: Cache Nix store
-      uses: actions/cache@v2
-      with:
-        path: /nix/store
-        key: ${{ runner.os }}-nix-${{ hashFiles('**/lockfile.nix') }}
-        restore-keys: |
-          ${{ runner.os }}-nix-
+    - name: Run the Magic Nix Cache
+      uses: DeterminateSystems/magic-nix-cache-action@v2
 
     - name: Check deployment
       run: nix flake check
 
     - name: Build and deploy
-      run: nix run github:serokell/deploy-rs
+      run: nix run github:serokell/deploy-rs -- --hostname=agamemnon
 
