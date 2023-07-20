@@ -42,7 +42,7 @@ in {
       group = "libation";
     };
   };
-  services.caddy.virtualHosts = lib.mkIf host {
+  services.caddy.virtualHosts = lib.mkIf (host != null) {
     "${host}".extraConfig = ''
       encode gzip zstd
       reverse_proxy 127.0.0.1:${audiobookshelfPort}
