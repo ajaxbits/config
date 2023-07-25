@@ -23,6 +23,7 @@ in {
     settings.server = {
       DOMAIN = lib.mkForce host;
       HTTP_PORT = lib.mkForce httpPort;
+      ROOT_URL = lib.mkForce "http://${host}:${toString httpPort}/";
     };
   };
 
