@@ -23,7 +23,11 @@ in {
       useIpv6 = false;
     })
     (import "${self}/services/audiobookshelf" {host = "agamemnon.spotted-python.ts.net";})
-    (import "${self}/services/forgejo" {inherit self;})
+    (import "${self}/services/forgejo" {
+      inherit self;
+      inherit config;
+      inherit pkgs;
+    })
     "${self}/services/monitoring"
     "${self}/services/watchtower"
   ];
