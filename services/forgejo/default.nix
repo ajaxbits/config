@@ -4,8 +4,9 @@
   pkgs,
   ...
 }: let
-  rootUrl = "http://0.0.0.0/";
-  httpAddress = "0.0.0.0";
+  lib = pkgs.lib;
+
+  host = config.networking.hostName;
   httpPort = 3001;
 in {
   services.gitea = {
@@ -19,12 +20,9 @@ in {
 
     lfs.enable = true; # Enable Git LFS
 
-    inherit rootUrl;
-    inherit httpAddress;
-    inherit httpPort;
-
-    settings = {
-      server.DOMAIN = "agamemnon";
+    settings.server = {
+      DOMAIN = lib.mkForce host;
+      HTTP_PORT = lib.mkForce httpPort;
     };
   };
 
