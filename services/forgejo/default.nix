@@ -23,7 +23,9 @@ in {
     inherit httpAddress;
     inherit httpPort;
 
-    settings = import ./settings.nix;
+    settings = {
+      server.DOMAIN = "agamemnon";
+    };
   };
 
   services.postgresql = {
