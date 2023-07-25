@@ -2,7 +2,6 @@
   self,
   config,
   pkgs,
-  lib,
   ...
 }: let
   rootUrl = "http://0.0.0.0/";
