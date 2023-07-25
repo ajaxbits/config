@@ -21,6 +21,7 @@ in {
 
     lfs.enable = true; # Enable Git LFS
 
+    host = "agamemnon";
     inherit rootUrl;
     inherit httpAddress;
     inherit httpPort;
