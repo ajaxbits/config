@@ -9,7 +9,6 @@
   httpPort = 3001;
 in {
   services.gitea = {
-    imports = [./settings.nix];
     enable = true; # Enable Gitea
     package = pkgs.forgejo;
     appName = "hephaestus"; # Give the site a name
@@ -23,6 +22,8 @@ in {
     inherit rootUrl;
     inherit httpAddress;
     inherit httpPort;
+
+    settings = import ./settings.nix;
   };
 
   services.postgresql = {

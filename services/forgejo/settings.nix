@@ -1,4 +1,3 @@
 {
-  services.gitea.settings = {
-  };
+  DOMAIN = "agamemnon";
 }
