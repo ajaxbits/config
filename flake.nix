@@ -2,7 +2,7 @@
   description = "A basic flake with a shell";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     deploy-rs.url = "github:serokell/deploy-rs";
     arion.url = "github:hercules-ci/arion?rev=09ef2d13771ec1309536bbf97720767f90a5afa7";
@@ -15,24 +15,32 @@
   outputs = {
     self,
     nixpkgs,
-    flake-utils,
+    flake-parts,
     deploy-rs,
     arion,
     agenix,
     ...
   } @ inputs:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      devShells.default = pkgs.mkShell {
-        packages = [
-          pkgs.bashInteractive
-          deploy-rs.packages.${system}.default
-          pkgs.arion
-          agenix.packages.${system}.default
-        ];
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux" "aarch64-darwin" "x86_64-darwin"];
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: {
+        devShells.default = pkgs.mkShell {
+          packages = [
+            pkgs.bashInteractive
+            deploy-rs.packages.${system}.default
+            pkgs.arion
+            agenix.packages.${system}.default
+          ];
+        };
       };
-    })
+    }
     // (
       let
         pkgs = nixpkgs.legacyPackages."x86_64-linux";
