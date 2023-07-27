@@ -94,6 +94,9 @@ in {
     initialHashedPassword = "$6$ZxJtQlZhhY8ZJjY$R6SqiPBtRh3YRD3Bnyprt0roT6mjvB4F6igRDISsADMJ56J.7YIoRbD9md4MFvQbSEsT1sQGWfxLLcWKV65lV/"; # hack me bro I dare you
     openssh.authorizedKeys.keys = fetchKeysList "ajaxbits";
   };
+
+  programs.fish.enable = true;
+
   users.users.root.openssh.authorizedKeys.keys =
     config.users.users.agamemnon.openssh.authorizedKeys.keys;
 
