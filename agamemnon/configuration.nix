@@ -13,6 +13,12 @@
     sha256 = "0vzjaj4mabwdl71cr91k9smsmxlbkm55f12794n6j84vpdvyp7qk";
   }))));
 in {
+  systemd.services.NetworkManager-wait-online = {
+    serviceConfig = {
+      ExecStart = ["" "${pkgs.networkmanager}/bin/nm-online -q"];
+    };
+  };
+
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
