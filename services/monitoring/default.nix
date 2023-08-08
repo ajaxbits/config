@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./uptimekuma.nix
     ./grafana.nix
     ./loki.nix
     (
