@@ -40,7 +40,7 @@ in {
       container_name = "libation";
       depends_on = ["libation-prep"];
       user = "root";
-      image = "rmcrackan/libation:10.6.3";
+      image = "rmcrackan/libation:10.6.5";
       restart = "always";
       volumes = [
         "${audiobooksDir}/libation:/config"
