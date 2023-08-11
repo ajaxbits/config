@@ -9,4 +9,6 @@ in {
   "libation/AccountsSettings.json.age".publicKeys = [ajax agamemnon];
   # forgejo
   "forgejo/postgresql-pass.age".publicKeys = [ajax agamemnon];
+  # miniflux
+  "miniflux/adminCredentialsFile.age".publicKeys = [ajax agamemnon];
 }
