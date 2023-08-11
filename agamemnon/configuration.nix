@@ -30,7 +30,6 @@ in {
     })
     "${self}/services/monitoring"
     "${self}/services/watchtower"
-    "${self}/services/miniflux"
   ];
 
   nix = {
