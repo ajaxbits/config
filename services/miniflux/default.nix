@@ -12,12 +12,22 @@
     };
   };
 
+  users.users = {
+    miniflux = {
+      isSystemUser = true;
+      group = "miniflux";
+    };
+  };
+  users.groups = {
+    miniflux = {};
+  };
+
   age.secrets = {
     "miniflux/adminCredentialsFile" = {
       file = "${self}/secrets/miniflux/adminCredentialsFile.age";
       mode = "440";
-      owner = config.services.miniflux.user;
-      group = config.services.miniflux.user;
+      owner = config.users.users.miniflux.name;
+      group = config.users.users.miniflux.group;
     };
   };
 }
