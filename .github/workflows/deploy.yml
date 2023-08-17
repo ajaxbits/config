@@ -32,9 +32,9 @@ jobs:
 
     - name: Add agamemnon to known hosts
       id: ssh-known-hosts
-      uses: truemark/ssh-known-hosts-action@v1
-      with:
-        scan-hosts: "agamemnon"
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan agamemnon >> ~/.ssh/known_hosts
 
     - name: Build and deploy
       run: |
