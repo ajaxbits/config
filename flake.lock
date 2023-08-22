@@ -228,18 +228,15 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1690441914,
-        "narHash": "sha256-Ac+kJQ5z9MDAMyzSc0i0zJDx2i3qi9NjlW5Lz285G/I=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "db8672b8d0a2593c2405aed0c1dfa64b2a2f428f",
-        "type": "github"
+        "narHash": "sha256-7el+r373PubFExJSr/FA4wwr66ekBn4afDJuEiuefO8=",
+        "rev": "475d5ae2c4cb87b904545bdb547af05681198fcc",
+        "revCount": 490311,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.490311%2Brev-475d5ae2c4cb87b904545bdb547af05681198fcc/018a1928-9148-72c2-b387-ee7e2286c1b9/source.tar.gz"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
       }
     },
     "root": {
@@ -248,7 +245,24 @@
         "arion": "arion",
         "deploy-rs": "deploy-rs",
         "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_3",
+        "unstable": "unstable"
+      }
+    },
+    "unstable": {
+      "locked": {
+        "lastModified": 1692557222,
+        "narHash": "sha256-TCOtZaioLf/jTEgfa+nyg0Nwq5Uc610Z+OFV75yUgGw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0b07d4957ee1bd7fd3bdfd12db5f361bd70175a6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "utils": {

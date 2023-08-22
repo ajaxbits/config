@@ -1,7 +1,8 @@
 {
   description = "A basic flake with a shell";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
+    unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -15,6 +16,7 @@
   outputs = {
     self,
     nixpkgs,
+    unstable,
     flake-parts,
     deploy-rs,
     arion,
