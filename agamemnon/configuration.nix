@@ -33,6 +33,8 @@ in {
     "${self}/services/miniflux"
   ];
 
+  systemd.services.NetworkManager-wait-online.enable = lib.mkForce false;
+
   nix = {
     settings.trusted-users = ["@wheel"];
     settings.auto-optimise-store = true;
