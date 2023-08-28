@@ -52,10 +52,11 @@
           system = "x86_64-linux";
           specialArgs = {inherit inputs self;};
           modules = [
-            {
-              imports = utils.includeDir ./modules/base;
-            }
-            agenix.nixosModules.age
+            {imports = utils.includeDir ./modules/base;}
+            (import ./modules/cd.nix {
+              inherit agenix;
+              config = self.nixosConfigurations.agamemnon.config;
+            })
             arion.nixosModules.arion
             ./agamemnon/configuration.nix
           ];
@@ -75,4 +76,12 @@
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       }
     );
+
+  nixConfig = {
+    extra-substituters = ["https://cache.garnix.io"];
+
+    extra-trusted-public-keys = [
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+    ];
+  };
 }

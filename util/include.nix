@@ -1,4 +1,4 @@
-{lib}: rec {
+{lib}: {
   includeDir = dirName: let
     toFilePath = name: value: dirName + ("/" + name);
     filterCaches = key: value: value == "regular" && lib.hasSuffix ".nix" key;
