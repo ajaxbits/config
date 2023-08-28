@@ -107,6 +107,7 @@ in {
     neovim
     wget
     kitty.terminfo
+    neofetch
   ];
 
   # Open ports in the firewall.
