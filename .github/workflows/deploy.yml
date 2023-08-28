@@ -1,12 +1,6 @@
 name: Deploy Config
 
 on:
-  push:
-    branches: [main]
-    paths-ignore: 
-      - ".github/**"
-      - "README.md"
-      - ".gitignore"
   workflow_dispatch:
 
 jobs:
