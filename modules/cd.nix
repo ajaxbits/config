@@ -7,7 +7,7 @@
   repo = "ajaxbits/config";
 in {
   imports = [agenix.nixosModules.age];
-  nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
+  nix.extraOptions = "!include ${config.age.secrets."garnix/github-access-token".path}";
 
   system.autoUpgrade = {
     enable = true;
