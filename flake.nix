@@ -56,7 +56,7 @@
             {
               imports = [
                 (import ./modules/cd.nix {
-                  inherit agenix;
+                  inherit agenix self;
                   config = self.nixosConfigurations.agamemnon.config;
                 })
               ];

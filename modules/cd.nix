@@ -1,6 +1,7 @@
 {
   agenix,
   config,
+  self,
   ...
 }: let
   repo = "ajaxbits/config";
@@ -16,4 +17,6 @@ in {
     dates = "minutely";
     flags = ["--option" "tarball-ttl" "0"];
   };
+
+  age.secrets."garnix/github-access-token".file = "${self}/secrets/forgejo/postgresql-pass.age";
 }
