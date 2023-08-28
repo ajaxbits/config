@@ -53,10 +53,14 @@
           specialArgs = {inherit inputs self;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
-            (import ./modules/cd.nix {
-              inherit agenix;
-              config = self.nixosConfigurations.agamemnon.config;
-            })
+            {
+              imports = [
+                (import ./modules/cd.nix {
+                  inherit agenix;
+                  config = self.nixosConfigurations.agamemnon.config;
+                })
+              ];
+            }
             arion.nixosModules.arion
             ./agamemnon/configuration.nix
           ];

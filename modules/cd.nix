@@ -14,6 +14,6 @@ in {
     flake = "github:${repo}#${config.networking.hostName}";
 
     dates = "minutely";
-    flags = ["--option" "tarball-ttl" "0"];
+    flags = ["--option" "tarball-ttl" "0" "--accept-flake-config"];
   };
 }
