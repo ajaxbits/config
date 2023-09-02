@@ -1,10 +1,9 @@
 {
   secretsPath,
+  audiobookshelfDir,
   audiobookshelfPort,
   ...
-}: let
-  audiobooksDir = "/data/audiobooks";
-in {
+}: {
   project.name = "audiobookshelf";
   services = {
     audiobookshelf.service = {
@@ -12,10 +11,10 @@ in {
       image = "ghcr.io/advplyr/audiobookshelf:2.3.3";
       restart = "unless-stopped";
       volumes = [
-        "${audiobooksDir}/config:/config"
-        "${audiobooksDir}/metadata:/metadata"
-        "${audiobooksDir}/audiobooks:/audiobooks"
-        "${audiobooksDir}/podcasts:/podcasts"
+        "${audiobookshelfDir}/config:/config"
+        "${audiobookshelfDir}/metadata:/metadata"
+        "${audiobookshelfDir}/audiobooks:/audiobooks"
+        "${audiobookshelfDir}/podcasts:/podcasts"
       ];
       ports = ["${audiobookshelfPort}:80"];
     };
@@ -26,7 +25,7 @@ in {
       image = "busybox";
       privileged = true;
       volumes = [
-        "${audiobooksDir}/libation:/config"
+        "${audiobookshelfDir}/libation:/config"
         "${secretsPath}:/secrets"
       ];
       command = [
@@ -43,8 +42,8 @@ in {
       image = "rmcrackan/libation:11.0.1";
       restart = "always";
       volumes = [
-        "${audiobooksDir}/libation:/config"
-        "${audiobooksDir}/audiobooks:/data"
+        "${audiobookshelfDir}/libation:/config"
+        "${audiobookshelfDir}/audiobooks:/data"
       ];
     };
   };
