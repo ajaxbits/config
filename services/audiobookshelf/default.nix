@@ -1,14 +1,23 @@
 {host ? null}: {
+  pkgs,
   config,
   self,
   lib,
   ...
 }: let
+  audiobookshelfDir = "/data/audiobooks";
   audiobookshelfPort = "13378";
 in {
+  imports = [
+    (import ./backup.nix {
+      inherit pkgs audiobookshelfDir;
+      healthchecks-url = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
+    })
+  ];
+
   virtualisation.arion.projects.audiobookshelf.settings = import ./arion-compose.nix {
+    inherit audiobookshelfDir audiobookshelfPort;
     secretsPath = "${config.age.secretsDir}/libation";
-    inherit audiobookshelfPort;
   };
 
   # Configure groups
