@@ -1,4 +1,5 @@
 {host ? null}: {
+  pkgs,
   config,
   self,
   lib,
@@ -9,7 +10,7 @@
 in {
   imports = [
     (import ./backup.nix {
-      inherit audiobookshelfDir;
+      inherit pkgs audiobookshelfDir;
       healthchecks-url = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
     })
   ];

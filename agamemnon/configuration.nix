@@ -22,12 +22,11 @@ in {
       dataDir = "/data";
       useIpv6 = false;
     })
-    (import "${self}/services/audiobookshelf" {host = "agamemnon.spotted-python.ts.net";})
-    (import "${self}/services/forgejo" {
-      inherit self;
-      inherit config;
+    (import "${self}/services/audiobookshelf" {
       inherit pkgs;
+      host = "agamemnon.spotted-python.ts.net";
     })
+    (import "${self}/services/forgejo" {inherit self config pkgs;})
     "${self}/services/monitoring"
     "${self}/services/watchtower"
     "${self}/services/miniflux"
