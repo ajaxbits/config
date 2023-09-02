@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   audiobookshelfDir,
   healthchecks-url,
   ...
