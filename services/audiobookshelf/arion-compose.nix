@@ -3,12 +3,15 @@
   audiobookshelfDir,
   audiobookshelfPort,
   ...
-}: {
+}: let
+  audiobookshelfVersion = "2.3.3";
+  libationVersion = "11.0.3";
+in {
   project.name = "audiobookshelf";
   services = {
     audiobookshelf.service = {
       container_name = "audiobookshelf";
-      image = "ghcr.io/advplyr/audiobookshelf:2.3.3";
+      image = "ghcr.io/advplyr/audiobookshelf:${audiobookshelfVersion}";
       restart = "unless-stopped";
       volumes = [
         "${audiobookshelfDir}/config:/config"
@@ -39,7 +42,7 @@
       container_name = "libation";
       depends_on = ["libation-prep"];
       user = "root";
-      image = "rmcrackan/libation:11.0.1";
+      image = "rmcrackan/libation:${libationVersion}";
       restart = "always";
       volumes = [
         "${audiobookshelfDir}/libation:/config"
