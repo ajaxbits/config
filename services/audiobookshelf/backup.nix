@@ -11,13 +11,18 @@
     ${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${healthchecks-url}
   '';
 in {
-  systemd.services.audiobookshelf-backup-daily = {
+  systemd.services.audiobookshelf-backup = {
     script = "${backup}";
-    serviceConfig = {User = "root";};
+    serviceConfig = {
+      User = "root";
+      Type = "oneshot";
+    };
   };
-  systemd.timers.audiobookshelf-backup-daily-timer = {
+  
+  systemd.timers.audiobookshelf-backup = {
     wantedBy = ["timers.target"];
-    timerConfig.OnCalendar = "daily 03:00";
-    timerConfig.Unit = "audiobookshelf-backup-daily.service";
+    partOf = [ "audiobookshelf-backup.service" ];
+    timerConfig.OnCalendar = "*-*-* 00:03:00";
+    timerConfig.Unit = "audiobookshelf-backup.service";
   };
 }
