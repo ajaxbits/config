@@ -15,9 +15,4 @@ in {
     script = "${backup}";
     serviceConfig = {User = "root";};
   };
-  systemd.timers.audiobookshelf-backup-daily-timer = {
-    wantedBy = ["timers.target"];
-    timerConfig.OnCalendar = "daily 03:00";
-    timerConfig.Unit = "audiobookshelf-backup-daily.service";
-  };
 }
