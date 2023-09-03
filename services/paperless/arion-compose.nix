@@ -1,4 +1,6 @@
-{
+let 
+  paperlessVersion = "1.17.4";
+in {
   project.name = "paperless";
   services = {
     broker.service = {
@@ -20,7 +22,7 @@
     };
     webserver.service = {
       container_name = "paperless";
-      image = "ghcr.io/paperless-ngx/paperless-ngx:1.17.0";
+      image = "ghcr.io/paperless-ngx/paperless-ngx:${paperlessVersion}";
       restart = "unless-stopped";
       depends_on = [
         "db"
