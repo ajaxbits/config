@@ -22,7 +22,7 @@ in {
   systemd.timers.audiobookshelf-backup = {
     wantedBy = ["timers.target"];
     partOf = [ "audiobookshelf-backup.service" ];
-    timerConfig.OnCalendar = "*-*-* 00:03:00";
+    timerConfig.OnCalendar = "*-*-* 03:00:00";
     timerConfig.Unit = "audiobookshelf-backup.service";
   };
 }
