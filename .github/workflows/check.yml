@@ -5,9 +5,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build Nix targets
-    runs-on: ubuntu-22.04
+  check-flake:
+    permissions:
+      id-token: "write"
+      contents: "read"
+    name: Check Nix Flake Inputs
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Check Nix flake inputs
