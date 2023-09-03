@@ -14,7 +14,7 @@ in {
 
     flake = "github:${repo}#${config.networking.hostName}";
 
-    dates = "*-*-* *:5/10:00"; # every 5 minutes
+    dates = "minutely";
     flags = ["--option" "tarball-ttl" "0"];
   };
 
