@@ -25,9 +25,9 @@ in {
     (import "${self}/services/audiobookshelf" {
       host = "agamemnon.spotted-python.ts.net";
     })
-    (import "${self}/services/forgejo" {
-      inherit self config pkgs;
-    })
+    # (import "${self}/services/forgejo" {
+    #   inherit self config pkgs;
+    # })
     "${self}/services/monitoring"
     "${self}/services/watchtower"
     "${self}/services/miniflux"
