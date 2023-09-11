@@ -45,11 +45,24 @@
     }
     // (
       let
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        system = "x86_64-linux";
+        pkgs = nixpkgs.legacyPackages.${system};
+        deployPkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            deploy-rs.overlay
+            (self: super: {
+              deploy-rs = {
+                inherit (pkgs) deploy-rs;
+                lib = super.deploy-rs.lib;
+              };
+            })
+          ];
+        };
         utils = import ./util/include.nix {lib = pkgs.lib;};
       in {
         nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+          inherit system;
           specialArgs = {inherit inputs self;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
@@ -72,7 +85,7 @@
           profiles.system = {
             sshUser = "root";
             user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.agamemnon;
+            path = deployPkgs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.agamemnon;
           };
         };
 
