@@ -30,6 +30,8 @@
     device = "/dev/disk/by-uuid/7C28-9A43";
     fsType = "vfat";
   };
+  
+  services.fstrim.enable = true;
 
   swapDevices = [
     {device = "/dev/disk/by-uuid/3d247676-330c-4452-ad58-bb4befe5cbea";}
