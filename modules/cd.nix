@@ -10,7 +10,7 @@ in {
   nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
 
   system.autoUpgrade = {
-    enable = true;
+    enable = false;
 
     flake = "github:${repo}#${config.networking.hostName}";
 

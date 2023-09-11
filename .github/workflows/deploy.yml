@@ -1,11 +1,18 @@
 name: Deploy Config
 
 on:
-  workflow_dispatch:
+  check_suite:
+    types: [completed]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.event.check_suite.conclusion == 'success' && github.event.check_suite.head_branch == 'main'
+
+    strategy:
+      matrix:
+        machine:
+          - "agamemnon"
 
     steps:
     - name: Checkout repository
@@ -20,18 +27,19 @@ jobs:
 
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@main
-
-    - name: Run the Magic Nix Cache
-      uses: DeterminateSystems/magic-nix-cache-action@main
+      with:
+        extra-conf: |
+          substituters = https://cache.garnix.io
+          trusted-public-keys = cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g=
 
     - name: Add agamemnon to known hosts
       id: ssh-known-hosts
       run: |
         mkdir -p ~/.ssh
-        ssh-keyscan agamemnon >> ~/.ssh/known_hosts
+        ssh-keyscan ${{ matrix.machine }} >> ~/.ssh/known_hosts
 
     - name: Build and deploy
       run: |
         set -euxo pipefail
-        nix run github:serokell/deploy-rs -- --hostname=agamemnon
-
+        nix flake check
+        nix run github:serokell/deploy-rs -- --hostname=${{ matrix.machine }}
