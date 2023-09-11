@@ -6,6 +6,7 @@ on:
       - "main"
   check_suite:
     types: [completed]
+  workflow_dispatch:
 
 jobs:
   deploy:
