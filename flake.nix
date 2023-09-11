@@ -85,7 +85,7 @@
           profiles.system = {
             sshUser = "root";
             user = "root";
-            path = deployPkgs.deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.agamemnon;
+            path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.agamemnon;
           };
         };
 
