@@ -77,7 +77,7 @@
         };
 
         # This is highly advised, and will prevent many possible mistakes
-        # checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       }
     );
 
