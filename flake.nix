@@ -63,13 +63,14 @@
       in {
         nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self;};
+          specialArgs = {inherit inputs self pkgs;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
             (import ./modules/cd.nix {
               inherit agenix self;
               config = self.nixosConfigurations.agamemnon.config;
             })
+            "${self}/services/unifi"
             arion.nixosModules.arion
             ./hosts/agamemnon/configuration.nix
           ];
