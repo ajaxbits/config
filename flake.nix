@@ -66,14 +66,10 @@
           specialArgs = {inherit inputs self;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
-            {
-              imports = [
-                (import ./modules/cd.nix {
-                  inherit agenix self;
-                  config = self.nixosConfigurations.agamemnon.config;
-                })
-              ];
-            }
+            (import ./modules/cd.nix {
+              inherit agenix self;
+              config = self.nixosConfigurations.agamemnon.config;
+            })
             arion.nixosModules.arion
             ./agamemnon/configuration.nix
           ];
