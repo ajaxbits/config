@@ -75,6 +75,20 @@
           ];
         };
 
+        nixosConfigurations.thesprotian = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {inherit inputs self;};
+          modules = [
+            {imports = utils.includeDir ./modules/base;}
+            (import ./modules/cd.nix {
+              inherit agenix self;
+              config = self.nixosConfigurations.agamemnon.config;
+            })
+            arion.nixosModules.arion
+            ./hosts/thesprotian/configuration.nix
+          ];
+        };
+
         deploy.nodes.agamemnon = {
           hostname = "agamemnon";
           fastConnection = true;
