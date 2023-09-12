@@ -71,7 +71,7 @@
               config = self.nixosConfigurations.agamemnon.config;
             })
             arion.nixosModules.arion
-            ./agamemnon/configuration.nix
+            ./hosts/agamemnon/configuration.nix
           ];
         };
 
