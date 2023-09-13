@@ -111,9 +111,13 @@
     );
 
   nixConfig = {
-    extra-substituters = ["https://cache.garnix.io"];
+    extra-substituters = [
+      "https://cache.garnix.io"
+      "https://numtide.cachix.org"
+    ];
     extra-trusted-public-keys = [
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
     ];
   };
 }
