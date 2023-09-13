@@ -249,7 +249,28 @@
         "deploy-rs": "deploy-rs",
         "flake-parts": "flake-parts_2",
         "nixpkgs": "nixpkgs_3",
+        "unfree": "unfree",
         "unstable": "unstable"
+      }
+    },
+    "unfree": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1692115928,
+        "narHash": "sha256-BHnVMZKM51CMi3dGW5BarH6RKSVG+5BJ/+wmazur3wU=",
+        "owner": "numtide",
+        "repo": "nixpkgs-unfree",
+        "rev": "9545d844027c1b91b14b19d225856efc931b22b2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nixpkgs-unfree",
+        "type": "github"
       }
     },
     "unstable": {
