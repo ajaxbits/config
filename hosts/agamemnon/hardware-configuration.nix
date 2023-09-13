@@ -4,7 +4,7 @@
 {
   config,
   lib,
-  pkgs,
+  pkgsUnfree,
   modulesPath,
   ...
 }: {
@@ -18,6 +18,7 @@
     initrd.availableKernelModules = ["uhci_hcd" "ehci_pci" "ahci" "firewire_ohci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
     initrd.kernelModules = [];
     kernelModules = ["kvm-intel" "wl"];
+    kernelPackages = pkgsUnfree.linuxPackages;
     extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
   };
 
@@ -30,7 +31,7 @@
     device = "/dev/disk/by-uuid/7C28-9A43";
     fsType = "vfat";
   };
-  
+
   services.fstrim.enable = true;
 
   swapDevices = [
