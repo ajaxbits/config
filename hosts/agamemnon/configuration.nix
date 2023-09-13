@@ -10,7 +10,7 @@
 }: let
   fetchKeysList = username: (lib.remove "" (lib.splitString "\n" (builtins.readFile (builtins.fetchurl {
     url = "https://github.com/${username}.keys";
-    sha256 = "1ddyjc786780v5dq5kk2j7ag6yr213447j2bf5a2vxam18dcrh9i";
+    sha256 = "";
   }))));
 in {
   imports = [
