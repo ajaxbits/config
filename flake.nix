@@ -3,6 +3,9 @@
   inputs = {
     nixpkgs.url = "github:Nixos/nixpkgs/nixos-23.05";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    unfree.url = "github:numtide/nixpkgs-unfree";
+    unfree.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -16,6 +19,7 @@
   outputs = {
     self,
     nixpkgs,
+    unfree,
     unstable,
     flake-parts,
     deploy-rs,
@@ -47,6 +51,7 @@
       let
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
+        pkgsUnfree = unfree.legacyPackages.${system};
         deployPkgs = import nixpkgs {
           inherit system;
           overlays = [
@@ -63,7 +68,7 @@
       in {
         nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self pkgs;};
+          specialArgs = {inherit inputs self pkgs pkgsUnfree;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
             (import ./modules/cd.nix {

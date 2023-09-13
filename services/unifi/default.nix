@@ -1,16 +1,13 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgsUnfree, ...}: {
   nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
+    builtins.elem (pkgsUnfree.lib.getName pkg) [
       "unifi-controller"
     ];
 
   services.unifi = {
     enable = true;
-    unifiPackage = pkgs.unifi7;
+    unifiPackage = pkgsUnfree.unifi7;
+    maximumJavaHeapSize = 256;
     openFirewall = true;
   };
 }
