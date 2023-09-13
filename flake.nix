@@ -76,6 +76,7 @@
               config = self.nixosConfigurations.agamemnon.config;
             })
             arion.nixosModules.arion
+            "${self}/services/unifi"
             ./hosts/agamemnon/configuration.nix
           ];
         };
