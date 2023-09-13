@@ -75,7 +75,6 @@
               inherit agenix self;
               config = self.nixosConfigurations.agamemnon.config;
             })
-            "${self}/services/unifi"
             arion.nixosModules.arion
             ./hosts/agamemnon/configuration.nix
           ];
