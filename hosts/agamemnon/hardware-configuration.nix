@@ -18,6 +18,7 @@
     initrd.availableKernelModules = ["uhci_hcd" "ehci_pci" "ahci" "firewire_ohci" "usbhid" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci"];
     initrd.kernelModules = [];
     kernelModules = ["kvm-intel" "wl"];
+    # needed for the macbook
     kernelPackages = pkgsUnfree.linuxPackages;
     extraModulePackages = [config.boot.kernelPackages.broadcom_sta];
   };
