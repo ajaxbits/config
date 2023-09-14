@@ -81,6 +81,18 @@
           ];
         };
 
+        nixosConfigurations.temp = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = {inherit inputs self pkgs pkgsUnfree;};
+          modules = [
+            (import ./modules/cd.nix {
+              inherit agenix self;
+              config = self.nixosConfigurations.temp.config;
+            })
+            ./hosts/temp/configuration.nix
+          ];
+        };
+
         nixosConfigurations.thesprotian = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {inherit inputs self;};
