@@ -85,6 +85,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
+    neofetch
     tmux
     wget
     kitty.terminfo
