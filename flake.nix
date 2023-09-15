@@ -100,7 +100,7 @@
 
               modules.tailscale = {
                 enable = true;
-                initialAuthKey = "tskey-auth-kouU5U7CNTRL-b1T83GNSjXYQvW16frtGUYXSLgAYK7sUR";
+                initialAuthKey = "tskey-auth-kWKfYg4CNTRL-ivZtvUWAJ9RbktPCLGaDFRRXUqYCpr3h";
                 mullvad = true;
                 tags = ["homelab" "nixos"];
               };

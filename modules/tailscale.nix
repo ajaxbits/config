@@ -69,7 +69,7 @@ in {
       extraUpFlags =
         [
           "--ssh"
-          "--exit-node ${cfg.useExitNode}"
+          "--exit-node '${cfg.useExitNode}'"
           "--advertise-routes '${routes}'"
           "--advertise-tags '${tagsList}'"
         ]
