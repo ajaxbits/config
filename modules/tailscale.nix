@@ -52,9 +52,13 @@ in {
     # service config
     services.tailscale = let
       authKeyFile = toFile "ts-authkey" cfg.initialAuthKey;
-      tags = concatStringsSep "," (map (name: "tag:${name}") (cfg.tags ++ mkIf cfg.mullvad ["mullvad"]));
+      tags =
+        if cfg.mullvad
+        then cfg.tags ++ ["mullvad"]
+        else cfg.tags;
+      tagsList = concatStringsSep "," (map (name: "tag:${name}") tags);
       routes =
-        if cfg.advertiseRoutes
+        if (cfg.advertiseRoutes != [])
         then (concatStringsSep "," cfg.advertiseRoutes)
         else "";
     in {
@@ -67,12 +71,20 @@ in {
           "--ssh"
           "--exit-node ${cfg.useExitNode}"
           "--advertise-routes '${routes}'"
-          "--advertise-tags '${tags}'"
+          "--advertise-tags '${tagsList}'"
         ]
-        ++ (mkIf cfg.acceptRoutes ["--accept-routes"])
-        ++ (mkIf cfg.enableExitNode ["--advertise-exit-node"]);
+        ++ (
+          if cfg.acceptRoutes
+          then ["--accept-routes"]
+          else []
+        )
+        ++ (
+          if cfg.enableExitNode
+          then ["--advertise-exit-node"]
+          else []
+        );
 
-      useRoutingFeatures =
+      useRoutingFeatures = with cfg;
         if acceptRoutes && advertiseRoutes != []
         then "both"
         else if acceptRoutes
