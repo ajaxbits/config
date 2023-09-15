@@ -90,10 +90,10 @@
             })
             ./hosts/patroclus/configuration.nix
             ({modulesPath, ...}: {
-              disabledModules = ["${nixpkgs}/modules/services/networking/tailscale.nix"];
+              disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
               imports = [
                 "${self}/modules/tailscale.nix"
-                "${unstable}/modules/services/networking/tailscale.nix"
+                "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
 
               modules.tailscale = {
