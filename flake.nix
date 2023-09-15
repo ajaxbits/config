@@ -16,6 +16,34 @@
     };
   };
 
+  #   Add This
+  #   {
+  #   description = "A Nix flake with custom dependencies";
+
+  #   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.05";
+  #   inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+  #   outputs = { self, nixpkgs, nixpkgs-unstable }: {
+
+  #     nixosConfigurations.my-machine = nixpkgs.lib.nixosSystem {
+  #       system = "x86_64-linux";
+  #       modules = [
+  #         { pkgs, ... }: {
+  #           nixpkgs.overlays = [
+  #             (self: super: {
+  #               tailscale = super.tailscale.override {
+  #                 inherit (nixpkgs-unstable) tailscale;
+  #               };
+  #             })
+  #           ];
+
+  #           services.tailscale.enable = true;
+  #         }
+  #       ];
+  #     };
+  #   };
+  # }
+
   outputs = {
     self,
     nixpkgs,
