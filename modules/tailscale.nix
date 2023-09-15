@@ -51,7 +51,7 @@ in {
   config = mkIf cfg.enable {
     # service config
     services.tailscale = let
-      authKeyFile = toFile ts-authkey initialAuthKey;
+      authKeyFile = toFile "ts-authkey" cfg.initialAuthKey;
       tags = concatStringsSep "," (map (name: "tag:${name}") (cfg.tags ++ mkIf cfg.mullvad ["mullvad"]));
       routes =
         if cfg.advertiseRoutes
