@@ -94,7 +94,7 @@ in {
         message = "enableExitNode and useExitNode cannot be both defined";
       }
       {
-        assertion = authKey != "";
+        assertion = cfg.initialAuthKey != "";
         message = "You must set a tailscale auth key for initial setup";
       }
     ];
