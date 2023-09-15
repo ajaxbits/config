@@ -89,16 +89,12 @@
               config = self.nixosConfigurations.patroclus.config;
             })
             ./hosts/patroclus/configuration.nix
-            {
-              nixpkgs.overlays = [
-                (self: super: {
-                  tailscale = super.tailscale.override {
-                    inherit (unstable) tailscale;
-                  };
-                })
+            ({modulesPath, ...}: {
+              disabledModules = ["${nixpkgs}/modules/services/networking/tailscale.nix"];
+              imports = [
+                "${self}/modules/tailscale.nix"
+                "${unstable}/modules/services/networking/tailscale.nix"
               ];
-
-              imports = ["${self}/modules/tailscale.nix"];
 
               modules.tailscale = {
                 enable = true;
@@ -106,7 +102,7 @@
                 mullvad = true;
                 tags = ["homelab" "nixos"];
               };
-            }
+            })
           ];
         };
 
