@@ -1,7 +1,5 @@
 {
   pkgs,
-  agenix,
-  self,
   config,
   lib,
   ...
@@ -11,9 +9,17 @@ with lib builtins; let
 in {
   options.modules.tailscale = {
     enable = mkEnableOption "Enable tailscale";
+    initialAuthKey = mkOption {
+      type = types.str;
+      description = "One-time auth key for initial connection. MAKE SURE TO EXPIRE IT IMMEDIATLEY.";
+    };
 
     # routes
-    acceptRoutes = mkEnableOption "Accept subnet routes from other tailscale nodes";
+    acceptRoutes = mkOption {
+      description = "Accept subnet routes from other tailscale nodes";
+      type = types.bool;
+      default = true;
+    };
     advertiseRoutes = mkOption {
       description = "A list of subnets to advertise. If empty, the feature is disabled.";
       type = types.listOf types.str;
@@ -42,13 +48,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # authkey
-    imports = [agenix.nixosModules.age];
-    age.secrets."tailscale/authkey".file = "${self}/secrets/tailscale/authkey.age";
-
     # service config
     services.tailscale = let
-      authKeyFile = "${config.age.secretsDir}/tailscale/authkey";
+      authKeyFile = toFile ts-authkey initialAuthKey;
       tags = concatStringsSep "," (map (name: "tag:${name}") (cfg.tags ++ mkIf cfg.mullvad ["mullvad"]));
       routes =
         if cfg.advertiseRoutes
@@ -90,10 +92,10 @@ in {
         assertion = !(cfg.enableExitNode && cfg.useExitNode != "");
         message = "enableExitNode and useExitNode cannot be both defined";
       }
-      # {
-      #   assertion = pathExists authKeyFile;
-      #   message = "Authkey file not found";
-      # }
+      {
+        assertion = authKey != "";
+        message = "You must set a tailscale auth key for initial setup";
+      }
     ];
   };
 }

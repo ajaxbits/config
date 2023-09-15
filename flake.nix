@@ -2,7 +2,7 @@
   description = "A basic flake with a shell";
   inputs = {
     nixpkgs.url = "github:Nixos/nixpkgs/nixos-23.05";
-    unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -109,15 +109,33 @@
           ];
         };
 
-        nixosConfigurations.temp = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {inherit inputs self pkgs pkgsUnfree;};
           modules = [
             (import ./modules/cd.nix {
               inherit agenix self;
-              config = self.nixosConfigurations.temp.config;
+              config = self.nixosConfigurations.patroclus.config;
             })
-            ./hosts/temp/configuration.nix
+            ./hosts/patroclus/configuration.nix
+            {
+              nixpkgs.overlays = [
+                (self: super: {
+                  tailscale = super.tailscale.override {
+                    inherit (unstable) tailscale;
+                  };
+                })
+              ];
+
+              imports = ["${self}/modules/tailscale.nix"];
+
+              modules.tailscale = {
+                enable = true;
+                initialAuthKey = "tskey-auth-kZzqPf3CNTRL-9sPrjrA2aR9nCPq1KLQUX9D3yvimTg5ZV";
+                mullvad = true;
+                tags = ["homelab" "nixos"];
+              };
+            }
           ];
         };
 
