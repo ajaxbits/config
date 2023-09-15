@@ -4,7 +4,8 @@
   lib,
   ...
 }:
-with lib builtins; let
+with lib;
+with builtins; let
   cfg = config.modules.tailscale;
 in {
   options.modules.tailscale = {
