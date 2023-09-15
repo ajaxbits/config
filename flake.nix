@@ -2,7 +2,7 @@
   description = "A basic flake with a shell";
   inputs = {
     nixpkgs.url = "github:Nixos/nixpkgs/nixos-23.05";
-    unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -76,20 +76,35 @@
               config = self.nixosConfigurations.agamemnon.config;
             })
             arion.nixosModules.arion
-            # "${self}/services/unifi"
             ./hosts/agamemnon/configuration.nix
           ];
         };
 
-        nixosConfigurations.temp = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {inherit inputs self pkgs pkgsUnfree;};
           modules = [
             (import ./modules/cd.nix {
               inherit agenix self;
-              config = self.nixosConfigurations.temp.config;
+              config = self.nixosConfigurations.patroclus.config;
             })
-            ./hosts/temp/configuration.nix
+            ./hosts/patroclus/configuration.nix
+            {
+              # we have to use unstable modules for tailscale for now to get good options
+              # TODO: re-evaluate in 23.11
+              disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
+              imports = [
+                "${self}/modules/tailscale.nix"
+                "${unstable}/nixos/modules/services/networking/tailscale.nix"
+              ];
+
+              modules.tailscale = {
+                enable = true;
+                initialAuthKey = "tskey-auth-kouU5U7CNTRL-b1T83GNSjXYQvW16frtGUYXSLgAYK7sUR";
+                mullvad = true;
+                tags = ["homelab" "nixos"];
+              };
+            }
           ];
         };
 
