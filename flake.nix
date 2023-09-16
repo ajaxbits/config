@@ -115,6 +115,7 @@
                 tags = ["ajax" "homelab" "nixos"];
               };
             }
+            "${self}/services/monitoring"
           ];
         };
 
