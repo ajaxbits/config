@@ -8,6 +8,8 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     deploy-rs.url = "github:serokell/deploy-rs";
     arion.url = "github:hercules-ci/arion?rev=09ef2d13771ec1309536bbf97720767f90a5afa7";
     agenix = {
@@ -25,6 +27,7 @@
     deploy-rs,
     arion,
     agenix,
+    nixos-hardware,
     ...
   } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -84,11 +87,19 @@
           inherit system;
           specialArgs = {inherit inputs self pkgs pkgsUnfree;};
           modules = [
+            # Hardware
+            nixos-hardware.nixosModules.common-pc-ssd
+            nixos-hardware.nixosModules.common-cpu-intel
+            nixos-hardware.nixosModules.common-gpu-intel
+
+            # Base config
+            ./hosts/patroclus/configuration.nix
+
+            # Modules
             (import ./modules/cd.nix {
               inherit agenix self;
               config = self.nixosConfigurations.patroclus.config;
             })
-            ./hosts/patroclus/configuration.nix
             {
               # we have to use unstable modules for tailscale for now to get good options
               # TODO: re-evaluate in 23.11
@@ -101,8 +112,7 @@
               modules.tailscale = {
                 enable = true;
                 initialAuthKey = "tskey-auth-kouU5U7CNTRL-b1T83GNSjXYQvW16frtGUYXSLgAYK7sUR";
-                mullvad = true;
-                tags = ["homelab" "nixos"];
+                tags = ["ajax" "homelab" "nixos"];
               };
             }
           ];

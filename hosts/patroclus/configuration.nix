@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
   ];
 
+  services.fwupd.enable = true;
   nix = {
     settings.trusted-users = ["@wheel"];
     settings.auto-optimise-store = true;
