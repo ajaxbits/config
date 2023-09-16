@@ -68,10 +68,13 @@ in {
 
       extraUpFlags =
         [
+          "--exit-node"
+          "${cfg.useExitNode}"
+          "--advertise-routes"
+          "${routes}"
+          "--advertise-tags"
+          "${tagsList}"
           "--ssh"
-          "--exit-node ${cfg.useExitNode}"
-          "--advertise-routes '${routes}'"
-          "--advertise-tags '${tagsList}'"
         ]
         ++ (
           if cfg.acceptRoutes
