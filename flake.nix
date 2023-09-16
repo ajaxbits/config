@@ -111,25 +111,11 @@
 
               modules.tailscale = {
                 enable = true;
-                initialAuthKey = "tskey-auth-kouU5U7CNTRL-b1T83GNSjXYQvW16frtGUYXSLgAYK7sUR";
+                initialAuthKey = "tskey-auth-kp1KL32CNTRL-91J9CyrTHv6JSZtrywk4z6DkGx1ATKPUX";
                 tags = ["ajax" "homelab" "nixos"];
               };
             }
             "${self}/services/monitoring"
-          ];
-        };
-
-        nixosConfigurations.thesprotian = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs self;};
-          modules = [
-            {imports = utils.includeDir ./modules/base;}
-            (import ./modules/cd.nix {
-              inherit agenix self;
-              config = self.nixosConfigurations.agamemnon.config;
-            })
-            arion.nixosModules.arion
-            ./hosts/thesprotian/configuration.nix
           ];
         };
 
