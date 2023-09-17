@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgsUnstable,
   config,
   lib,
   ...
@@ -64,6 +65,7 @@ in {
     in {
       inherit authKeyFile;
       enable = true;
+      package = pkgsUnstable.tailscale; # use latest for most updated featureset
       permitCertUid = mkIf config.services.caddy.enable config.services.caddy.user;
 
       extraUpFlags =
@@ -77,9 +79,9 @@ in {
           "--ssh"
         ]
         ++ (
-          if cfg.acceptRoutes
-          then ["--accept-routes"]
-          else []
+          if !cfg.acceptRoutes
+          then []
+          else ["--accept-routes"]
         )
         ++ (
           if cfg.enableExitNode

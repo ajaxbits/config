@@ -55,6 +55,7 @@
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
         pkgsUnfree = unfree.legacyPackages.${system};
+        pkgsUnstable = unstable.legacyPackages.${system};
         deployPkgs = import nixpkgs {
           inherit system;
           overlays = [
@@ -71,7 +72,7 @@
       in {
         nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self pkgs pkgsUnfree;};
+          specialArgs = {inherit inputs self pkgs pkgsUnstable pkgsUnfree;};
           modules = [
             {imports = utils.includeDir ./modules/base;}
             (import ./modules/cd.nix {
@@ -112,8 +113,9 @@
 
               modules.tailscale = {
                 enable = true;
-                initialAuthKey = "tskey-auth-kp1KL32CNTRL-91J9CyrTHv6JSZtrywk4z6DkGx1ATKPUX";
+                initialAuthKey = "tskey-auth-kHsWhY5CNTRL-ni9hpXJV9W6H9XjaQZRvP6fHiYYmNx7j";
                 tags = ["ajax" "homelab" "nixos"];
+                advertiseExitNode = true;
               };
             }
             "${self}/services/monitoring"
