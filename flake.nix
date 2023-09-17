@@ -115,7 +115,7 @@
                 enable = true;
                 initialAuthKey = "tskey-auth-kHsWhY5CNTRL-ni9hpXJV9W6H9XjaQZRvP6fHiYYmNx7j";
                 tags = ["ajax" "homelab" "nixos"];
-                advertiseExitNode = true;
+                enableExitNode = true;
               };
             }
             "${self}/services/monitoring"
