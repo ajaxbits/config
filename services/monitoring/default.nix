@@ -8,6 +8,7 @@
       ./uptimekuma.nix
       ./grafana.nix
       ./loki.nix
+      ./smokeping.nix
       (
         import ./prometheus.nix {
           inherit config;

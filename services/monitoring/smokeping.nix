@@ -1,0 +1,3 @@
+{
+services.smokeping.enable = true;
+}
