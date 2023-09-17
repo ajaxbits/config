@@ -9,13 +9,10 @@
       ./grafana.nix
       ./loki.nix
       (
-        if config.networking.hostName != "patroclus"
-        then
-          import ./prometheus.nix {
-            inherit config;
-            unpollerPass = config.age.secrets."prometheus/unpoller-pass".path;
-          }
-        else {}
+        import ./prometheus.nix {
+          inherit config;
+          unpollerPass = config.age.secrets."prometheus/unpoller-pass".path;
+        }
       )
     ];
 

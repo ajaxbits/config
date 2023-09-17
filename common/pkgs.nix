@@ -1,7 +1,11 @@
 {pkgs, ...}:
 with pkgs; [
-  ripgrep
-  neovim
   btop
-  fd-find
+  fd
+  git
+  neovim
+  rclone
+  ripgrep
+  unzip
+  wget
 ]

@@ -93,7 +93,8 @@
             nixos-hardware.nixosModules.common-gpu-intel
 
             # Base config
-            ./hosts/patroclus/configuration.nix
+            "${self}/hosts/patroclus/configuration.nix"
+            "${self}/common"
 
             # Modules
             (import ./modules/cd.nix {
