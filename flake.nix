@@ -86,7 +86,7 @@
 
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self pkgs pkgsUnfree;};
+          specialArgs = {inherit inputs self pkgs pkgsUnstable pkgsUnfree;};
           modules = [
             # Hardware
             nixos-hardware.nixosModules.common-pc-ssd
@@ -102,7 +102,7 @@
               inherit agenix self;
               config = self.nixosConfigurations.patroclus.config;
             })
-            ({pkgsUnstable, ...}: {
+           {
               # we have to use unstable modules for tailscale for now to get good options
               # TODO: re-evaluate in 23.11
               disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
@@ -117,7 +117,7 @@
                 tags = ["ajax" "homelab" "nixos"];
                 enableExitNode = true;
               };
-            })
+            }
             "${self}/services/monitoring"
           ];
         };
