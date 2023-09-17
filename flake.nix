@@ -102,7 +102,7 @@
               inherit agenix self;
               config = self.nixosConfigurations.patroclus.config;
             })
-           {
+            {
               # we have to use unstable modules for tailscale for now to get good options
               # TODO: re-evaluate in 23.11
               disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
