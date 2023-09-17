@@ -1,9 +1,9 @@
 {
-  config,
   self,
+  config,
+  pkgs,
   ...
 }: {
-  config = {
     imports = [
       ./uptimekuma.nix
       ./grafana.nix
@@ -24,5 +24,4 @@
         group = "unpoller-exporter";
       };
     };
-  };
 }

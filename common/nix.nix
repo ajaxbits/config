@@ -1,5 +1,5 @@
 {
-  nix = {
+  config.nix = {
     settings.trusted-users = ["@wheel"];
     settings.auto-optimise-store = true;
     settings.extra-experimental-features = ["nix-command" "flakes"];
