@@ -102,7 +102,7 @@ in {
     };
 
     # CLI
-    environment.systemPackages = [pkgs.tailscale];
+    environment.systemPackages = [pkgsUnstable.tailscale];
 
     # tests
     assertions = [
