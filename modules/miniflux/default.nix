@@ -9,9 +9,9 @@ with lib; let
 in {
   options.modules.miniflux.enable = mkEnableOption "Enable Miniflux";
 
-  config = mkIf cfg.enable {
-    imports = [agenix.nixosModules.age];
+  imports = optionals cfg.enable [agenix.nixosModules.age];
 
+  config = mkIf cfg.enable {
     services.miniflux = {
       enable = true;
       adminCredentialsFile = "${config.age.secretsDir}/miniflux/adminCredentialsFile";
