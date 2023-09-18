@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  agenix,
+  inputs,
   ...
 }:
 with lib; let
@@ -9,7 +9,7 @@ with lib; let
 in {
   options.modules.miniflux.enable = mkEnableOption "Enable Miniflux";
 
-  imports = optionals cfg.enable [agenix.nixosModules.age];
+  imports = [] ++ lib.optionals cfg.enable [inputs.agenix.nixosModules.age];
 
   config = mkIf cfg.enable {
     services.miniflux = {
