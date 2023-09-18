@@ -25,9 +25,9 @@ in {
           log
         }
       '';
-
-      networking.networkmanager.insertNameservers = ["127.0.0.1"];
-      networking.firewall.allowedUDPPorts = [53];
     };
+
+    networking.networkmanager.insertNameservers = ["127.0.0.1"];
+    networking.firewall.allowedUDPPorts = [53];
   };
 }
