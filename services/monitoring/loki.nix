@@ -99,7 +99,7 @@
             max_age = "12h";
             labels = {
               job = "systemd-journal";
-              host = "agamemnon";
+              host = config.networking.hostName;
             };
           };
           relabel_configs = [
