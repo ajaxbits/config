@@ -68,6 +68,8 @@
             })
           ];
         };
+
+        lib = pkgs.lib;
         utils = import ./util/include.nix {lib = pkgs.lib;};
       in {
         nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
@@ -86,7 +88,7 @@
 
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self pkgs pkgsUnstable pkgsUnfree;};
+          specialArgs = {inherit inputs self lib pkgs pkgsUnstable pkgsUnfree;};
           modules = [
             # Hardware
             nixos-hardware.nixosModules.common-pc-ssd
@@ -112,7 +114,10 @@
               ];
             }
             "${self}/services/monitoring"
+            "${self}/services/monitoring"
             {
+              modules.zfs.enable = true;
+
               modules.tailscale = {
                 enable = true;
                 initialAuthKey = "tskey-auth-kHsWhY5CNTRL-ni9hpXJV9W6H9XjaQZRvP6fHiYYmNx7j";
