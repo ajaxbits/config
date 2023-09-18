@@ -29,7 +29,7 @@ in {
     };
 
     # exit node
-    enableExitNode = mkEnableOption "Whether to make node a tailscale exit node.";
+    advertiseExitNode = mkEnableOption "Whether to make node a tailscale exit node.";
     useExitNode = mkOption {
       type = types.str;
       description = "The tailscale exit node to use. If empty, the feature is disabled.";
@@ -84,7 +84,7 @@ in {
           else ["--accept-routes"]
         )
         ++ (
-          if cfg.enableExitNode
+          if cfg.advertiseExitNode
           then ["--advertise-exit-node"]
           else []
         );
@@ -107,8 +107,8 @@ in {
     # tests
     assertions = [
       {
-        assertion = !(cfg.enableExitNode && cfg.useExitNode != "");
-        message = "enableExitNode and useExitNode cannot be both defined";
+        assertion = !(cfg.advertiseExitNode && cfg.useExitNode != "");
+        message = "advertiseExitNode and useExitNode cannot be both defined";
       }
       {
         assertion = cfg.initialAuthKey != "";
