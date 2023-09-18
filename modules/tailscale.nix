@@ -1,5 +1,4 @@
 {
-  pkgs,
   pkgsUnstable,
   config,
   lib,
