@@ -113,11 +113,13 @@
                 "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
             }
+            "${self}/modules/miniflux"
             "${self}/services/monitoring"
             "${self}/services/forgejo"
             "${self}/modules/zfs"
             {
               modules.zfs.enable = true;
+              modules.miniflux.enable = true;
 
               modules.tailscale = {
                 enable = true;
