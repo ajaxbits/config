@@ -114,6 +114,7 @@
               ];
             }
             "${self}/services/monitoring"
+            "${self}/services/forgejo"
             "${self}/modules/zfs"
             {
               modules.zfs.enable = true;
