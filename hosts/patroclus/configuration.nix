@@ -24,7 +24,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "patroclus";
-  networking.networkmanager.enable = true; 
+  networking.hostId = "a7d14532";
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";

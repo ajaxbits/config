@@ -11,5 +11,6 @@ in {
   config = mkIf cfg.enable {
     boot.kernelPackages = mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
     boot.supportedFilesystems = ["zfs"];
+    boot.zfs.forceImportRoot = false;
   };
 }
