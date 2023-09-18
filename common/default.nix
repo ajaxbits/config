@@ -1,11 +1,8 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./git.nix
     ./nix.nix
+    ./fish.nix
   ];
 
   config = {
@@ -22,8 +19,6 @@
 
     console.keyMap = "us";
 
-    # services.fail2ban.enable = true;
-
     services.openssh = {
       enable = true;
       settings = {
@@ -33,10 +28,6 @@
     };
 
     programs.ssh.startAgent = true;
-
-    environment.shells = [pkgs.fish];
-    programs.fish.enable = true;
-    users.defaultUserShell = pkgs.fish;
 
     users.mutableUsers = false;
     users.users.admin = {

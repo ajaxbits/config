@@ -6,6 +6,7 @@ with pkgs; [
   neovim
   rclone
   ripgrep
+  tmux
   unzip
   wget
 ]
