@@ -1,12 +1,10 @@
 {
-  agenix,
   config,
   self,
   ...
 }: let
   repo = "ajaxbits/config";
 in {
-  imports = [agenix.nixosModules.age];
   nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
 
   system.autoUpgrade = {

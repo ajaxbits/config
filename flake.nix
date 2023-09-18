@@ -100,6 +100,7 @@
             "${self}/common"
 
             # Modules
+            "${self}/modules"
             (import ./modules/cd.nix {
               inherit agenix self;
               config = self.nixosConfigurations.patroclus.config;
@@ -109,14 +110,11 @@
               # TODO: re-evaluate in 23.11
               disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
               imports = [
-                "${self}/modules/tailscale.nix"
                 "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
             }
-            "${self}/modules/miniflux"
             "${self}/services/monitoring"
             "${self}/services/forgejo"
-            "${self}/modules/zfs"
             {
               modules.zfs.enable = true;
               components.miniflux.enable = true;

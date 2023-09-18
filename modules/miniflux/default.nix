@@ -9,8 +9,6 @@ with lib; let
 in {
   options.components.miniflux.enable = mkEnableOption "Enable Miniflux";
 
-  imports = [inputs.agenix.nixosModules.age];
-
   config = mkIf cfg.enable {
     services.miniflux = {
       enable = true;
