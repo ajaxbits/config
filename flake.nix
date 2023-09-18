@@ -119,7 +119,7 @@
             "${self}/modules/zfs"
             {
               modules.zfs.enable = true;
-              modules.miniflux.enable = true;
+              components.miniflux.enable = true;
 
               modules.tailscale = {
                 enable = true;

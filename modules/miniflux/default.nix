@@ -5,11 +5,11 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.miniflux;
+  cfg = config.components.miniflux;
 in {
-  options.modules.miniflux.enable = mkEnableOption "Enable Miniflux";
+  options.components.miniflux.enable = mkEnableOption "Enable Miniflux";
 
-  imports = [] ++ lib.optionals cfg.enable [inputs.agenix.nixosModules.age];
+  imports = [inputs.agenix.nixosModules.age];
 
   config = mkIf cfg.enable {
     services.miniflux = {
