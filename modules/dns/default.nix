@@ -21,7 +21,7 @@ in {
           cache
         }
 
-        ajaxbits.xyz {
+        ajaxbits.local {
           log
         }
       '';
