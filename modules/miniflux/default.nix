@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  inputs,
+  self,
   ...
 }:
 with lib; let
