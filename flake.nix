@@ -82,6 +82,7 @@
               config = self.nixosConfigurations.agamemnon.config;
             })
             arion.nixosModules.arion
+            agenix.nixosModules.age
             ./hosts/agamemnon/configuration.nix
           ];
         };
