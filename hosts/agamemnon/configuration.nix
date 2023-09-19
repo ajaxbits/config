@@ -51,6 +51,7 @@ in {
 
   networking = {
     hostName = "agamemnon";
+    domain = "ajaxbits.xyz";
     networkmanager.enable = true;
   };
 
