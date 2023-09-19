@@ -127,7 +127,6 @@
                 initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
                 tags = ["ajax" "homelab" "nixos"];
                 advertiseExitNode = true;
-                advertiseRoutes = ["172.22.0.0/16"];
               };
             }
           ];
