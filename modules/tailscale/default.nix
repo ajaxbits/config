@@ -103,6 +103,8 @@ in {
     # CLI
     environment.systemPackages = [pkgsUnstable.tailscale];
 
+    networking.iproute2.enable = true;
+
     # tests
     assertions = [
       {
