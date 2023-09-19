@@ -13,7 +13,7 @@ in {
     services.jellyfin = {
       enable = true;
       user = "jellyfin";
-      group = "jellyfin";
+      group = "mediaoperators";
       openFirewall = true;
     };
 
@@ -24,11 +24,11 @@ in {
     users.users = {
       jellyfin = {
         isSystemUser = true;
-        group = "jellyfin";
+        group = "mediaoperators";
       };
     };
     users.groups = {
-      jellyfin = {};
+      mediaoperators = {};
     };
   };
 }
