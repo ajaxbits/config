@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  environment.systemPackages = pkgsUnstable.tailscale;
+  environment.systemPackages = [pkgsUnstable.tailscale];
   services.tailscale = {
     enable = true;
     package = pkgsUnstable.tailscale;
