@@ -119,6 +119,7 @@
               modules.zfs.enable = true;
               components.miniflux.enable = true;
               components.mediacenter.enable = true;
+              components.mediacenter.intel.enable = true;
 
               modules.tailscale = {
                 enable = true;

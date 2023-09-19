@@ -7,7 +7,10 @@
 with lib; let
   cfg = config.components.mediacenter;
 in {
-  options.components.mediacenter.enable = mkEnableOption "Enable mediacenter features";
+  options.components.mediacenter = {
+    enable = mkEnableOption "Enable mediacenter features";
+    intel.enable = mkEnableOption "Enables intel graphics hardware acceleration";
+  };
 
   config = mkIf cfg.enable {
     services.jellyfin = {
@@ -31,10 +34,12 @@ in {
       mediaoperators = {};
     };
 
-    nixpkgs.config.packageOverrides = pkgs: {
-      vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
+    nixpkgs.config = mkIf cfg.intel.enable {
+      packageOverrides = pkgs: {
+        vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
+      };
     };
-    hardware.opengl = {
+    hardware.opengl = mkIf cfg.intel.enable {
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
