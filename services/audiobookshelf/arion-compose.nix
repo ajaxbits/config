@@ -4,8 +4,8 @@
   audiobookshelfPort,
   ...
 }: let
-  audiobookshelfVersion = "2.4.2";
-  libationVersion = "11.0.3";
+  audiobookshelfVersion = "2.4.3";
+  libationVersion = "11.0.4";
 in {
   project.name = "audiobookshelf";
   services = {
