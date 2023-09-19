@@ -1,11 +1,12 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
+
+  services.nfs.server.enable = true;
+  services.nfs.server.exports = ''
+    /mnt/homeassistant  172.22.0.3(rw,nohide,insecure,no_subtree_check)
+  '';
 
   services.fwupd.enable = true;
   nix = {
