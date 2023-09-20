@@ -127,7 +127,7 @@
                 initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
                 tags = ["ajax" "homelab" "nixos"];
                 advertiseExitNode = true;
-                advertiseRoutes = ["172.22.0.0/15"]; 
+                advertiseRoutes = ["172.22.0.0/15"];
               };
             }
           ];
@@ -145,6 +145,12 @@
 
         # This is highly advised, and will prevent many possible mistakes
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+
+        nixosModules = let
+          modulesLocation = "${self}/modules";
+        in
+          lib.mapAttrs (modulePath: _: import "${modulesLocation}/${modulePath}")
+          (lib.filterAttrs (path: value: value == "directory") (builtins.readDir modulesLocation));
       }
     );
 
