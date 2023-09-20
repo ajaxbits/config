@@ -1,10 +1,17 @@
-{inputs, ...}: {
-  imports = [
-    inputs.agenix.nixosModules.age
-    ./dns
-    ./miniflux
-    ./mediacenter
-    ./tailscale
-    ./zfs
-  ];
+{
+  inputs,
+  self,
+  lib,
+  ...
+}: let
+  modulesLocation = "${self}/modules";
+  myModules =
+    lib.mapAttrsToList (modulePath: _: "${modulesLocation}/${modulePath}")
+    (lib.filterAttrs (path: value: value == "directory") (builtins.readDir modulesLocation));
+in {
+  imports =
+    [
+      inputs.agenix.nixosModules.age
+    ]
+    ++ myModules;
 }
