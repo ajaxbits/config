@@ -10,7 +10,7 @@ in {
 
   config = mkIf cfg.enable {
     services.paperless = {
-      enble = true;
+      enable = true;
       user = "paperless";
       mediaDir = "/data/documents";
       consumptionDirIsPublic = true;
