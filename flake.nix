@@ -118,6 +118,7 @@
             "${self}/services/forgejo"
             {
               modules.zfs.enable = true;
+              components.paperless.enable = true;
               components.miniflux.enable = true;
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
