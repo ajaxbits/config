@@ -18,13 +18,13 @@ in {
       address = "0.0.0.0";
       passwordFile = "${config.age.secretsDir}/paperless/admin-password";
 
-      extraConfig = ''
+      extraConfig = {
         PAPERLESS_TIME_ZONE = "America/Chicago";
         # TODO: Get these working
         # PAPERLESS_TIKA_ENABLED = "1";
         # PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://paperless-gotenberg:3000";
         # PAPERLESS_TIKA_ENDPOINT = "http://paperless-tika:9998";
-      '';
+      };
     };
 
     users.users = {
