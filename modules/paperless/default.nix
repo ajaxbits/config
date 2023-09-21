@@ -42,7 +42,7 @@ in {
 
     age.secrets = {
       "paperless/admin-password" = {
-        file = "${self}/secrets/paperless/admin-password";
+        file = "${self}/secrets/paperless/admin-password.age";
         mode = "440";
         owner = config.users.users.paperless.name;
         group = config.users.users.paperless.group;
