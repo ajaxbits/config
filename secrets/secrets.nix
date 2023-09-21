@@ -16,7 +16,8 @@ in {
   "forgejo/postgresql-pass.age".publicKeys = allKeys;
   # miniflux
   "miniflux/adminCredentialsFile.age".publicKeys = allKeys;
-
   # garnix
   "garnix/github-access-token.age".publicKeys = allKeys;
+  # paperless
+  "paperless/admin-password.age".publicKeys = allKeys;
 }
