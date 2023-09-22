@@ -117,13 +117,11 @@
             "${self}/services/monitoring"
             "${self}/services/forgejo"
             {
-              modules.zfs.enable = true;
-              components.paperless.enable = true;
+              components.audiobookshelf.enable = true;
               components.miniflux.enable = true;
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
-              components.audiobookshelf.enable = true;
-
+              components.paperless.enable = true;
               modules.tailscale = {
                 enable = true;
                 initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
@@ -131,6 +129,7 @@
                 advertiseExitNode = true;
                 advertiseRoutes = ["172.22.0.0/15"];
               };
+              modules.zfs.enable = true;
             }
           ];
         };
