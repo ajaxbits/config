@@ -34,11 +34,6 @@ in {
     };
   };
 
-  imports =
-    if cfg.enable
-    then [inputs.arion.nixosModules.arion]
-    else [];
-
   config = lib.mkIf cfg.enable {
     virtualisation.arion.projects.audiobookshelf.settings = {
       name = "audiobookshelf";

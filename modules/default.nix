@@ -12,6 +12,7 @@ in {
   imports =
     [
       inputs.agenix.nixosModules.age
+      inputs.arion.nixosModules.arion
     ]
     ++ myModules;
 }
