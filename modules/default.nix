@@ -24,6 +24,7 @@ in {
         virtualisation.podman.enable = true;
         virtualisation.podman.dockerSocket.enable = true;
         virtualisation.podman.defaultNetwork.dnsname.enable = true;
+        virtualisation.arion.backend = "podman";
 
         users.extraUsers.admin.extraGroups = ["podman"];
       }
