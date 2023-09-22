@@ -122,6 +122,7 @@
               components.miniflux.enable = true;
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
+              components.audiobookshelf.enable = true;
 
               modules.tailscale = {
                 enable = true;
