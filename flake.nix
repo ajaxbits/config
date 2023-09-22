@@ -117,7 +117,6 @@
             "${self}/services/monitoring"
             "${self}/services/forgejo"
             {
-              components.audiobookshelf.enable = true;
               components.miniflux.enable = true;
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
