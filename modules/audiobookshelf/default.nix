@@ -121,5 +121,11 @@ in {
         group = "libation";
       };
     };
+
+    virtualisation.docker.enable = false;
+    virtualisation.podman.enable = true;
+    virtualisation.podman.dockerSocket.enable = true;
+    virtualisation.podman.defaultNetwork.dnsname.enable = true;
+    virtualisation.arion.backend = "podman-socket";
   };
 }
