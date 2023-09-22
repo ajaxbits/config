@@ -36,7 +36,6 @@ in {
 
   config = lib.mkIf cfg.enable {
     virtualisation.arion.projects.audiobookshelf.settings = {
-      name = "audiobookshelf";
       services = {
         audiobookshelf.service = {
           user = "audiobookshelf";
