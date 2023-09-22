@@ -54,7 +54,7 @@ in {
             "${cfg.audiobooksDir}/audiobooks:/audiobooks"
             "${cfg.podcastsDir}/podcasts:/podcasts"
           ];
-          ports = ["${cfg.port}:80"];
+          ports = ["${builtins.toString cfg.port}:80"];
         };
 
         libation-prep.service = {
