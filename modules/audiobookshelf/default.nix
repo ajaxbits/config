@@ -36,6 +36,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     virtualisation.arion.projects.audiobookshelf.settings = {
+      host.uid = 0;
       services = {
         audiobookshelf.service = {
           user = "audiobookshelf";
@@ -54,7 +55,7 @@ in {
         libation-prep.service = {
           container_name = "libation-prep";
           user = "root";
-          image = "busybox";
+          image = "busybox:latest";
           privileged = true;
           volumes = [
             "${cfg.configDir}/libation:/config"
@@ -63,7 +64,7 @@ in {
           command = [
             "/bin/sh"
             "-c"
-            "'ls /secrets && cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
+            "'cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
           ];
         };
 
