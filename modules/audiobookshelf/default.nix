@@ -58,12 +58,12 @@ in {
           privileged = true;
           volumes = [
             "${cfg.configDir}/libation:/config"
-            "${config.age.secretsDir}/libation:/secrets"
+            "/var/run/agenix/libation:/secrets"
           ];
           command = [
             "/bin/sh"
             "-c"
-            "'cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
+            "'ls /secrets && cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
           ];
         };
 
