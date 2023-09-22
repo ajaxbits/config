@@ -88,6 +88,7 @@ in {
         extraGroups = [
           "mediaoperators"
           "configoperators"
+          "podman"
         ];
       };
       libation = {
@@ -96,6 +97,7 @@ in {
         extraGroups = [
           "mediaoperators"
           "configoperators"
+          "podman"
         ];
       };
     };
