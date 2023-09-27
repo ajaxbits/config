@@ -35,16 +35,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    virtualisation.podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
-    virtualisation.oci-containers.backend = "podman";
+    virtualisation.oci-containers.backend = "docker";
 
     virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
-      user = "root";
       volumes = [
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
