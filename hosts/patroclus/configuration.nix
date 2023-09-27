@@ -8,6 +8,7 @@
   ];
 
   services.fwupd.enable = true;
+  systemd.packages = [pkgs.fwupd-efi];
   nix = {
     settings.trusted-users = ["@wheel"];
     settings.auto-optimise-store = true;
