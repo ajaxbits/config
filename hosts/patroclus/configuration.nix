@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgsUnstable,
   ...
 }: {
   imports = [
@@ -9,8 +8,7 @@
   ];
 
   services.fwupd.enable = true;
-  services.fwupd.package = pkgsUnstable.fwupd;
-
+  systemd.packages = [pkgs.fwupd-efi];
   nix = {
     settings.trusted-users = ["@wheel"];
     settings.auto-optimise-store = true;
