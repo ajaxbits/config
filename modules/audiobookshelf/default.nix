@@ -105,14 +105,14 @@ in {
         SystemCallErrorNumber = "EPERM";
       };
     };
-    users.users = lib.mkIf (cfg.user != "audiobookshelf") {
+    users.users = lib.mkIf (cfg.user == "audiobookshelf") {
       audiobookshelf = {
         isSystemUser = true;
         group = "audiobookshelf";
         extraGroups = ["mediaoperators"];
       };
     };
-    users.groups = lib.mkIf (cfg.group != "audiobookshelf") {
+    users.groups = lib.mkIf (cfg.group == "audiobookshelf") {
       audiobookshelf = {};
       mediaoperators = {};
     };
