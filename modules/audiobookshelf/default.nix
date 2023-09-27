@@ -109,12 +109,13 @@ in {
       audiobookshelf = {
         isSystemUser = true;
         group = "audiobookshelf";
-        extraGroups = ["mediaoperators"];
+        extraGroups = ["mediaoperators" "configoperators"];
       };
     };
     users.groups = lib.mkIf (cfg.group == "audiobookshelf") {
       audiobookshelf = {};
       mediaoperators = {};
+      configoperators = {};
     };
 
     virtualisation.oci-containers.backend = "docker";
