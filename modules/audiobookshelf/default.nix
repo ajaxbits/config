@@ -55,24 +55,9 @@ in {
       description = "Audiobookshelf";
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
-      environment = {
-        HOST = cfg.address;
-        PORT = toString cfg.port;
-        NODE_ENV = "production";
-        CONFIG_PATH = "${cfg.configDir}/audiobookshelf/config";
-        METADATA_PATH = "${cfg.configDir}/audiobookshelf/metadata";
-        FFMPEG_PATH = "${pkgs.ffmpeg-full}/bin/ffmpeg";
-        FFPROBE_PATH = "${pkgs.ffmpeg-full}/bin/ffprobe";
-        TONE_PATH = "${pkgs.tone}/bin/tone";
-        SOURCE = "nixpkgs";
-      };
-      path = [
-        pkgs.nodejs_18
-        pkgs.util-linux
-      ];
       serviceConfig = {
         WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-        ExecStart = "exec node ${pkgsUnstable.audiobookshelf}/opt/index.js";
+        ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.host} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/audiobookshelf/config --metadata ${cfg.configDir}/audiobookshelf/metadata";
         ExecReload = "kill -HUP $MAINPID";
         Restart = "always";
         User = cfg.user;
