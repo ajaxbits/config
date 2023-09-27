@@ -20,12 +20,12 @@ in {
     audiobooksDir = mkOption {
       type = types.str;
       description = "Directory where audiobooks are";
-      default = "/data/audiobooks";
+      default = "/data/media/audiobooks";
     };
     podcastsDir = mkOption {
       type = types.str;
       description = "Directory where podcasts are";
-      default = "/data/podcasts";
+      default = "/data/media/podcasts";
     };
     configDir = mkOption {
       type = types.str;
