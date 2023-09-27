@@ -18,6 +18,11 @@ in {
       description = "Port to listen on.";
       default = 13378;
     };
+    address = mkOption {
+      type = types.str;
+      description = "Address to listen on.";
+      default = "0.0.0.0";
+    };
     audiobooksDir = mkOption {
       type = types.str;
       description = "Directory where audiobooks are";
@@ -51,7 +56,7 @@ in {
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
       environment = {
-        HOST = cfg.hostname;
+        HOST = cfg.address;
         PORT = toString cfg.port;
         NODE_ENV = "production";
         CONFIG_PATH = "${cfg.configDir}/audiobookshelf/config";
