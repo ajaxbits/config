@@ -40,6 +40,7 @@ in {
 
     virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
+      user = "root";
       volumes = [
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
