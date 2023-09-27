@@ -3,7 +3,7 @@
   config,
   lib,
   pkgs,
-  unstablePkgs,
+  pkgsUnstable,
   ...
 }: let
   audiobookshelfVersion = "2.4.3";
@@ -67,7 +67,7 @@ in {
       ];
       serviceConfig = {
         WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-        ExecStart = "exec node ${unstablePkgs.audiobookshelf}/opt/index.js";
+        ExecStart = "exec node ${pkgsUnstable.audiobookshelf}/opt/index.js";
         ExecReload = "kill -HUP $MAINPID";
         Restart = "always";
         User = cfg.user;
