@@ -54,8 +54,8 @@ in {
         HOST = cfg.hostname;
         PORT = toString cfg.port;
         NODE_ENV = "production";
-        CONFIG_PATH = "${cfg.dataDir}/config";
-        METADATA_PATH = "${cfg.dataDir}/metadata";
+        CONFIG_PATH = "${cfg.configDir}/audiobookshelf/config";
+        METADATA_PATH = "${cfg.configDir}/audiobookshelf/metadata";
         FFMPEG_PATH = "${pkgs.ffmpeg-full}/bin/ffmpeg";
         FFPROBE_PATH = "${pkgs.ffmpeg-full}/bin/ffprobe";
         TONE_PATH = "${pkgs.tone}/bin/tone";
