@@ -35,6 +35,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    virtualisation.podman.enable = true;
+    virtualisation.podman.dockerCompat = true;
+
     virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
       volumes = [
