@@ -35,8 +35,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    virtualisation.podman.enable = true;
-    virtualisation.podman.dockerCompat = true;
+    virtualisation.podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    virtualisation.oci-containers.backend = "podman";
 
     virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
