@@ -121,6 +121,7 @@
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
               components.paperless.enable = true;
+              components.audiobookshelf.enable = true;
               modules.tailscale = {
                 enable = true;
                 initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";

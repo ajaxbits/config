@@ -35,96 +35,12 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    virtualisation.arion.projects.audiobookshelf.settings = {
-      host.uid = 0;
-      services = {
-        audiobookshelf.service = {
-          user = "audiobookshelf";
-          container_name = "audiobookshelf";
-          image = "ghcr.io/advplyr/audiobookshelf:${audiobookshelfVersion}";
-          restart = "unless-stopped";
-          volumes = [
-            "${cfg.configDir}/audiobookshelf:/config"
-            "${cfg.configDir}/audiobookshelf/metadata:/metadata"
-            "${cfg.audiobooksDir}/audiobooks:/audiobooks"
-            "${cfg.podcastsDir}/podcasts:/podcasts"
-          ];
-          ports = ["${builtins.toString cfg.port}:80"];
-        };
-
-        libation-prep.service = {
-          container_name = "libation-prep";
-          user = "root";
-          image = "busybox:latest";
-          privileged = true;
-          volumes = [
-            "${cfg.configDir}/libation:/config"
-            "/var/run/agenix/libation:/secrets"
-          ];
-          command = [
-            "/bin/sh"
-            "-c"
-            "'cp /secrets/Settings.json /config/Settings.json && cp secrets/AccountsSettings.json /config/AccountsSettings.json'"
-          ];
-        };
-
-        libation.service = {
-          container_name = "libation";
-          depends_on = ["libation-prep"];
-          user = "libation";
-          image = "rmcrackan/libation:${libationVersion}";
-          restart = "always";
-          volumes = [
-            "${cfg.configDir}/libation:/config"
-            "${cfg.audiobooksDir}:/data"
-          ];
-        };
-      };
+    virtualisation.oci-containers.containers.libation = {
+      image = "rmcrackan/libation:${libationVersion}";
+      volumes = [
+        "${cfg.audiobooksDir}:/data"
+        "${cfg.configDir}/libation:/config"
+      ];
     };
-
-    users.users = {
-      audiobookshelf = {
-        isSystemUser = true;
-        group = "audiobookshelf";
-        extraGroups = [
-          "mediaoperators"
-          "configoperators"
-          "podman"
-        ];
-      };
-      libation = {
-        isSystemUser = true;
-        group = "libation";
-        extraGroups = [
-          "mediaoperators"
-          "configoperators"
-          "podman"
-        ];
-      };
-    };
-    users.groups = {
-      audiobookshelf = {};
-      libation = {};
-      mediaoperators = {};
-      configoperators = {};
-    };
-
-    age.secrets = {
-      "libation/Settings.json" = {
-        file = "${self}/secrets/libation/Settings.json.age";
-        mode = "440";
-        owner = "libation";
-        group = "libation";
-      };
-      "libation/AccountsSettings.json" = {
-        file = "${self}/secrets/libation/AccountsSettings.json.age";
-        mode = "440";
-        owner = "libation";
-        group = "libation";
-      };
-    };
-
-    virtualisation.docker.enable = true;
-    virtualisation.arion.backend = "docker";
   };
 }
