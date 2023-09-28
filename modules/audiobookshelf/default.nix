@@ -65,7 +65,6 @@ in {
         StateDirectory = lib.mkDefault "audiobookshelf";
         StateDirectoryMode = "0700";
         ProtectHome = true;
-        ProtectSystem = "strict";
         PrivateDevices = true;
         ProtectHostname = true;
         ProtectClock = true;
