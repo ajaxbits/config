@@ -57,7 +57,7 @@ in {
       wantedBy = ["multi-user.target"];
       serviceConfig = {
         WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-        ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port}";
+        ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/audiobookshelf/config --metadata ${cfg.configDir}/audiobookshelf/metadata";
         ExecReload = "kill -HUP $MAINPID";
         Restart = "always";
         User = cfg.user;
