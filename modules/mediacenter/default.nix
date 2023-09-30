@@ -47,6 +47,7 @@ in {
       configoperators = {};
       radarr = {};
       sonarr = {};
+      downloader = {};
     };
 
     nixpkgs.config = mkIf cfg.intel.enable {
