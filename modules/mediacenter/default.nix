@@ -26,9 +26,27 @@ in {
         isSystemUser = true;
         group = "mediaoperators";
       };
+      radarr = mkIf cfg.linux-isos.enable {
+        isSystemUser = true;
+        group = "radarr";
+        extraGroups = ["mediaoperators"];
+      };
+      sonarr = mkIf cfg.linux-isos.enable {
+        isSystemUser = true;
+        group = "sonarr";
+        extraGroups = ["mediaoperators"];
+      };
+      downloader = mkIf cfg.linux-isos.enable {
+        isSystemUser = true;
+        group = "downloader";
+        extraGroups = ["mediaoperators" "configoperators"];
+      };
     };
     users.groups = {
       mediaoperators = {};
+      configoperators = {};
+      radarr = {};
+      sonarr = {};
     };
 
     nixpkgs.config = mkIf cfg.intel.enable {
@@ -65,5 +83,8 @@ in {
       enable = true;
       openFirewall = true;
     };
+
+    virtualisation.docker.enable = true;
+    environment.systemPackages = [pkgs.docker-compose];
   };
 }
