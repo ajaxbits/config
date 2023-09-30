@@ -29,12 +29,12 @@ in {
       radarr = mkIf cfg.linux-isos.enable {
         isSystemUser = true;
         group = "radarr";
-        extraGroups = ["mediaoperators"];
+        extraGroups = ["mediaoperators" "configoperators"];
       };
       sonarr = mkIf cfg.linux-isos.enable {
         isSystemUser = true;
         group = "sonarr";
-        extraGroups = ["mediaoperators"];
+        extraGroups = ["mediaoperators" "configoperators"];
       };
       downloader = mkIf cfg.linux-isos.enable {
         isSystemUser = true;
