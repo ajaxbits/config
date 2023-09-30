@@ -10,6 +10,7 @@ in {
   options.components.mediacenter = {
     enable = mkEnableOption "Enable mediacenter features";
     intel.enable = mkEnableOption "Enables intel graphics hardware acceleration";
+    linux-isos.enable = mkEnableOption "Enable infrastructure for discovering cool Linux ISOs to download.";
   };
 
   config = mkIf cfg.enable {
@@ -18,10 +19,6 @@ in {
       user = "jellyfin";
       group = "mediaoperators";
       openFirewall = true;
-    };
-
-    services.jellyseerr = {
-      enable = true;
     };
 
     users.users = {
@@ -48,6 +45,25 @@ in {
         libvdpau-va-gl
         intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
       ];
+    };
+
+    services.sonarr = mkIf cfg.linux-isos.enable {
+      enable = true;
+      group = "mediaoperators";
+    };
+    services.radarr = mkIf cfg.linux-isos.enable {
+      enable = true;
+      group = "mediaoperators";
+      openFirewall = true;
+    };
+    services.prowlarr = mkIf cfg.linux-isos.enable {
+      enable = true;
+      openFirewall = true;
+    };
+    services.bazarr.enable = true;
+    services.jellyseerr = mkIf cfg.linux-isos.enable {
+      enable = true;
+      openFirewall = true;
     };
   };
 }
