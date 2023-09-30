@@ -54,6 +54,7 @@ in {
     systemd.services.audiobookshelf = {
       description = "Audiobookshelf";
       after = ["network.target"];
+      requires = ["network.target"];
       wantedBy = ["multi-user.target"];
       serviceConfig = {
         WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";

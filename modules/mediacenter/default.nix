@@ -67,11 +67,12 @@ in {
 
     services.sonarr = mkIf cfg.linux-isos.enable {
       enable = true;
-      group = "mediaoperators";
+      user = "sonarr";
+      openFirewall = true;
     };
     services.radarr = mkIf cfg.linux-isos.enable {
       enable = true;
-      group = "mediaoperators";
+      user = "radarr";
       openFirewall = true;
     };
     services.prowlarr = mkIf cfg.linux-isos.enable {
