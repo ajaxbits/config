@@ -121,6 +121,7 @@
               components.mediacenter.enable = true;
               components.mediacenter.intel.enable = true;
               components.mediacenter.linux-isos.enable = true;
+              components.mediacenter.youtube.enable = true;
               components.paperless = {
                 enable = true;
                 backups.enable = true;
