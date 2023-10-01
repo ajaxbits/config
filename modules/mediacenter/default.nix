@@ -103,7 +103,7 @@ in {
     virtualisation.oci-containers = mkIf cfg.youtube.enable {
       backend = "docker";
       containers.yt-dlp = {
-        image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:latest"; #TODO: pin somehow
+        image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:master"; #TODO: pin somehow
         ports = ["3033:3033"];
         volumes = ["${mediaDir}/videos:/downloads"];
         user = config.users.users.youtube.name;
