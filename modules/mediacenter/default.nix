@@ -88,11 +88,8 @@ in {
       enable = true;
       openFirewall = true;
     };
-    services.bazarr.enable = true;
-    services.jellyseerr = mkIf cfg.linux-isos.enable {
-      enable = true;
-      openFirewall = true;
-    };
+    services.bazarr.enable = mkIf cfg.linux-isos.enable true;
+    
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
