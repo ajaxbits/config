@@ -123,7 +123,7 @@
               components.mediacenter.linux-isos.enable = true;
               components.paperless = {
                 enable = true;
-                backups.enable = false;
+                backups.enable = true;
                 backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
               };
               components.audiobookshelf.enable = true;

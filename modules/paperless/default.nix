@@ -62,31 +62,30 @@ in {
       documentsoperators = {};
     };
 
-    systemd.services.paperless-backup-daily = let
-      paperlessDataDir = config.services.paperless.dataDir;
-      backup =
-        pkgs.writeShellScript "paperless-backup" ''
+    systemd.services.paperless-backup-daily = mkIf cfg.backups.enable (
+      let
+        paperlessDataDir = config.services.paperless.dataDir;
+        backup = pkgs.writeShellScript "paperless-backup" ''
           set -eux
-          ${paperlessDataDir}/paperless-manage document_exporter ${paperlessDataDir}}/export --zip
+          ${paperlessDataDir}/paperless-manage document_exporter ${paperlessDataDir}/export --zip
           mkdir -p /tmp/paperless
           mv ${paperlessDataDir}/export/*.zip /tmp/paperless/paperlessExport.zip
           ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/paperlessExport.zip
           ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
           ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
           rm -rfv /tmp/paperless
-        ''
-        + (
-          if cfg.backups.healthchecksUrl != ""
-          then ''
-            ${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}
-          ''
-          else ""
-        );
-    in {
-      script = "${backup}";
-      serviceConfig = {User = config.services.paperless.user;};
-      startAt = "daily";
-    };
+          ${(
+            if cfg.backups.healthchecksUrl != ""
+            then "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
+            else ""
+          )}
+        '';
+      in {
+        script = "${backup}";
+        serviceConfig = {User = config.services.paperless.user;};
+        startAt = "daily";
+      }
+    );
 
     age.secrets = {
       "paperless/admin-password" = {
