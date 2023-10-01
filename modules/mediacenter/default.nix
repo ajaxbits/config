@@ -95,7 +95,7 @@ in {
       else [];
 
     virtualisation.oci-containers = mkIf cfg.youtube.enable {backend = "docker";};
-    virtualisation.oci-containers.containers.yt-dlp-web-ui = mkIf cfg.youtube.enable {
+    virtualisation.oci-containers.containers.yt-dlp = mkIf cfg.youtube.enable {
       image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:sha256:d719792107f6bb887850a0371a81d02102b2e806c1590c5408889fdc10f071ed";
       ports = ["3033:3033"];
       volumes = ["${mediaDir}/videos:/downloads"];
