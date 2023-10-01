@@ -74,12 +74,12 @@ in {
 
           ${pkgs.rclone}/bin/rclone sync \
             --config ${rcloneConfigFile} \
+            --verbose \
             /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
           ${pkgs.rclone}/bin/rclone sync \
             --config ${rcloneConfigFile} \
-            /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
-
-          rm -rfv /tmp/paperless
+            --verbose \
+            /tmp/paperless/paperlessExportEncrypted.zip b2-paperless-backups:paperless-backups          rm -rfv /tmp/paperless
 
           ${(
             if cfg.backups.healthchecksUrl != ""
