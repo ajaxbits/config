@@ -20,4 +20,6 @@ in {
   "garnix/github-access-token.age".publicKeys = allKeys;
   # paperless
   "paperless/admin-password.age".publicKeys = allKeys;
+  # rclone
+  "rclone/rclone.conf.age".publicKeys = allKeys;
 }
