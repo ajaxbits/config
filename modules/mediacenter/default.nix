@@ -6,11 +6,13 @@
 }:
 with lib; let
   cfg = config.components.mediacenter;
+  mediaDir = "/data/media";
 in {
   options.components.mediacenter = {
     enable = mkEnableOption "Enable mediacenter features";
     intel.enable = mkEnableOption "Enables intel graphics hardware acceleration";
     linux-isos.enable = mkEnableOption "Enable infrastructure for discovering cool Linux ISOs to download.";
+    youtube.enable = mkEnableOption "Enable archival of youtube videos";
   };
 
   config = mkIf cfg.enable {
@@ -86,7 +88,17 @@ in {
       openFirewall = true;
     };
 
-    virtualisation.docker.enable = true;
-    environment.systemPackages = [pkgs.docker-compose];
+    virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
+    environment.systemPackages =
+      if cfg.linux-isos.enable
+      then [pkgs.docker-compose]
+      else [];
+
+    virtualisation.oci-containers = mkIf cfg.youtube.enable {backend = "docker";};
+    virtualisation.oci-containers.containers.yt-dlp-web-ui = mkIf cfg.youtube.enable {
+      image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:sha256:d719792107f6bb887850a0371a81d02102b2e806c1590c5408889fdc10f071ed";
+      ports = ["3033:3033"];
+      volumes = ["${mediaDir}/videos:/downloads"];
+    };
   };
 }
