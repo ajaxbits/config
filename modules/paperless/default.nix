@@ -2,6 +2,7 @@
   config,
   lib,
   self,
+  pkgs,
   ...
 }:
 with lib; let
@@ -16,7 +17,7 @@ with lib; let
       ${paperlessDataDir}/paperless-manage document_exporter ${paperlessDataDir}}/export --zip
       mkdir -p /tmp/paperless
       mv ${paperlessDataDir}/export/*.zip /tmp/paperless/paperlessExport.zip
-      ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -pBaggage-Crisping-Gloating5 /tmp/paperless/paperlessExport.zip
+      ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/paperlessExport.zip
       ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
       ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
       rm -rfv /tmp/paperless
