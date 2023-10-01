@@ -79,7 +79,9 @@ in {
           ${pkgs.rclone}/bin/rclone sync \
             --config ${rcloneConfigFile} \
             --verbose \
-            /tmp/paperless/paperlessExportEncrypted.zip b2-paperless-backups:paperless-backups          rm -rfv /tmp/paperless
+            /tmp/paperless/paperlessExportEncrypted.zip b2-paperless-backups:paperless-backups
+
+          rm -rfv /tmp/paperless
 
           ${(
             if cfg.backups.healthchecksUrl != ""
