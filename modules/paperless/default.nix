@@ -89,7 +89,7 @@ in {
         '';
       in {
         script = "${backup}";
-        serviceConfig = {User = config.services.paperless.user;};
+        serviceConfig = {User = config.services.paperless.user.name;};
         startAt = "daily";
       }
     );
