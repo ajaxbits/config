@@ -54,24 +54,33 @@ in {
       paperless = {
         isSystemUser = true;
         group = "paperless";
-        extraGroups = ["documentsoperators"];
+        extraGroups = ["documentsoperators" "rcloneoperators"];
       };
     };
     users.groups = {
       paperless = {};
       documentsoperators = {};
+      rcloneoperators = {};
     };
 
     systemd.services.paperless-backup-daily = mkIf cfg.backups.enable (
       let
+        rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
         backup = pkgs.writeShellScript "paperless-backup" ''
           set -eux
           mkdir -p /tmp/paperless
           ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless --zip
           ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/*.zip
-          ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
-          ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
+
+          ${pkgs.rclone}/bin/rclone sync \
+            --config ${rcloneConfigFile} \
+            /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
+          ${pkgs.rclone}/bin/rclone sync \
+            --config ${rcloneConfigFile} \
+            /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
+
           rm -rfv /tmp/paperless
+
           ${(
             if cfg.backups.healthchecksUrl != ""
             then "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
@@ -91,6 +100,11 @@ in {
         mode = "440";
         owner = config.users.users.paperless.name;
         group = config.users.users.paperless.group;
+      };
+      "rclone/rclone.conf" = mkIf cfg.backups.enable {
+        file = "${self}/secrets/rclone/rclone.conf.age";
+        mode = "440";
+        group = config.users.groups.rcloneoperators.name;
       };
     };
   };
