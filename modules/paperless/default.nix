@@ -75,14 +75,16 @@ in {
           ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
           rm -rfv /tmp/paperless
         ''
-        ++ (
+        + (
           if cfg.backups.healthchecksUrl != ""
-          then "\n ${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
+          then ''
+            ${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}
+          ''
           else ""
         );
     in {
       script = "${backup}";
-      serviceConfig = {User = services.paperless.user;};
+      serviceConfig = {User = config.services.paperless.user;};
       startAt = "daily";
     };
 
