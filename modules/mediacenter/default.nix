@@ -43,13 +43,19 @@ in {
         group = "downloader";
         extraGroups = ["mediaoperators" "configoperators"];
       };
+      youtube = mkIf cfg.youtube.enable {
+        isSystemUser = true;
+        group = "youtube";
+        extraGroups = ["mediaoperators"];
+      };
     };
     users.groups = {
       mediaoperators = {};
       configoperators = {};
-      radarr = {};
-      sonarr = {};
-      downloader = {};
+      radarr = mkIf cfg.linux-isos.enable {};
+      sonarr = mkIf cfg.linux-isos.enable {};
+      downloader = mkIf cfg.linux-isos.enable {};
+      youtube = mkIf cfg.youtube.enable {};
     };
 
     nixpkgs.config = mkIf cfg.intel.enable {
@@ -100,6 +106,7 @@ in {
         image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:sha256:d719792107f6bb887850a0371a81d02102b2e806c1590c5408889fdc10f071ed";
         ports = ["3033:3033"];
         volumes = ["${mediaDir}/videos:/downloads"];
+        user = config.users.users.youtube;
       };
     };
   };
