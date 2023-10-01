@@ -50,11 +50,21 @@ in {
 
       extraConfig = {
         PAPERLESS_TIME_ZONE = "America/Chicago";
-        # TODO: Get these working
-        # PAPERLESS_TIKA_ENABLED = "1";
-        # PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://paperless-gotenberg:3000";
-        # PAPERLESS_TIKA_ENDPOINT = "http://paperless-tika:9998";
+        PAPERLESS_TIKA_ENABLED = "1";
+        PAPERLESS_TIKA_ENDPOINT = "http://127.0.0.1:5551";
+        PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
       };
+    };
+
+    virtualisation.oci-containers.backend = "docker";
+    virtualisation.oci-containers.containers.paperless-tika = {
+      image = "ghcr.io/paperless-ngx/tika:2.9.0-minimal";
+      ports = ["127.0.0.1:5551:9998"];
+    };
+    virtualisation.oci-containers.containers.paperless-gotenberg = {
+      image = "docker.io/gotenberg/gotenberg:7.9";
+      ports = ["127.0.0.1:5552:3000"];
+      cmd = ["gotenberg" "--chromium-disable-javascript=true"];
     };
 
     users.users = {
