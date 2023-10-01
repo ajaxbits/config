@@ -64,13 +64,11 @@ in {
 
     systemd.services.paperless-backup-daily = mkIf cfg.backups.enable (
       let
-        paperlessDataDir = config.services.paperless.dataDir;
         backup = pkgs.writeShellScript "paperless-backup" ''
           set -eux
-          ${paperlessDataDir}/paperless-manage document_exporter ${paperlessDataDir}/export --zip
           mkdir -p /tmp/paperless
-          mv ${paperlessDataDir}/export/*.zip /tmp/paperless/paperlessExport.zip
-          ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/paperlessExport.zip
+          ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless --zip
+          ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/*.zip
           ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
           ${pkgs.rclone}/bin/rclone sync /tmp/paperless/paperlessExportEncrypted.zip paperless-s3:alex-jackson-paperless-backups
           rm -rfv /tmp/paperless
