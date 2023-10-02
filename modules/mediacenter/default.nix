@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 with lib; let
@@ -94,7 +95,7 @@ in {
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
       if cfg.linux-isos.enable
-      then [pkgs.docker-compose]
+      then [pkgs.docker-compose pkgsUnstable.recyclarr]
       else [];
 
     virtualisation.oci-containers = mkIf cfg.youtube.enable {
