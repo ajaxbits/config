@@ -72,21 +72,6 @@
         lib = pkgs.lib;
         utils = import ./util/include.nix {lib = pkgs.lib;};
       in {
-        nixosConfigurations.agamemnon = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs self pkgs pkgsUnstable pkgsUnfree;};
-          modules = [
-            {imports = utils.includeDir ./modules/base;}
-            (import ./modules/cd.nix {
-              inherit agenix self;
-              config = self.nixosConfigurations.agamemnon.config;
-            })
-            arion.nixosModules.arion
-            agenix.nixosModules.age
-            ./hosts/agamemnon/configuration.nix
-          ];
-        };
-
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = {inherit inputs self lib pkgs pkgsUnstable pkgsUnfree;};
@@ -140,12 +125,12 @@
         };
 
         deploy.nodes.agamemnon = {
-          hostname = "agamemnon";
+          hostname = "patroclus";
           fastConnection = true;
           profiles.system = {
             sshUser = "root";
             user = "root";
-            path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.agamemnon;
+            path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.patroclus;
           };
         };
 
