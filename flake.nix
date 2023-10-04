@@ -99,13 +99,9 @@
             # Base config
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
+            "${self}/components"
 
             # Modules
-            "${self}/modules"
-            (import ./modules/cd.nix {
-              inherit agenix self;
-              config = self.nixosConfigurations.patroclus.config;
-            })
             {
               # we have to use unstable modules for tailscale for now to get good options
               # TODO: re-evaluate in 23.11
@@ -117,25 +113,28 @@
             "${self}/services/monitoring"
             "${self}/services/forgejo"
             {
+              components.cd.enable = true;
               components.miniflux.enable = true;
-              components.mediacenter.enable = true;
-              components.mediacenter.intel.enable = true;
-              components.mediacenter.linux-isos.enable = true;
-              components.mediacenter.youtube.enable = false;
+              components.mediacenter = {
+                enable = true;
+                intel.enable = true;
+                linux-isos.enable = true;
+                youtube.enable = false;
+              };
               components.paperless = {
                 enable = true;
                 backups.enable = true;
                 backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
               };
               components.audiobookshelf.enable = true;
-              modules.tailscale = {
+              components.tailscale = {
                 enable = true;
                 initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
                 tags = ["ajax" "homelab" "nixos"];
                 advertiseExitNode = true;
                 advertiseRoutes = ["172.22.0.0/15"];
               };
-              modules.zfs.enable = true;
+              components.zfs.enable = true;
             }
           ];
         };
@@ -154,7 +153,7 @@
         checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
         nixosModules = let
-          modulesLocation = "${self}/modules";
+          modulesLocation = "${self}/components";
         in
           lib.mapAttrs (modulePath: _: import "${modulesLocation}/${modulePath}")
           (lib.filterAttrs (path: value: value == "directory") (builtins.readDir modulesLocation));

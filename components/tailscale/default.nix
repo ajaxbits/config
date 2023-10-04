@@ -6,9 +6,9 @@
 }:
 with lib;
 with builtins; let
-  cfg = config.modules.tailscale;
+  cfg = config.components.tailscale;
 in {
-  options.modules.tailscale = {
+  options.components.tailscale = {
     enable = mkEnableOption "Enable tailscale";
     initialAuthKey = mkOption {
       type = types.str;

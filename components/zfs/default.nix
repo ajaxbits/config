@@ -4,9 +4,9 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.zfs;
+  cfg = config.components.zfs;
 in {
-  options.modules.zfs.enable = mkEnableOption "Enable ZFS support";
+  options.components.zfs.enable = mkEnableOption "Enable ZFS support";
 
   config = mkIf cfg.enable {
     boot.kernelPackages = mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
