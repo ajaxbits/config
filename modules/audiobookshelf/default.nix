@@ -1,12 +1,9 @@
 {
-  self,
   config,
   lib,
-  pkgs,
   pkgsUnstable,
   ...
 }: let
-  audiobookshelfVersion = "2.4.3";
   libationVersion = "11.0.4";
 
   cfg = config.components.audiobookshelf;
