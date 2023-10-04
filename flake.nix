@@ -95,10 +95,10 @@
                 "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
             }
-            "${self}/services/monitoring"
             "${self}/services/forgejo"
             {
               components.cd.enable = true;
+              components.monitoring.enable = true;
               components.miniflux.enable = true;
               components.mediacenter = {
                 enable = true;
