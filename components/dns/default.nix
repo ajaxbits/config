@@ -72,6 +72,10 @@ in {
       ]
       else [];
 
+    services.grafana.settings.panels = lib.mkIf config.components.monitoring.enable {
+      disable_sanitize_html = true;
+    };
+
     networking.networkmanager.insertNameservers = ["127.0.0.1"];
     networking.firewall.allowedUDPPorts = [53];
   };
