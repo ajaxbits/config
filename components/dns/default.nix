@@ -38,7 +38,7 @@ in {
         blocking = {
           blackLists = {
             minimal = [
-              "https://big.oisd.nl/regex"
+              "https://small.oisd.nl/regex"
             ];
           };
           clientGroupsBlock.default = [
