@@ -15,6 +15,12 @@ in {
     services.blocky = {
       enable = true;
       settings = {
+        upstreams.groups = {
+          default = [
+            "1.1.1.1"
+            "9.9.9.9"
+          ];
+        };
         customDNS = {
           mapping = {
             "ajax.casa" = "172.22.0.10";
