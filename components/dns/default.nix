@@ -16,7 +16,6 @@ in {
       enable = true;
 
       settings = {
-        startStrategy = "fast";
         clientLookup.upstream = "172.22.0.1";
         conditional.mapping."." = "172.22.0.1";
 
