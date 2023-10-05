@@ -45,6 +45,11 @@ in {
           startStrategy = "fast";
         };
 
+        prometheus = lib.mkIf config.components.monitoring.enable {
+          enable = true;
+          path = "localhost:${builtins.toString config.services.prometheus.port}/metrics";
+        };
+
         #   https://github.com/0xERR0R/blocky/issues/287
         caching.cacheTimeNegative = "1m";
       };
