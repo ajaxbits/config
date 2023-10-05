@@ -5,9 +5,9 @@
 }:
 with lib;
 with builtins; let
-  cfg = config.modules.dns;
+  cfg = config.components.dns;
 in {
-  options.modules.dns = {
+  options.components.dns = {
     enable = mkEnableOption "Enable dns";
   };
 
