@@ -14,18 +14,27 @@ in {
   config = mkIf cfg.enable {
     services.blocky = {
       enable = true;
+
       settings = {
-        upstreams.groups = {
+        startStrategy = "fast";
+        clientLookup.upstream = "172.22.0.1";
+        conditional.mapping."." = "172.22.0.1";
+
+        upstream = {
           default = [
             "1.1.1.1"
             "9.9.9.9"
           ];
         };
+
         customDNS = {
           mapping = {
             "ajax.casa" = "172.22.0.10";
           };
         };
+
+        #   https://github.com/0xERR0R/blocky/issues/287
+        caching.cacheTimeNegative = "1m";
       };
     };
 
