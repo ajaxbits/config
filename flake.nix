@@ -98,6 +98,7 @@
             "${self}/services/forgejo"
             {
               components.cd.enable = true;
+              components.dns.enable = true;
               components.monitoring.enable = true;
               components.miniflux.enable = true;
               components.mediacenter = {
