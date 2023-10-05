@@ -58,6 +58,20 @@ in {
       };
     };
 
+    services.prometheus.scrapeConfigs =
+      if config.components.monitoring.enable
+      then [
+        {
+          job_name = "blocky";
+          static_configs = [
+            {
+              targets = ["127.0.0.1:${toString config.services.blocky.settings.ports.http}"];
+            }
+          ];
+        }
+      ]
+      else [];
+
     networking.networkmanager.insertNameservers = ["127.0.0.1"];
     networking.firewall.allowedUDPPorts = [53];
   };
