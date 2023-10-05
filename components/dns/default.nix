@@ -31,7 +31,7 @@ in {
 
         customDNS = {
           mapping = {
-            "ajax.casa" = "172.22.0.10";
+            "ajax.lan" = "172.22.0.10";
           };
         };
 
