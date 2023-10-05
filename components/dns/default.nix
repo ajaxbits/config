@@ -16,6 +16,9 @@ in {
       enable = true;
 
       settings = {
+        ports.dns = 53;
+        ports.http = 2019;
+
         clientLookup.upstream = "172.22.0.1";
         conditional.mapping."." = "172.22.0.1";
 
@@ -47,7 +50,7 @@ in {
 
         prometheus = lib.mkIf config.components.monitoring.enable {
           enable = true;
-          path = "localhost:${builtins.toString config.services.prometheus.port}/metrics";
+          path = "/metrics";
         };
 
         #   https://github.com/0xERR0R/blocky/issues/287
