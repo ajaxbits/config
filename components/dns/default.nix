@@ -32,6 +32,19 @@ in {
           };
         };
 
+        blocking = {
+          blackLists = {
+            minimal = [
+              "https://small.oisd.nl/regex"
+            ];
+          };
+          clientGroupsBlock.default = [
+            "minimal"
+          ];
+          blockTTL = "1m";
+          startStrategy = "fast";
+        };
+
         #   https://github.com/0xERR0R/blocky/issues/287
         caching.cacheTimeNegative = "1m";
       };
