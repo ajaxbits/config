@@ -5,26 +5,22 @@
 }:
 with lib;
 with builtins; let
-  cfg = config.modules.dns;
+  cfg = config.components.dns;
 in {
-  options.modules.dns = {
+  options.components.dns = {
     enable = mkEnableOption "Enable dns";
   };
 
   config = mkIf cfg.enable {
-    services.coredns = {
+    services.blocky = {
       enable = true;
-      config = ''
-        . {
-          # Cloudflare and Quad9
-          forward . 1.1.1.1 1.0.0.1 9.9.9.9
-          cache
-        }
-
-        ajaxbits.local {
-          log
-        }
-      '';
+      settings = {
+        customDNS = {
+          mapping = {
+            "ajax.casa" = "172.22.0.10";
+          };
+        };
+      };
     };
 
     networking.networkmanager.insertNameservers = ["127.0.0.1"];
