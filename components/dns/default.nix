@@ -39,11 +39,14 @@ in {
         blocking = {
           blackLists = {
             minimal = [
+              "https://small.oisd.nl/regex"
+            ];
+            full = [
               "https://big.oisd.nl/regex"
             ];
           };
           clientGroupsBlock.default = [
-            "minimal"
+            "full"
           ];
           blockTTL = "1m";
           startStrategy = "fast";
