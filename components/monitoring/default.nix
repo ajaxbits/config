@@ -33,7 +33,7 @@ in {
   imports = [
     ./grafana.nix
     ./loki.nix
-    ./prometheus.nix
+    ./prometheus
     ./smokeping.nix
     ./uptimekuma.nix
   ];
