@@ -90,7 +90,6 @@ in {
       openFirewall = true;
     };
     services.bazarr.enable = mkIf cfg.linux-isos.enable true;
-    
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
@@ -106,6 +105,12 @@ in {
         volumes = ["${mediaDir}/videos:/downloads"];
         user = config.users.users.youtube.name;
       };
+    };
+
+    services.caddy.virtualHosts."http://jellyfin.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        reverse_proxy http://localhost:8096
+      '';
     };
   };
 }
