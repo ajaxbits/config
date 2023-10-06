@@ -18,7 +18,7 @@ in {
     address = mkOption {
       type = types.str;
       description = "Address to listen on.";
-      default = "0.0.0.0";
+      default = "127.0.0.1";
     };
     audiobooksDir = mkOption {
       type = types.str;
@@ -122,6 +122,13 @@ in {
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
       ];
+    };
+
+    services.caddy.virtualHosts."http://audiobooks.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
+      '';
     };
   };
 }
