@@ -17,10 +17,10 @@ in {
       enable = true;
       settings.analytics.reporting_enabled = false;
       settings.server = {
-        domain = config.networking.hostName;
+        domain = "grafana.ajax.casa";
         protocol = "http";
         http_port = 2342;
-        http_addr = "0.0.0.0";
+        http_addr = "127.0.0.1";
         enable_gzip = true; # recommended for perf, change if compat is bad
       };
       provision = {
@@ -40,6 +40,14 @@ in {
           }
         ];
       };
+    };
+
+    services.caddy.virtualHosts."http://grafana.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = let
+        gcfg = config.services.grafana;
+      in ''
+        reverse_proxy ${gcfg.settings.server.protocol}://${gcfg.settings.server.http_addr}:${builtins.toString gcfg.settings.server.http_port}
+      '';
     };
   };
 }
