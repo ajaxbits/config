@@ -107,40 +107,46 @@ in {
       };
     };
 
-    services.caddy.virtualHosts = let
-      endpoints = [
-        {
-          host = "movies";
-          port = 7878;
-        }
-        {
-          host = "shows";
-          port = 8989;
-        }
-        {
-          host = "subtitles";
-          port = 9898;
-        }
-        {
-          host = "indexers";
-          port = 9696;
-        }
-        {
-          host = "bubflix";
-          port = 8096;
-        }
-        {
-          host = "jellyfin";
-          port = 8096;
-        }
-      ];
+    services.caddy = lib.mkIf config.components.caddy.enable {
+      virtualHosts = let
+        endpoints = [
+          {
+            host = "movies";
+            port = 7878;
+          }
+          {
+            host = "shows";
+            port = 8989;
+          }
+          {
+            host = "subtitles";
+            port = 9898;
+          }
+          {
+            host = "indexers";
+            port = 9696;
+          }
+          {
+            host = "bubflix";
+            port = 8096;
+          }
+          {
+            host = "jellyfin";
+            port = 8096;
+          }
+          {
+            host = "downloads";
+            port = 9091;
+          }
+        ];
 
-      createReverseProxy = attr: {
-        "http://${attr.host}.ajax.casa".extraConfig = ''
-          reverse_proxy http://localhost:${toString attr.port}
-        '';
-      };
-    in
-      builtins.foldl' (a: b: a // b) {} (map createReverseProxy endpoints);
+        createReverseProxy = attr: {
+          "http://${attr.host}.ajax.casa".extraConfig = ''
+            reverse_proxy http://localhost:${toString attr.port}
+          '';
+        };
+      in
+        builtins.foldl' (a: b: a // b) {} (map createReverseProxy endpoints);
+    };
   };
 }
