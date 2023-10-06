@@ -40,6 +40,7 @@ in {
           blackLists = {
             minimal = [
               "https://big.oisd.nl/regex"
+              "https://adaway.org/hosts.txt"
             ];
           };
           clientGroupsBlock.default = [
