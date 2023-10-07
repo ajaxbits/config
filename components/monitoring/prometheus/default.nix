@@ -14,6 +14,8 @@
     ];
   };
 in {
+  imports = [./edgerouterx.nix];
+
   config = lib.mkIf cfg.enable {
     services.prometheus = {
       enable = true;
@@ -35,52 +37,21 @@ in {
             }
           ];
         };
-        snmp = lib.mkIf cfg.networking.enable {
-          enable = true;
-          configuration.edgerouterx = import ./edgerouterx.nix;
-        };
       };
 
       scrapeConfigs =
         [
           (nodeExport "${config.networking.hostName}")
         ]
-        ++ (
-          if cfg.networking.enable
-          then [
+        ++ lib.optional cfg.networking.enable {
+          job_name = "unifipoller";
+          scrape_interval = "30s";
+          static_configs = [
             {
-              job_name = "unifipoller";
-              scrape_interval = "30s";
-              static_configs = [
-                {
-                  targets = ["127.0.0.1:9130"];
-                }
-              ];
+              targets = ["127.0.0.1:9130"];
             }
-            {
-              job_name = "snmp";
-              scrape_interval = "5s";
-              static_configs = [{targets = ["172.22.0.1"];}];
-              metrics_path = "/snmp";
-              params.module = ["edgerouterx"];
-              relabel_configs = [
-                {
-                  source_labels = ["__address__"];
-                  target_label = "__param_target";
-                }
-                {
-                  source_labels = ["__param_target"];
-                  target_label = "instance";
-                }
-                {
-                  target_label = "__address__";
-                  replacement = "127.0.0.1:9116";
-                }
-              ];
-            }
-          ]
-          else []
-        );
+          ];
+        };
     };
 
     age.secrets = {
