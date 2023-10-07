@@ -53,7 +53,7 @@ in {
 
   metrics = [
     {
-      name = "ifInDiscards";
+      name = "erx_ifInDiscards";
       oid = mappings.ifInDiscards;
       type = "counter";
       help = "The number of inbound packets which were chosen to be discarded even though no errors had been detected to prevent their being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.13";
@@ -61,7 +61,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifInErrors";
+      name = "erx_ifInErrors";
       oid = mappings.ifInErrors;
       type = "counter";
       help = "For packet-oriented interfaces, the number of inbound packets that contained errors preventing them from being deliverable to a higher-layer protocol - 1.3.6.1.2.1.2.2.1.14";
@@ -69,7 +69,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifOutDiscards";
+      name = "erx_ifOutDiscards";
       oid = "1.3.6.1.2.1.2.2.1.19";
       type = "counter";
       help = "The number of outbound packets which were chosen to be discarded even though no errors had been detected to prevent their being transmitted - 1.3.6.1.2.1.2.2.1.19";
@@ -77,7 +77,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifOutErrors";
+      name = "erx_ifOutErrors";
       oid = "1.3.6.1.2.1.2.2.1.20";
       type = "counter";
       help = "For packet-oriented interfaces, the number of outbound packets that could not be transmitted because of errors - 1.3.6.1.2.1.2.2.1.20";
@@ -85,7 +85,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifAdminStatus";
+      name = "erx_ifAdminStatus";
       oid = "1.3.6.1.2.1.2.2.1.7";
       type = "gauge";
       help = "The desired state of the interface - 1.3.6.1.2.1.2.2.1.7";
@@ -93,7 +93,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifOperStatus";
+      name = "erx_ifOperStatus";
       oid = "1.3.6.1.2.1.2.2.1.8";
       type = "gauge";
       help = "The current operational state of the interface - 1.3.6.1.2.1.2.2.1.8";
@@ -101,7 +101,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifLastChange";
+      name = "erx_ifLastChange";
       oid = "1.3.6.1.2.1.2.2.1.9";
       type = "gauge";
       help = "The value of sysUpTime at the time the interface entered its current operational state - 1.3.6.1.2.1.2.2.1.9";
@@ -109,31 +109,31 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "hrSystemUptime";
+      name = "erx_hrSystemUptime";
       oid = "1.3.6.1.2.1.25.1.1";
       type = "gauge";
       help = "The amount of time since this host was last initialized - 1.3.6.1.2.1.25.1.1";
     }
     {
-      name = "hrSystemProcesses";
+      name = "erx_hrSystemProcesses";
       oid = "1.3.6.1.2.1.25.1.6";
       type = "gauge";
       help = "The number of process contexts currently loaded or running on this system. - 1.3.6.1.2.1.25.1.6";
     }
     {
-      name = "hrSystemMaxProcesses";
+      name = "erx_hrSystemMaxProcesses";
       oid = "1.3.6.1.2.1.25.1.7";
       type = "gauge";
       help = "The maximum number of process contexts this system can support - 1.3.6.1.2.1.25.1.7";
     }
     {
-      name = "hrMemorySize";
+      name = "erx_hrMemorySize";
       oid = "1.3.6.1.2.1.25.2.2";
       type = "gauge";
       help = "The amount of physical read-write main memory, typically RAM, contained by the host. - 1.3.6.1.2.1.25.2.2";
     }
     {
-      name = "hrStorageSize";
+      name = "erx_hrStorageSize";
       oid = "1.3.6.1.2.1.25.2.3.1.5";
       type = "gauge";
       help = "The size of the storage represented by this entry, in units of hrStorageAllocationUnits - 1.3.6.1.2.1.25.2.3.1.5";
@@ -145,7 +145,7 @@ in {
       ];
     }
     {
-      name = "hrStorageUsed";
+      name = "erx_hrStorageUsed";
       oid = "1.3.6.1.2.1.25.2.3.1.6";
       type = "gauge";
       help = "The amount of the storage represented by this entry that is allocated, in units of hrStorageAllocationUnits. - 1.3.6.1.2.1.25.2.3.1.6";
@@ -157,7 +157,7 @@ in {
       ];
     }
     {
-      name = "hrProcessorLoad";
+      name = "erx_hrProcessorLoad";
       oid = "1.3.6.1.2.1.25.3.3.1.2";
       type = "gauge";
       help = "The average, over the last minute, of the percentage of time that this processor was not idle - 1.3.6.1.2.1.25.3.3.1.2";
@@ -169,7 +169,7 @@ in {
       ];
     }
     {
-      name = "ifHCOutOctets";
+      name = "erx_ifHCOutOctets";
       oid = "1.3.6.1.2.1.31.1.1.1.10";
       type = "counter";
       help = "The total number of octets transmitted out of the interface, including framing characters - 1.3.6.1.2.1.31.1.1.1.10";
@@ -177,7 +177,7 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "ifHCInOctets";
+      name = "erx_ifHCInOctets";
       oid = "1.3.6.1.2.1.31.1.1.1.6";
       type = "counter";
       help = "The total number of octets received on the interface, including framing characters - 1.3.6.1.2.1.31.1.1.1.6";
@@ -185,49 +185,49 @@ in {
       lookups = [ifNameLookup];
     }
     {
-      name = "tcpMaxConn";
+      name = "erx_tcpMaxConn";
       oid = "1.3.6.1.2.1.6.4";
       type = "gauge";
       help = "The limit on the total number of TCP connections the entity can support - 1.3.6.1.2.1.6.4";
     }
     {
-      name = "tcpActiveOpens";
+      name = "erx_tcpActiveOpens";
       oid = "1.3.6.1.2.1.6.5";
       type = "counter";
       help = "The number of times TCP connections have made a direct transition to the SYN-SENT state from the CLOSED state. - 1.3.6.1.2.1.6.5";
     }
     {
-      name = "tcpPassiveOpens";
+      name = "erx_tcpPassiveOpens";
       oid = "1.3.6.1.2.1.6.6";
       type = "counter";
       help = "The number of times TCP connections have made a direct transition to the SYN-RCVD state from the LISTEN state. - 1.3.6.1.2.1.6.6";
     }
     {
-      name = "tcpEstabResets";
+      name = "erx_tcpEstabResets";
       oid = "1.3.6.1.2.1.6.8";
       type = "counter";
       help = "The number of times TCP connections have made a direct transition to the CLOSED state from either the ESTABLISHED state or the CLOSE-WAIT state. - 1.3.6.1.2.1.6.8";
     }
     {
-      name = "tcpCurrEstab";
+      name = "erx_tcpCurrEstab";
       oid = "1.3.6.1.2.1.6.9";
       type = "gauge";
       help = "The number of TCP connections for which the current state is either ESTABLISHED or CLOSE- WAIT. - 1.3.6.1.2.1.6.9";
     }
     {
-      name = "ssCpuRawIdle";
+      name = "erx_ssCpuRawIdle";
       oid = "1.3.6.1.4.1.2021.11.53";
       type = "counter";
       help = "The number of 'ticks' (typically 1/100s) spent idle - 1.3.6.1.4.1.2021.11.53";
     }
     {
-      name = "memTotalReal";
+      name = "erx_memTotalReal";
       oid = "1.3.6.1.4.1.2021.4.5";
       type = "gauge";
       help = "The total amount of real/physical memory installed on this host. - 1.3.6.1.4.1.2021.4.5";
     }
     {
-      name = "memAvailReal";
+      name = "erx_memAvailReal";
       oid = "1.3.6.1.4.1.2021.4.6";
       type = "gauge";
       help = "The amount of real/physical memory currently unused or available. - 1.3.6.1.4.1.2021.4.6";
