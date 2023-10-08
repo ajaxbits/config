@@ -43,7 +43,7 @@ in {
 
       menu = Multihost example
       title = CloudflareDNS and Google DNS
-      host = /targets/CloudflareDNS /targets/GoogleDNS
+      host = /targets/CloudflareDNS1 /targets/CloudflareDNS2 /targets/GoogleDNS
       
     '';
   };
