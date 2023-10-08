@@ -21,11 +21,17 @@ in {
       menu = Targets
       title = Targets
 
-      ++ CloudflareDNS
+      ++ CloudflareDNS1
        
       menu = Cloudflare DNS
-      title = Cloudflare DNS server
+      title = Cloudflare DNS server 1.1.1.1
       host = 1.1.1.1
+      
+      ++ CloudflareDNS2
+       
+      menu = Cloudflare DNS
+      title = Cloudflare DNS server 1.0.0.1
+      host = 1.0.0.1
 
       ++ GoogleDNS
 
