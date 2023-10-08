@@ -80,16 +80,6 @@ in {
       menu = Google DNS
       title = Google DNS 8.8.8.8
       host = 8.8.8.8
-      
-      ++ NextDNS1
-      menu = NextDNS 1
-      title = NextDNS 45.90.28.204
-      host = 45.90.28.204
-      
-      ++ NextDNS2
-      menu = NextDNS 2
-      title = NextDNS 45.90.30.204
-      host = 45.90.30.204
     '';
   };
 }
