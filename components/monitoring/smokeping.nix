@@ -76,11 +76,6 @@ in {
       title = Quad9 DNS 9.9.9.9
       host = 9.9.9.9
       
-      ++ Quad9
-      menu = Quad9 DNS
-      title = Quad9 DNS 9.9.9.9
-      host = 9.9.9.9
-      
       ++ Google
       menu = Google DNS
       title = Google DNS 8.8.8.8
