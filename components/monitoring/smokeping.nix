@@ -11,6 +11,7 @@ in {
     services.smokeping.host = "0.0.0.0";
     services.smokeping.targetConfig = ''
     
+      probe = FPing
       menu = Top
       title = Network Latency Grapher
       remark = Welcome to the SmokePing website of Arch User. \
