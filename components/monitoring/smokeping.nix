@@ -9,13 +9,6 @@ in {
   config = lib.mkIf cfg.enable {
     services.smokeping.enable = true;
     services.smokeping.host = "0.0.0.0";
-    services.smokeping.probeConfig = ''
-      + FPing
-      binary = ${config.security.wrapperDir}/fping
-        
-      + DNS
-      binary = ${pkgs.dnsutils}/bin/dig # mandatory
-      '';
     services.smokeping.targetConfig = ''
       probe = FPing
 
