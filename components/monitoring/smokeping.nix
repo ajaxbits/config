@@ -46,9 +46,5 @@ in {
       host = /targets/CloudflareDNS1 /targets/CloudflareDNS2 /targets/GoogleDNS
       
     '';
-    
-    services.prometheus.exporters.smokeping = {
-      enable = true;
-    }; 
   };
 }
