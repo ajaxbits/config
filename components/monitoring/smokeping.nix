@@ -8,7 +8,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.smokeping.enable = true;
     services.smokeping.host = "0.0.0.0";
-    targetConfig = ''
+    services.smokeping.targetConfig = ''
       probe = FPing
 
       menu = Top
