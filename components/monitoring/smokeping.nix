@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg.enable = config.components.monitoring.enable && config.components.monitoring.networking.enable;
@@ -13,6 +14,9 @@ in {
 
       menu = Top
       title = Network Latency Grapher
+      
+      +DNS
+      binary = ${pkgs.dnsutils}/bin/dig # mandatory
 
       + DNSPings
       menu = DNS Pings
