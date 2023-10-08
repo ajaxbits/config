@@ -55,31 +55,6 @@ in {
       menu = NextDNS 2
       title = NextDNS 45.90.30.204
       host = 45.90.30.204
-
-      + DNSProbes
-      menu = DNS Probes
-      title = DNS Probes
-      probe = DNS
-
-      ++ CloudflareDNS1
-      menu = Cloudflare DNS 1
-      title = Cloudflare DNS 1.1.1.1
-      host = 1.1.1.1
-      
-      ++ CloudflareDNS2
-      menu = Cloudflare DNS 1
-      title = Cloudflare DNS 1.0.0.1
-      host = 1.0.0.1
-      
-      ++ Quad9
-      menu = Quad9 DNS
-      title = Quad9 DNS 9.9.9.9
-      host = 9.9.9.9
-      
-      ++ Google
-      menu = Google DNS
-      title = Google DNS 8.8.8.8
-      host = 8.8.8.8
     '';
   };
 }
