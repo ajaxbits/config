@@ -9,7 +9,7 @@ in {
   config = lib.mkIf cfg.enable {
     services.smokeping = {
       enable = true;
-      probeconfig = ''
+      probeConfig = ''
         + FPing
         binary = ${config.security.wrapperDir}/fping
         + DNS
@@ -58,17 +58,17 @@ in {
         ++ Cloudflare
         menu = All Cloudflare DNS pings
         title = All Cloudflare DNS pings
-        host = /targets/CloudflareDNS1 /targets/CloudflareDNS2
+        host = /DNSPings/CloudflareDNS1 /DNSPings/CloudflareDNS2
 
         ++ NextDNS
         menu = All NextDNS pings
         title = All NextDNS pings
-        host = /targets/NextDNS1 /targets/NextDNS2
+        host = /DNSPings/NextDNS1 /DNSPings/NextDNS2
 
         ++ AllPings
         menu = All DNS pings
         title = All DNS pings
-        host = /targets/CloudflareDNS1 /targets/CloudflareDNS2 /targets/Quad9 /targets/Google /targets/NextDNS1 /targets/NextDNS2
+        host = /DNSPings/CloudflareDNS1 /DNSPings/CloudflareDNS2 /DNSPings/Quad9 /DNSPings/Google /DNSPings/NextDNS1 /DNSPings/NextDNS2
 
 
         + DNSProbes
@@ -85,11 +85,6 @@ in {
         menu = Cloudflare DNS 1
         title = Cloudflare DNS 1.0.0.1
         host = 1.0.0.1
-
-        ++ Quad9
-        menu = Quad9 DNS
-        title = Quad9 DNS 9.9.9.9
-        host = 9.9.9.9
 
         ++ Quad9
         menu = Quad9 DNS
@@ -114,17 +109,17 @@ in {
         ++ Cloudflare
         menu = All Cloudflare DNS probes
         title = All Cloudflare DNS probes
-        host = /targets/CloudflareDNS1 /targets/CloudflareDNS2
+        host = /DNSProbes/CloudflareDNS1 /DNSProbes/CloudflareDNS2
 
         ++ NextDNS
         menu = All NextDNS probes
         title = All NextDNS probes
-        host = /targets/NextDNS1 /targets/NextDNS2
+        host = /DNSProbes/NextDNS1 /DNSProbes/NextDNS2
 
         ++ AllProbes
         menu = All DNS probes
         title = All DNS probes
-        host = /targets/CloudflareDNS1 /targets/CloudflareDNS2 /targets/Quad9 /targets/Google /targets/NextDNS1 /targets/NextDNS2
+        host = /DNSProbes/CloudflareDNS1 /DNSProbes/CloudflareDNS2 /DNSProbes/Quad9 /DNSProbes/Google /DNSProbes/NextDNS1 /DNSProbes/NextDNS2
       '';
     };
 
@@ -154,7 +149,7 @@ in {
 
         handle {
           root * ${smokepingHome}/
-          reverse_proxy unix/${config.services.fcgiwrap.socket} {
+          reverse_proxy ${config.services.fcgiwrap.socketType}/${config.services.fcgiwrap.socketAddress} {
             transport fastcgi {
               env SCRIPT_FILENAME ${smokepingHome}/smokeping.fcgi
               split ""
