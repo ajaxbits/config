@@ -27,6 +27,8 @@ in {
       {
         job_name = "smokeping";
         scrape_interval = "30s";
+        metrics_path = exporterCfg.telemetryPath;
+        honor_labels = true;
         static_configs = [
           {
             targets = ["${exporterCfg.listenAddress}:${builtins.toString exporterCfg.port}"];
