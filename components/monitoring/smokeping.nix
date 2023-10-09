@@ -149,7 +149,7 @@ in {
 
         handle {
           root * ${smokepingHome}/
-          reverse_proxy ${config.services.fcgiwrap.socketType}:${config.services.fcgiwrap.socketAddress} {
+          reverse_proxy ${config.services.fcgiwrap.socketType}/${config.services.fcgiwrap.socketAddress} {
             transport fastcgi {
               env SCRIPT_FILENAME ${smokepingHome}/smokeping.fcgi
               split ""
