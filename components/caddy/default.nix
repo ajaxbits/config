@@ -7,7 +7,9 @@
 
   monitorConfig = lib.mkIf (cfg.enable && config.components.monitoring.enable) {
     services.caddy.globalConfig = ''
-      metrics
+      servers {
+        metrics
+      }
     '';
     services.prometheus = {
       scrapeConfigs = [
