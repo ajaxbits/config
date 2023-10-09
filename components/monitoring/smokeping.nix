@@ -7,6 +7,34 @@
   cfg.enable = config.components.monitoring.enable && config.components.monitoring.networking.enable;
 in {
   config = lib.mkIf cfg.enable {
+    services.prometheus.exporters.smokeping = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+      hosts = [
+        "1.1.1.1"
+        "1.0.0.1"
+        "9.9.9.9"
+        "8.8.8.8"
+        "8.8.8.8"
+        "45.90.28.204"
+        "45.90.30.204"
+      ];
+    };
+
+    services.prometheus.scrapeConfigs = let
+      exporterCfg = config.services.prometheus.exporters.smokeping;
+    in [
+      {
+        job_name = "smokeping";
+        scrape_interval = "30s";
+        static_configs = [
+          {
+            targets = ["${exporterCfg.listenAddress}:${builtins.toString exporterCfg.port}"];
+          }
+        ];
+      }
+    ];
+
     services.smokeping = {
       enable = true;
       probeConfig = ''
@@ -120,42 +148,6 @@ in {
         menu = All DNS probes
         title = All DNS probes
         host = /DNSProbes/CloudflareDNS1 /DNSProbes/CloudflareDNS2 /DNSProbes/Quad9 /DNSProbes/Google /DNSProbes/NextDNS1 /DNSProbes/NextDNS2
-      '';
-    };
-
-    services.smokeping.webService = !config.components.caddy.enable;
-    services.fcgiwrap.enable = config.components.caddy.enable;
-    services.caddy.virtualHosts."http://smokeping.ajax.casa" = lib.mkIf config.components.caddy.enable {
-      extraConfig = let
-        # taken from defn: https://github.com/NixOS/nixpkgs/blob/5a237aecb57296f67276ac9ab296a41c23981f56/nixos/modules/services/networking/smokeping.nix#L7
-        smokepingHome = "/var/lib/smokeping";
-      in ''
-        handle /js/* {
-          root * ${smokepingHome}/
-          file_server
-        }
-        handle /css/* {
-          root * ${smokepingHome}/
-          file_server
-        }
-        handle /imgcache/* {
-          root * ${smokepingHome}/
-          file_server
-        }
-        handle /images/* {
-          root * ${smokepingHome}/
-          file_server
-        }
-
-        handle {
-          root * ${smokepingHome}/
-          reverse_proxy ${config.services.fcgiwrap.socketType}/${config.services.fcgiwrap.socketAddress} {
-            transport fastcgi {
-              env SCRIPT_FILENAME ${smokepingHome}/smokeping.fcgi
-              split ""
-            }
-          }
-        }
       '';
     };
   };
