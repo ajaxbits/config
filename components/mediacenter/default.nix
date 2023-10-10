@@ -120,7 +120,7 @@ in {
           }
           {
             host = "subtitles";
-            port = 9898;
+            port = 6767;
           }
           {
             host = "indexers";
