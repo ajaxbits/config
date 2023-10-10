@@ -125,7 +125,7 @@
           ];
         };
 
-        deploy.nodes.agamemnon = {
+        deploy.nodes.patroclus = {
           hostname = "patroclus";
           fastConnection = true;
           profiles.system = {
