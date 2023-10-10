@@ -28,7 +28,10 @@ in {
       mediaDir = "/data/documents";
       consumptionDirIsPublic = true;
 
-      address = "0.0.0.0";
+      address =
+        if config.components.caddy.enable
+        then "127.0.0.1"
+        else "0.0.0.0";
       passwordFile = "${config.age.secretsDir}/paperless/admin-password";
 
       extraConfig = {
@@ -37,6 +40,13 @@ in {
         PAPERLESS_TIKA_ENDPOINT = "http://127.0.0.1:5551";
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
       };
+    };
+    
+    services.caddy.virtualHosts."http://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
+      '';
     };
 
     virtualisation.oci-containers.backend = "docker";
