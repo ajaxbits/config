@@ -14,7 +14,10 @@
     ];
   };
 in {
-  imports = [./edgerouterx.nix];
+  imports = [
+    ./edgerouterx.nix
+    ./nextdns.nix
+  ];
 
   config = lib.mkIf cfg.enable {
     services.prometheus = {
