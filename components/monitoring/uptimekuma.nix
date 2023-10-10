@@ -9,8 +9,18 @@ in {
     services.uptime-kuma = {
       enable = true;
       appriseSupport = true;
-      settings.HOST = "0.0.0.0";
+      settings.HOST =
+        if config.components.caddy.enable
+        then "127.0.0.1"
+        else "0.0.0.0";
       settings.PORT = "4000";
+    };
+
+    services.caddy.virtualHosts."http://uptime.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://${config.services.uptime-kuma.settings.HOST}:${config.services.uptime-kuma.settings.PORT}
+      '';
     };
   };
 }
