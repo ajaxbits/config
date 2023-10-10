@@ -9,7 +9,7 @@ in {
   config = lib.mkIf cfg.enable {
     virtualisation.oci-containers.containers.nextdns-exporter = {
       image = "ghcr.io/raylas/nextdns-exporter:0.5.2";
-      user = config.users.users.nextdns-exporter.name;
+      user = builtins.toString config.users.users.nextdns-exporter.uid;
       ports = ["127.0.0.1:9948:9948"];
       environmentFiles = [config.age.secrets."prometheus/nextdns-env".path];
       environment = {
@@ -31,6 +31,7 @@ in {
     ];
 
     users.users.nextdns-exporter = {
+      uid = 1337;
       isSystemUser = true;
       group = "nextdns-exporter";
     };
