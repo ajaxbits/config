@@ -1,0 +1,27 @@
+name: Update flake.lock
+on:
+  workflow_dispatch: # allows manual triggering
+  schedule:
+    - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Nix v2.13.5 #TODO: Change to DeterminateSystems installer once 2.13.5 lockfile stuff is resolved
+        uses: cachix/install-nix-action@v22
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          install_url: "https://releases.nixos.org/nix/nix-2.13.5/install"
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-labels: |                  # Labels to be set on the PR
+            dependencies
+            automated
+          pr-assignees: "ajaxbits"
+          pr-reviewers: "ajaxbits"
+          nix-options: "--accept-flake-config"
