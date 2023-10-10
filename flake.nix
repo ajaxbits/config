@@ -1,8 +1,8 @@
 {
   description = "A basic flake with a shell";
   inputs = {
-    nixpkgs.url = "github:Nixos/nixpkgs/nixos-23.05";
-    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
+    unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -13,7 +13,7 @@
     deploy-rs.url = "github:serokell/deploy-rs";
     arion.url = "github:hercules-ci/arion";
     agenix = {
-      url = "github:ryantm/agenix";
+      url = "https://flakehub.com/f/ryantm/agenix/0.14.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
