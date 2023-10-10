@@ -19,7 +19,6 @@ in {
 
       dates = "minutely";
       flags = [
-        "--no-write-lock-file"
         "--option"
         "accept-flake-config"
         "true"
