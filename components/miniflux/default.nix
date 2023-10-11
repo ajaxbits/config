@@ -15,7 +15,10 @@ in {
       adminCredentialsFile = "${config.age.secretsDir}/miniflux/adminCredentialsFile";
       config = {
         CLEANUP_FREQUENCY = "48";
-        LISTEN_ADDR = "0.0.0.0:4118";
+        LISTEN_ADDR =
+          if config.components.caddy.enable
+          then "127.0.0.1:4118"
+          else "0.0.0.0:4118";
       };
     };
 
@@ -27,6 +30,13 @@ in {
     };
     users.groups = {
       miniflux = {};
+    };
+
+    services.caddy.virtualHosts."http://feeds.ajax.casa" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://${config.services.miniflux.config.LISTEN_ADDR}
+      '';
     };
 
     age.secrets = {
