@@ -33,9 +33,6 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-darwin" "x86_64-darwin"];
       perSystem = {
-        config,
-        self',
-        inputs',
         pkgs,
         system,
         ...
@@ -60,7 +57,7 @@
           inherit system;
           overlays = [
             deploy-rs.overlay
-            (self: super: {
+            (_self: super: {
               deploy-rs = {
                 inherit (pkgs) deploy-rs;
                 lib = super.deploy-rs.lib;
@@ -70,7 +67,6 @@
         };
 
         lib = pkgs.lib;
-        utils = import ./util/include.nix {lib = pkgs.lib;};
       in {
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
@@ -136,13 +132,13 @@
         };
 
         # This is highly advised, and will prevent many possible mistakes
-        checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        checks = builtins.mapAttrs (_system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
         nixosModules = let
           modulesLocation = "${self}/components";
         in
           lib.mapAttrs (modulePath: _: import "${modulesLocation}/${modulePath}")
-          (lib.filterAttrs (path: value: value == "directory") (builtins.readDir modulesLocation));
+          (lib.filterAttrs (_path: value: value == "directory") (builtins.readDir modulesLocation));
       }
     );
 

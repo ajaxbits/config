@@ -1,6 +1,4 @@
 {
-  pkgs,
-  stdenv,
   ...
 }: {
   services.caddy = {

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg.enable = config.components.monitoring.enable && config.components.monitoring.networking.enable;
