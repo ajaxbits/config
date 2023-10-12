@@ -39,6 +39,10 @@ in {
               verify_ssl = false;
             }
           ];
+          loki = lib.mkIf config.components.monitoring.logging.enable {
+            url = "http://127.0.0.1:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
+            user = config.services.loki.user;
+          };
         };
       };
 
