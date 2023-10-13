@@ -1,11 +1,7 @@
 {
-  self,
-  config,
   lib,
   ...
-}: let
-  cfg = config.components.monitoring;
-in {
+}: {
   options.components.monitoring = {
     enable = lib.mkEnableOption "Enable the monitoring stack.";
     uptime.enable = lib.mkOption {

@@ -7,12 +7,7 @@
   pkgs,
   lib,
   ...
-}: let
-  # fetchKeysList = username: (lib.remove "" (lib.splitString "\n" (builtins.readFile (builtins.fetchurl {
-  #   url = "https://github.com/${username}.keys";
-  #   sha256 = "";
-  # }))));
-in {
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
