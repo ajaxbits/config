@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  lib = pkgs.lib;
+  inherit (pkgs) lib;
 
   host = config.networking.hostName;
   httpPort = 3001;
