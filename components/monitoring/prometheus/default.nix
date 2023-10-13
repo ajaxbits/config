@@ -37,6 +37,12 @@ in {
               pass = config.age.secrets."prometheus/unpoller-pass".path;
               user = "unifipoller@example.com";
               verify_ssl = false;
+
+              sites = "all";
+              save_ids = true;
+              save_events = true;
+              save_alarms = true;
+              save_dpi = true;
             }
           ];
           loki = lib.mkIf config.components.monitoring.logging.enable {
