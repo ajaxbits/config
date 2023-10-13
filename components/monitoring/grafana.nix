@@ -1,18 +1,12 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg.enable = config.components.monitoring.enable && config.components.monitoring.visualisation.enable;
 in {
   config = lib.mkIf cfg.enable {
-    # services.nginx.virtualHosts.${config.services.grafana.settings.server.domain} = {
-    #   locations."/" = {
-    #     proxyPass = "http://0.0.0.0:${toString config.services.grafana.settings.server.http_port}";
-    #     proxyWebsockets = true;
-    #   };
-    # };
-
     services.grafana = {
       enable = true;
       settings.analytics.reporting_enabled = false;
@@ -40,6 +34,8 @@ in {
           }
         ];
       };
+
+      declarativePlugins = with pkgs.grafanaPlugins; [grafana-clock-panel];
     };
 
     services.caddy.virtualHosts."http://grafana.ajax.casa" = lib.mkIf config.components.caddy.enable {
