@@ -27,7 +27,7 @@
       file = "${self}/secrets/miniflux/adminCredentialsFile.age";
       mode = "440";
       owner = config.users.users.miniflux.name;
-      group = config.users.users.miniflux.group;
+      inherit (config.users.users.miniflux) group;
     };
   };
 }

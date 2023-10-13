@@ -60,13 +60,13 @@
             (_self: super: {
               deploy-rs = {
                 inherit (pkgs) deploy-rs;
-                lib = super.deploy-rs.lib;
+                inherit (super.deploy-rs) lib;
               };
             })
           ];
         };
 
-        lib = pkgs.lib;
+        inherit (pkgs) lib;
       in {
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
@@ -93,30 +93,32 @@
             }
             "${self}/services/forgejo"
             {
-              components.cd.enable = true;
-              components.caddy.enable = true;
-              components.monitoring.enable = true;
-              components.miniflux.enable = true;
-              components.mediacenter = {
-                enable = true;
-                intel.enable = true;
-                linux-isos.enable = true;
-                youtube.enable = false;
+              components = {
+                cd.enable = true;
+                caddy.enable = true;
+                monitoring.enable = true;
+                miniflux.enable = true;
+                mediacenter = {
+                  enable = true;
+                  intel.enable = true;
+                  linux-isos.enable = true;
+                  youtube.enable = false;
+                };
+                paperless = {
+                  enable = true;
+                  backups.enable = true;
+                  backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
+                };
+                audiobookshelf.enable = true;
+                tailscale = {
+                  enable = true;
+                  initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
+                  tags = ["ajax" "homelab" "nixos"];
+                  advertiseExitNode = true;
+                  advertiseRoutes = ["172.22.0.0/15"];
+                };
+                zfs.enable = true;
               };
-              components.paperless = {
-                enable = true;
-                backups.enable = true;
-                backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
-              };
-              components.audiobookshelf.enable = true;
-              components.tailscale = {
-                enable = true;
-                initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
-                tags = ["ajax" "homelab" "nixos"];
-                advertiseExitNode = true;
-                advertiseRoutes = ["172.22.0.0/15"];
-              };
-              components.zfs.enable = true;
             }
           ];
         };
