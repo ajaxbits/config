@@ -29,6 +29,11 @@ in {
         isSystemUser = true;
         group = "mediaoperators";
       };
+      bazarr = mkIf cfg.linux-isos.enable {
+        isSystemUser = true;
+        group = "bazarr";
+        extraGroups = ["mediaoperators" "configoperators"];
+      };
       radarr = mkIf cfg.linux-isos.enable {
         isSystemUser = true;
         group = "radarr";
@@ -55,6 +60,7 @@ in {
       configoperators = {};
       radarr = mkIf cfg.linux-isos.enable {};
       sonarr = mkIf cfg.linux-isos.enable {};
+      bazarr = mkIf cfg.linux-isos.enable {};
       downloader = mkIf cfg.linux-isos.enable {};
       youtube = mkIf cfg.youtube.enable {};
     };
@@ -89,7 +95,11 @@ in {
       enable = true;
       openFirewall = true;
     };
-    services.bazarr.enable = mkIf cfg.linux-isos.enable true;
+    services.bazarr = lib.mkIf cfg.linux-isos.enable {
+      enable = true;
+      user = "bazarr";
+      group = "bazarr";
+    }; 
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
@@ -120,7 +130,7 @@ in {
           }
           {
             host = "subtitles";
-            port = 6767;
+            port = config.services.bazarr.listenPort;
           }
           {
             host = "indexers";
