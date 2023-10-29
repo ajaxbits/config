@@ -7,7 +7,6 @@
 }:
 with lib; let
   cfg = config.components.mediacenter;
-  mediaDir = "/data/media";
 in {
   options.components.mediacenter = {
     enable = mkEnableOption "Enable mediacenter features";
