@@ -93,9 +93,15 @@ in {
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
-      if cfg.linux-isos.enable
-      then [pkgs.docker-compose pkgsUnstable.recyclarr]
-      else [];
+      [
+        # for Jellyfin YT metadata plugin
+        pkgs.yt-dlp
+      ]
+      ++ (
+        if cfg.linux-isos.enable
+        then [pkgs.docker-compose pkgsUnstable.recyclarr]
+        else []
+      );
 
     virtualisation.oci-containers = mkIf cfg.youtube.enable {
       backend = "docker";
