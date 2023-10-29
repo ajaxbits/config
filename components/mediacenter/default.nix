@@ -23,6 +23,7 @@ in {
       group = "mediaoperators";
       openFirewall = true;
     };
+    systemd.services.jellyfin.path = [pkgs.yt-dlp]; # required for yt metadata
 
     users.users = {
       jellyfin = {
@@ -99,29 +100,16 @@ in {
       enable = true;
       user = "bazarr";
       group = "bazarr";
-    }; 
+    };
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages =
-      [
-        # for Jellyfin YT metadata plugin
-        pkgs.yt-dlp
-      ]
+      []
       ++ (
         if cfg.linux-isos.enable
         then [pkgs.docker-compose pkgsUnstable.recyclarr]
         else []
       );
-
-    virtualisation.oci-containers = mkIf cfg.youtube.enable {
-      backend = "docker";
-      containers.yt-dlp = {
-        image = "ghcr.io/marcopeocchi/yt-dlp-web-ui:latest"; #TODO: pin somehow
-        ports = ["3033:3033"];
-        volumes = ["${mediaDir}/videos:/downloads"];
-        user = config.users.users.youtube.name;
-      };
-    };
 
     services.caddy = lib.mkIf config.components.caddy.enable {
       virtualHosts = let
