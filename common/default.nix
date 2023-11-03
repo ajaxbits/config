@@ -3,6 +3,7 @@
     ./git.nix
     ./nix.nix
     ./fish.nix
+    ./upgrade-diff.nix
   ];
 
   config = {
