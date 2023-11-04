@@ -29,13 +29,5 @@ in {
   config = lib.mkMerge [
     {services.caddy.enable = cfg.enable;}
     monitorConfig
-    {
-      services.caddy.virtualHosts."http://home.ajax.casa" = lib.mkIf cfg.enable {
-        extraConfig = ''
-          encode gzip zstd
-          reverse_proxy http://172.22.0.3:4119
-        '';
-      };
-    }
   ];
 }
