@@ -13,8 +13,8 @@ in {
   config = mkIf cfg.enable {
     services.calibre-web = {
       enable = true;
-      listen.ip = if components.caddy.enable then "127.0.0.1" else "0.0.0.0";
-      openFirewall = !components.caddy.enable;
+      listen.ip = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
+      openFirewall = !config.components.caddy.enable;
       options = {
         enableBookUploading = true;
         enableBookConversion = true;
