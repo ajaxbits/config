@@ -37,7 +37,7 @@ in {
     services.caddy.virtualHosts."http://books.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
-        reverse_proxy http://${config.services.calibre-web.listen.ip}:${builtins.toStrong config.services.calibre-web.listen.port}
+        reverse_proxy http://${config.services.calibre-web.listen.ip}:${builtins.toString config.services.calibre-web.listen.port}
       '';
     };
   };
