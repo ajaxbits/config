@@ -1,19 +1,20 @@
 {
   config,
   lib,
-  self,
   ...
-}:
-with lib; let
+}: let
   cfg = config.components.ebooks;
   ebookDir = "/data/media/books";
 in {
-  options.components.ebooks.enable = mkEnableOption "Enable ebook server";
+  options.components.ebooks.enable = lib.mkEnableOption "Enable ebook server";
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.calibre-web = {
       enable = true;
-      listen.ip = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
+      listen.ip =
+        if config.components.caddy.enable
+        then "127.0.0.1"
+        else "0.0.0.0";
       openFirewall = !config.components.caddy.enable;
       options = {
         enableBookUploading = true;
