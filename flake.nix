@@ -119,6 +119,7 @@
                   advertiseRoutes = ["172.22.0.0/15"];
                 };
                 zfs.enable = true;
+                bcachefs.enable = true;
               };
             }
           ];
