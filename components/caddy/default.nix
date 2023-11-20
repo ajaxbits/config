@@ -1,17 +1,21 @@
 {
+  self,
   config,
   lib,
   pkgs,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf mkMerge;
+
   cfg = config.components.caddy;
 
-  monitorConfig = lib.mkIf (cfg.enable && config.components.monitoring.enable) {
+  monitorConfig = mkIf (cfg.enable && config.components.monitoring.enable) {
     services.caddy.globalConfig = ''
       servers {
         metrics
       }
     '';
+    # TODO: make generic
     services.prometheus = {
       scrapeConfigs = [
         {
@@ -24,14 +28,32 @@
   };
 in {
   options.components.caddy = {
-    enable = lib.mkEnableOption "caddy";
+    enable = mkEnableOption "Enable caddy webserver";
+    cloudflare.enable = mkEnableOption "Enable custom caddy binary, with Cloudflare plugin installed";
   };
 
-  config = lib.mkMerge [
+  config = mkMerge [
     {services.caddy.enable = cfg.enable;}
-    {services.caddy.package = pkgs.caddy-patched;}
-    # TODO: Address in 23.11
-    {systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";}
+    (mkIf cfg.cloudflare.enable {
+      services.caddy = {
+        package = pkgs.caddy-patched;
+      };
+
+      systemd.services.caddy.serviceConfig.EnvironmentFile = "${config.age.secretsDir}/caddy/cloudflareApiToken";
+
+      age.secrets = {
+        "caddy/cloudflareApiToken" = {
+          file = "${self}/secrets/caddy/cloudflareApiToken.age";
+          mode = "440";
+          owner = config.services.caddy.user;
+          group = config.services.caddy.group;
+        };
+      };
+
+      # TODO: Address in 23.11
+      systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+    })
+
     monitorConfig
   ];
 }
