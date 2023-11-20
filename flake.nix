@@ -60,7 +60,7 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            (_self: super: {
+            (_self: _super: {
               caddy-patched = caddy.packages.${system}.caddy;
             })
           ];
