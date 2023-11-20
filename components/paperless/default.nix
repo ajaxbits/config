@@ -41,11 +41,14 @@ in {
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
       };
     };
-    
+
     services.caddy.virtualHosts."https://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
-        tls internal
+        tls {
+            dns cloudflare {env.CF_API_TOKEN}
+            resolvers 1.1.1.1
+        }
         reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
       '';
     };
