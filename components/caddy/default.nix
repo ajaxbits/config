@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.components.caddy;
@@ -29,7 +28,6 @@ in {
 
   config = lib.mkMerge [
     {services.caddy.enable = cfg.enable;}
-    {services.caddy.package = pkgs.cloudflare-caddy;}
     monitorConfig
   ];
 }
