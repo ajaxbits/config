@@ -42,9 +42,10 @@ in {
       };
     };
     
-    services.caddy.virtualHosts."http://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
+        tls internal
         reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
       '';
     };
