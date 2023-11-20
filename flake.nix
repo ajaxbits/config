@@ -110,6 +110,7 @@
               components = {
                 cd.enable = true;
                 caddy.enable = true;
+                caddy.cloudflare.enable = true;
                 monitoring.enable = true;
                 miniflux.enable = true;
                 mediacenter = {
