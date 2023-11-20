@@ -5,6 +5,9 @@ let
   ajax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1HH8/qgcU63wichBiB5nvSv0+9B9xxWdy2AYQr3oyr";
   aphrodite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
+  writers = [ajax aphrodite];
+  machines = [ajax patroclus agamemnon];
+
   allKeys = [agamemnon ajax aphrodite patroclus];
 in {
   # prometheus
@@ -23,4 +26,7 @@ in {
   "paperless/admin-password.age".publicKeys = allKeys;
   # rclone
   "rclone/rclone.conf.age".publicKeys = allKeys;
+
+  # caddy
+  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [patroclus];
 }
