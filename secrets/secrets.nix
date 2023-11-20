@@ -6,7 +6,6 @@ let
   aphrodite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
   writers = [ajax aphrodite];
-  machines = [ajax patroclus agamemnon];
 
   allKeys = [agamemnon ajax aphrodite patroclus];
 in {
