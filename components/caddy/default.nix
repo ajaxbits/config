@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.components.caddy;
@@ -27,7 +28,13 @@ in {
   };
 
   config = lib.mkMerge [
-    {services.caddy.enable = cfg.enable;}
+    {
+      services.caddy = {
+        enable = cfg.enable;
+        package = pkgs.caddy-patched;
+      };
+      systemd.services.caddy.path = [pkgs.nss];
+    }
     monitorConfig
   ];
 }
