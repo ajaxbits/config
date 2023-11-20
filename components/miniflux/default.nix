@@ -32,10 +32,11 @@ in {
       miniflux = {};
     };
 
-    services.caddy.virtualHosts."http://feeds.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://feeds.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${config.services.miniflux.config.LISTEN_ADDR}
+        import cloudflare
       '';
     };
 

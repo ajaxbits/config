@@ -35,10 +35,11 @@ in {
       mediaoperators = {};
     };
 
-    services.caddy.virtualHosts."http://books.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://books.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${config.services.calibre-web.listen.ip}:${builtins.toString config.services.calibre-web.listen.port}
+        import cloudflare
       '';
     };
   };

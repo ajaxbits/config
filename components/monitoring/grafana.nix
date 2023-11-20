@@ -38,11 +38,12 @@ in {
       declarativePlugins = with pkgs.grafanaPlugins; [grafana-clock-panel];
     };
 
-    services.caddy.virtualHosts."http://grafana.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://grafana.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = let
         gcfg = config.services.grafana;
       in ''
         reverse_proxy ${gcfg.settings.server.protocol}://${gcfg.settings.server.http_addr}:${builtins.toString gcfg.settings.server.http_port}
+        import cloudflare
       '';
     };
   };

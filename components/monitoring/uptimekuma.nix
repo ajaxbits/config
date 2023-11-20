@@ -16,10 +16,11 @@ in {
       settings.PORT = "4000";
     };
 
-    services.caddy.virtualHosts."http://uptime.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://uptime.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${config.services.uptime-kuma.settings.HOST}:${config.services.uptime-kuma.settings.PORT}
+        import cloudflare
       '';
     };
   };
