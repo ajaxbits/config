@@ -124,10 +124,11 @@ in {
       ];
     };
 
-    services.caddy.virtualHosts."http://audiobooks.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://audiobooks.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
+        import cloudflare
       '';
     };
   };
