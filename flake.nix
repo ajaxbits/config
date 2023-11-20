@@ -16,6 +16,12 @@
       url = "https://flakehub.com/f/ryantm/agenix/0.14.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # custom pkgs
+    caddy = {
+      url = "github:ajaxbits/nixos-caddy-patched";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -28,6 +34,7 @@
     arion,
     agenix,
     nixos-hardware,
+    caddy,
     ...
   } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
@@ -50,7 +57,14 @@
     // (
       let
         system = "x86_64-linux";
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (_self: super: {
+              caddy-patched = caddy.packages.${system}.caddy;
+            })
+          ];
+        };
         pkgsUnfree = unfree.legacyPackages.${system};
         pkgsUnstable = unstable.legacyPackages.${system};
         deployPkgs = import nixpkgs {
