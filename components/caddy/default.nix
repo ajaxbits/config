@@ -37,10 +37,16 @@ in {
     (mkIf cfg.cloudflare.enable {
       services.caddy = {
         package = pkgs.caddy-patched;
+        extraConfig = ''
+          (cloudflare) {
+            tls {
+                dns cloudflare {env.CF_API_TOKEN}
+                resolvers 1.1.1.1
+            }
+          }
+        '';
       };
-
       systemd.services.caddy.serviceConfig.EnvironmentFile = "${config.age.secretsDir}/caddy/cloudflareApiToken";
-
       age.secrets = {
         "caddy/cloudflareApiToken" = {
           file = "${self}/secrets/caddy/cloudflareApiToken.age";

@@ -43,14 +43,20 @@ in {
     };
 
     services.caddy.virtualHosts."https://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
-      extraConfig = ''
-        encode gzip zstd
-        tls {
-            dns cloudflare {env.CF_API_TOKEN}
-            resolvers 1.1.1.1
-        }
-        reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
-      '';
+      extraConfig =
+        ''
+          encode gzip zstd
+          reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
+        ''
+        + (
+          if config.components.caddy.cloudflare.enable
+          then ''
+            import cloudflare
+          ''
+          else ''
+            tls internal
+          ''
+        );
     };
 
     virtualisation.oci-containers.backend = "docker";
