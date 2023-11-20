@@ -48,11 +48,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1700441364,
-        "narHash": "sha256-/kfrL1gzjfr2GwMqwdjiDfNKRfIscKW6HYbjYkhJ1lM=",
+        "lastModified": 1700449293,
+        "narHash": "sha256-kqjjLzgZ/UNXuR+p3TXY4YqRhEAuZQ/0PnLMfDLL8U4=",
         "owner": "ajaxbits",
         "repo": "nixos-caddy-patched",
-        "rev": "26a104fa863f8ed28f3001c588ad6c13298c9c4f",
+        "rev": "94de6dfe3c5e3f2db29bca8f935f7c060564235d",
         "type": "github"
       },
       "original": {
@@ -395,11 +395,12 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1700403855,
         "narHash": "sha256-Q0Uzjik9kUTN9pd/kp52XJi5kletBhy29ctBlAG+III=",
         "rev": "0c5678df521e1407884205fe3ce3cf1d7df297db",
         "revCount": 492270,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.492270%2Brev-0c5678df521e1407884205fe3ce3cf1d7df297db/018be9eb-cb71-7fbf-b50b-18103a91564b/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.492270+rev-0c5678df521e1407884205fe3ce3cf1d7df297db/018be9eb-cb71-7fbf-b50b-18103a91564b/source.tar.gz"
       },
       "original": {
         "type": "tarball",
