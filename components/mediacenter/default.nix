@@ -144,7 +144,8 @@ in {
         ];
 
         createReverseProxy = attr: {
-          "http://${attr.host}.ajax.casa".extraConfig = ''
+          "https://${attr.host}.ajax.casa".extraConfig = ''
+            import cloudflare
             reverse_proxy http://localhost:${toString attr.port}
           '';
         };
