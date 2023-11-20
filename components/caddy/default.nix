@@ -1,10 +1,8 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
-  inherit (pkgs) callPackage;
   cfg = config.components.caddy;
 
   monitorConfig = lib.mkIf (cfg.enable && config.components.monitoring.enable) {
@@ -29,10 +27,7 @@ in {
   };
 
   config = lib.mkMerge [
-    {
-      services.caddy.enable = cfg.enable;
-      services.caddy.package = callPackage ./caddyWithPlugins.nix {};
-    }
+    {services.caddy.enable = cfg.enable;}
     monitorConfig
   ];
 }
