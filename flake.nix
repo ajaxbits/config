@@ -105,7 +105,6 @@
                 "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
             }
-            "${self}/services/forgejo"
             {
               components = {
                 cd.enable = true;
