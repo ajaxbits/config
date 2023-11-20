@@ -122,7 +122,6 @@ in {
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
       ];
-      user = "${config.users.users.audiobookshelf.uid}:${config.users.groups.mediaoperators.gid}";
     };
 
     services.caddy.virtualHosts."https://audiobooks.ajax.casa" = lib.mkIf config.components.caddy.enable {
