@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.components.caddy;
@@ -28,6 +29,9 @@ in {
 
   config = lib.mkMerge [
     {services.caddy.enable = cfg.enable;}
+    {services.caddy.package = pkgs.caddy-patched;}
+    # TODO: Address in 23.11
+    {systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";}
     monitorConfig
   ];
 }
