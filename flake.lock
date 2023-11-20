@@ -48,16 +48,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1700449293,
-        "narHash": "sha256-kqjjLzgZ/UNXuR+p3TXY4YqRhEAuZQ/0PnLMfDLL8U4=",
-        "owner": "ajaxbits",
-        "repo": "nixos-caddy-patched",
-        "rev": "94de6dfe3c5e3f2db29bca8f935f7c060564235d",
+        "lastModified": 1692124400,
+        "narHash": "sha256-2/ajrhDlEL4UyE1mnbFQsOnLYUI5naBbPO/Kk8ZrgVo=",
+        "owner": "burmudar",
+        "repo": "nix-cloudflare-caddy",
+        "rev": "a09f7f8ba4d26fb70858729abca41e60163bcd7e",
         "type": "github"
       },
       "original": {
-        "owner": "ajaxbits",
-        "repo": "nixos-caddy-patched",
+        "owner": "burmudar",
+        "repo": "nix-cloudflare-caddy",
         "type": "github"
       }
     },

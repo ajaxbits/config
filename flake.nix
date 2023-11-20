@@ -19,7 +19,7 @@
 
     # custom pkgs
     caddy = {
-      url = "github:ajaxbits/nixos-caddy-patched";
+      url = "github:burmudar/nix-cloudflare-caddy";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -60,9 +60,7 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            (_self: super: {
-              caddy-patched = caddy.packages.${system}.caddy;
-            })
+            caddy.overlay
           ];
         };
         pkgsUnfree = unfree.legacyPackages.${system};
