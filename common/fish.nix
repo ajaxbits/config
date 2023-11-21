@@ -7,7 +7,7 @@
     shellAbbrs = {
       "nixtrash" = "nix-collect-garbage -d";
       "dnixtrash" = "sudo nix-collect-garbage -d";
-      "lg" = "lazygit";
+      "lg" = "${pkgs.lazygit}/bin/lazygit";
     };
 
     shellAliases = {

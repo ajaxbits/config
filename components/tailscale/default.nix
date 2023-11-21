@@ -49,7 +49,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # service config
     services.tailscale = let
       authKeyFile = toFile "ts-authkey" cfg.initialAuthKey;
       tags =

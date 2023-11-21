@@ -9,20 +9,29 @@ let
 
   allKeys = [agamemnon ajax aphrodite patroclus];
 in {
+  # users
+  "users/adminPass.age".publicKeys = allKeys;
+
   # prometheus
   "prometheus/unpoller-pass.age".publicKeys = allKeys;
   "prometheus/nextdns-env.age".publicKeys = allKeys;
+
   # libation
   "libation/Settings.json.age".publicKeys = allKeys;
   "libation/AccountsSettings.json.age".publicKeys = allKeys;
+
   # forgejo
   "forgejo/postgresql-pass.age".publicKeys = allKeys;
+
   # miniflux
   "miniflux/adminCredentialsFile.age".publicKeys = allKeys;
+
   # garnix
   "garnix/github-access-token.age".publicKeys = allKeys;
+
   # paperless
   "paperless/admin-password.age".publicKeys = allKeys;
+
   # rclone
   "rclone/rclone.conf.age".publicKeys = allKeys;
 

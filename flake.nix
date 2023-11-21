@@ -11,7 +11,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     deploy-rs.url = "github:serokell/deploy-rs";
-    arion.url = "github:hercules-ci/arion";
     agenix = {
       url = "https://flakehub.com/f/ryantm/agenix/0.14.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +30,6 @@
     unstable,
     flake-parts,
     deploy-rs,
-    arion,
     agenix,
     nixos-hardware,
     caddy,
@@ -48,7 +46,6 @@
           packages = [
             pkgs.bashInteractive
             deploy-rs.packages.${system}.default
-            pkgs.arion
             agenix.packages.${system}.default
           ];
         };

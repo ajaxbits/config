@@ -1,5 +1,4 @@
 {
-  inputs,
   self,
   lib,
   ...
@@ -9,10 +8,5 @@
     lib.mapAttrsToList (componentsPath: _: "${componentsLocation}/${componentsPath}")
     (lib.filterAttrs (_path: value: value == "directory") (builtins.readDir componentsLocation));
 in {
-  imports =
-    [
-      inputs.agenix.nixosModules.age
-      inputs.arion.nixosModules.arion
-    ]
-    ++ components;
+  imports = components;
 }
