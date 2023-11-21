@@ -83,17 +83,9 @@
           inherit system;
           specialArgs = {inherit inputs self lib pkgs pkgsUnstable pkgsUnfree;};
           modules = [
-            # Hardware
-            nixos-hardware.nixosModules.common-pc-ssd
-            nixos-hardware.nixosModules.common-cpu-intel
-            nixos-hardware.nixosModules.common-gpu-intel
-
-            # Base config
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
             "${self}/components"
-
-            # Modules
             {
               # we have to use unstable modules for tailscale for now to get good options
               # TODO: re-evaluate in 23.11
@@ -117,12 +109,6 @@
 
         # This is highly advised, and will prevent many possible mistakes
         checks = builtins.mapAttrs (_system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-
-        nixosModules = let
-          modulesLocation = "${self}/components";
-        in
-          lib.mapAttrs (modulePath: _: import "${modulesLocation}/${modulePath}")
-          (lib.filterAttrs (_path: value: value == "directory") (builtins.readDir modulesLocation));
       }
     );
 
