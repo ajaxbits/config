@@ -1,10 +1,41 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
+
+  components = {
+    audiobookshelf.enable = true;
+    caddy = {
+      enable = true;
+      cloudflare.enable = true;
+    };
+    cd.enable = true;
+    ebooks.enable = true;
+    filesystems = {
+      bcachefs.enable = true;
+      zfs.enable = true;
+    };
+    mediacenter = {
+      enable = true;
+      intel.enable = true;
+      linux-isos.enable = true;
+      youtube.enable = false;
+    };
+    miniflux.enable = true;
+    monitoring.enable = true;
+    paperless = {
+      enable = true;
+      backups.enable = true;
+      backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
+    };
+    tailscale = {
+      enable = true;
+      initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
+      tags = ["ajax" "homelab" "nixos"];
+      advertiseExitNode = true;
+      advertiseRoutes = ["172.22.0.0/15"];
+    };
+  };
 
   services.fwupd.enable = true;
   nix = {

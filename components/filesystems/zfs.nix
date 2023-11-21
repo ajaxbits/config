@@ -2,11 +2,11 @@
   config,
   lib,
   ...
-}:
-with lib; let
-  cfg = config.components.zfs;
+}: let
+  inherit (lib) mkEnableOption mkForce mkIf;
+  cfg = config.components.filesystems.zfs;
 in {
-  options.components.zfs.enable = mkEnableOption "Enable ZFS support";
+  options.components.filesystems.zfs.enable = mkEnableOption "Enable ZFS support";
 
   config = mkIf cfg.enable {
     boot.kernelPackages = mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;

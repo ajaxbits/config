@@ -105,37 +105,6 @@
                 "${unstable}/nixos/modules/services/networking/tailscale.nix"
               ];
             }
-            {
-              components = {
-                cd.enable = true;
-                caddy.enable = true;
-                caddy.cloudflare.enable = true;
-                monitoring.enable = true;
-                miniflux.enable = true;
-                mediacenter = {
-                  enable = true;
-                  intel.enable = true;
-                  linux-isos.enable = true;
-                  youtube.enable = false;
-                };
-                paperless = {
-                  enable = true;
-                  backups.enable = true;
-                  backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
-                };
-                audiobookshelf.enable = true;
-                ebooks.enable = true;
-                tailscale = {
-                  enable = true;
-                  initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
-                  tags = ["ajax" "homelab" "nixos"];
-                  advertiseExitNode = true;
-                  advertiseRoutes = ["172.22.0.0/15"];
-                };
-                zfs.enable = true;
-                bcachefs.enable = true;
-              };
-            }
           ];
         };
 
