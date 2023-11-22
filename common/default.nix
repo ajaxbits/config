@@ -1,13 +1,18 @@
 {
   inputs,
   pkgs,
+  self,
   ...
-}: {
+}: let
+  inherit (builtins) pathExists;
+  secretsFile = "${self}/secrets/secrets.nix";
+in {
   imports = [
     inputs.agenix.nixosModules.age
     ./git.nix
     ./nix.nix
     ./fish.nix
+    ./users.nix
     ./upgrade-diff.nix
   ];
 
@@ -35,5 +40,12 @@
     services.fwupd.enable = true;
 
     programs.ssh.startAgent = true;
+
+    assertions = [
+      {
+        assertion = pathExists secretsFile;
+        message = "${secretsFile} does not exist";
+      }
+    ];
   };
 }
