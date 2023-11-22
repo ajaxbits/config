@@ -16,9 +16,6 @@ in {
   "prometheus/unpoller-pass.age".publicKeys = allKeys;
   "prometheus/nextdns-env.age".publicKeys = allKeys;
 
-  # immich
-  "immich/.env.age".publicKeys = allKeys;
-
   # libation
   "libation/Settings.json.age".publicKeys = allKeys;
   "libation/AccountsSettings.json.age".publicKeys = allKeys;
