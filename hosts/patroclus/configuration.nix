@@ -18,7 +18,7 @@
       enable = true;
       cloudflare.enable = true;
     };
-    cd.enable = false;
+    cd.enable = true;
     ebooks.enable = true;
     filesystems = {
       bcachefs.enable = true;
