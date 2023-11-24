@@ -137,10 +137,6 @@ in {
             host = "jellyfin";
             port = 8096;
           }
-          {
-            host = "downloads";
-            port = 9091;
-          }
         ];
 
         createReverseProxy = attr: {
