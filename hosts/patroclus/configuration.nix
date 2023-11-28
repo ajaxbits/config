@@ -31,6 +31,7 @@
     };
     miniflux.enable = true;
     monitoring.enable = true;
+    networking.unifi.enable = true;
     paperless = {
       enable = true;
       backups.enable = true;
