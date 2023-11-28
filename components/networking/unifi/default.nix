@@ -1,22 +1,12 @@
 {
   config,
   lib,
-  pkgsUnfree,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf optional;
-  cfg = config.components.unifi;
+  inherit (lib) mkIf;
+  cfg = config.components.networking.unifi;
 in {
-  options.components.unifi.enable = mkEnableOption "Enable Unifi controller";
-
   config = mkIf cfg.enable {
-    services.unifi = {
-      enable = true;
-      unifiPackage = pkgsUnfree.unifi;
-      mongodbPackage = pkgsUnfree.mongodb;
-      openFirewall = true;
-    };
-
     services.caddy.virtualHosts."https://wifi.ajax.casa" = mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
@@ -28,7 +18,5 @@ in {
         import cloudflare
       '';
     };
-
-    networking.openFirewall = optional (!config.components.caddy.enable) 8443;
   };
 }

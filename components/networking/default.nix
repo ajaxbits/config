@@ -1,5 +1,11 @@
 {lib, ...}: let
   inherit (lib) mkEnableOption;
 in {
-  import = [./unifi];
+  options.components.networking = {
+    unifi.enable = mkEnableOption "Enable unifi controller framework.";
+  };
+
+  imports = [
+    ./unifi
+  ];
 }
