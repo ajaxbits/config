@@ -1,5 +1,5 @@
 {
-  description = "A basic flake with a shell";
+  description = "NixOS configurations";
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
