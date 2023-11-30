@@ -86,14 +86,6 @@
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
             "${self}/components"
-            {
-              # we have to use unstable modules for tailscale for now to get good options
-              # TODO: re-evaluate in 23.11
-              disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
-              imports = [
-                "${unstable}/nixos/modules/services/networking/tailscale.nix"
-              ];
-            }
           ];
         };
 
