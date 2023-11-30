@@ -11,9 +11,9 @@
     };
 
     shellAliases = {
-      ls = "${pkgs.exa}/bin/exa";
-      l = "${pkgs.exa}/bin/exa -lahF --git --no-user --group-directories-first --color-scale";
-      la = "${pkgs.exa}/bin/exa -lahF --git";
+      ls = "${pkgs.eza}/bin/eza";
+      l = "${pkgs.eza}/bin/eza -lahF --git --no-user --group-directories-first --color-scale";
+      la = "${pkgs.eza}/bin/eza -lahF --git";
       cat = "${pkgs.bat}/bin/bat -pp";
       z = "pazi_cd";
     };
