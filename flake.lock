@@ -195,11 +195,11 @@
         "rev": "50aa30a13c4ab5e7ba282da460a3e3d44e9d0eb3",
         "revCount": 552290,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2311.552290+rev-50aa30a13c4ab5e7ba282da460a3e3d44e9d0eb3/018c2040-b298-7891-a1fa-f5820457f9cb/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2311.552290%2Brev-50aa30a13c4ab5e7ba282da460a3e3d44e9d0eb3/018c2040-b298-7891-a1fa-f5820457f9cb/source.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz"
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
       }
     },
     "root": {
