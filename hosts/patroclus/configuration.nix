@@ -21,7 +21,7 @@
     cd.enable = true;
     ebooks.enable = true;
     filesystems = {
-      bcachefs.enable = true;
+      bcachefs.enable = false;
       zfs.enable = true;
     };
     mediacenter = {
