@@ -1,5 +1,5 @@
 {
-  description = "A basic flake with a shell";
+  description = "NixOS configurations";
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
@@ -86,14 +86,6 @@
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
             "${self}/components"
-            {
-              # we have to use unstable modules for tailscale for now to get good options
-              # TODO: re-evaluate in 23.11
-              disabledModules = ["${nixpkgs}/nixos/modules/services/networking/tailscale.nix"];
-              imports = [
-                "${unstable}/nixos/modules/services/networking/tailscale.nix"
-              ];
-            }
           ];
         };
 

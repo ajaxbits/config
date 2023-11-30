@@ -21,7 +21,7 @@
     cd.enable = true;
     ebooks.enable = true;
     filesystems = {
-      bcachefs.enable = true;
+      bcachefs.enable = false;
       zfs.enable = true;
     };
     mediacenter = {
@@ -31,6 +31,7 @@
     };
     miniflux.enable = true;
     monitoring.enable = true;
+    networking.unifi.enable = true;
     paperless = {
       enable = true;
       backups.enable = true;
