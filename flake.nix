@@ -31,7 +31,6 @@
     flake-parts,
     deploy-rs,
     agenix,
-    nixos-hardware,
     caddy,
     ...
   } @ inputs:
