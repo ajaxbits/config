@@ -3,9 +3,10 @@
   lib,
   self,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) boolToString mkEnableOption mkIf;
   cfg = config.components.miniflux;
+  url = "https://feeds.ajax.casa";
 in {
   options.components.miniflux.enable = mkEnableOption "Enable Miniflux";
 
@@ -19,6 +20,11 @@ in {
           if config.components.caddy.enable
           then "127.0.0.1:4118"
           else "0.0.0.0:4118";
+        BASE_URL =
+          if config.components.caddy.enable
+          then url
+          else "http://localhost";
+        WEBAUTHN = boolToString config.components.caddy.enable;
       };
     };
 
@@ -32,7 +38,7 @@ in {
       miniflux = {};
     };
 
-    services.caddy.virtualHosts."https://feeds.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."${url}" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${config.services.miniflux.config.LISTEN_ADDR}
