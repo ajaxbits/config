@@ -30,8 +30,7 @@
     unstable,
     flake-parts,
     deploy-rs,
-    agenix,
-    nixos-hardware, # deadnix: skip
+    agenix, # deadnix: skip
     caddy,
     ...
   } @ inputs:
