@@ -31,7 +31,7 @@
     flake-parts,
     deploy-rs,
     agenix,
-    nixos-hardware,
+    nixos-hardware, # deadnix: skip
     caddy,
     ...
   } @ inputs:
