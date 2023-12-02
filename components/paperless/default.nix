@@ -4,8 +4,10 @@
   self,
   pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (builtins) toString;
+
   cfg = config.components.paperless;
 
   backupEncryptionPassword = "Baggage-Crisping-Gloating5"; # not a secret, only for cloud privacy
@@ -42,11 +44,11 @@ in {
       };
     };
 
-    services.caddy.virtualHosts."https://documents.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts."https://documents.ajax.casa" = mkIf config.components.caddy.enable {
       extraConfig =
         ''
           encode gzip zstd
-          reverse_proxy http://${config.services.paperless.address}:${builtins.toString config.services.paperless.port}
+          reverse_proxy http://${config.services.paperless.address}:${toString config.services.paperless.port}
         ''
         + (
           if config.components.caddy.cloudflare.enable
