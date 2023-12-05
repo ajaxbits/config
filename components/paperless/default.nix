@@ -3,6 +3,7 @@
   lib,
   self,
   pkgs,
+  pkgsUnstable,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOption types;
@@ -26,6 +27,7 @@ in {
   config = mkIf cfg.enable {
     services.paperless = {
       enable = true;
+      package = pkgsUnstable.paperless-ngx;
       user = "paperless";
       mediaDir = "/data/documents";
       consumptionDirIsPublic = true;
@@ -67,7 +69,7 @@ in {
       ports = ["127.0.0.1:5551:9998"];
     };
     virtualisation.oci-containers.containers.paperless-gotenberg = {
-      image = "docker.io/gotenberg/gotenberg:7.9";
+      image = "docker.io/gotenberg/gotenberg:7.10";
       ports = ["127.0.0.1:5552:3000"];
       cmd = ["gotenberg" "--chromium-disable-javascript=true"];
     };
