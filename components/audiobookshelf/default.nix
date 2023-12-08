@@ -45,6 +45,23 @@ in {
       description = "Group to run audiobookshelf as";
       default = "audiobookshelf";
     };
+    backups = {
+      enable = mkEnableOption "Enable backups";
+      audiobooks.enable = mkOption {
+        description = "Enable audiobook file backup";
+        type = types.bool;
+        default = true;
+      };
+      metadata.enable = mkOption {
+        description = "Enable backup for audiobookshelf metadata files";
+        type = types.bool;
+        default = true;
+      };
+      healthchecksUrl = mkOption {
+        description = "Healthchecks endpoint for backup monitoring";
+        type = types.str;
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
