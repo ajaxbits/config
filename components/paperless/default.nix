@@ -87,13 +87,15 @@ in {
       rcloneoperators = {};
     };
 
-    systemd.services.paperless-backup-daily = mkIf cfg.backups.enable (
+    systemd.services.paperless-backup = mkIf cfg.backups.enable (
       let
         rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
         backup = pkgs.writeShellScript "paperless-backup" ''
           set -eux
           mkdir -p /tmp/paperless
-          ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless --zip
+          ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless \
+            --zip \
+            --split-manifest
           ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/*.zip
 
           ${pkgs.rclone}/bin/rclone sync \
@@ -116,9 +118,18 @@ in {
       in {
         script = "${backup}";
         serviceConfig = {User = config.services.paperless.user;};
-        startAt = "daily";
       }
     );
+
+    systemd.timers.paperless-backup = mkIf cfg.backups.enable {
+      description = "Run a paperless backup on a schedule";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnCalendar = "daily";
+        WakeSystem = true;
+        Persistent = true;
+      };
+    };
 
     age.secrets = {
       "paperless/admin-password" = {
