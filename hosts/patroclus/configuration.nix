@@ -13,7 +13,11 @@
   networking.firewall.enable = false;
 
   components = {
-    audiobookshelf.enable = true;
+    audiobookshelf = {
+      enable = true;
+      backups.enable = true;
+      backups.healthchecksUrl = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
+    };
     caddy = {
       enable = true;
       cloudflare.enable = true;
