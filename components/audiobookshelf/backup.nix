@@ -20,7 +20,7 @@ in {
               --checksum \
               --ignore-existing \
               --transfers=4 \
-              ${cfg.audiobooksDir} b2:b2-audiobookshelf-backup/audiobooks
+              ${cfg.audiobooksDir} b2:ajaxbits-audiobookshelf-backup/audiobooks
           ''
           ++ optional cfg.backups.metadata.enable ''
             ${pkgs.rclone}/bin/rclone sync \
@@ -29,7 +29,7 @@ in {
               --checksum \
               --ignore-existing \
               --transfers=4 \
-              ${cfg.configDir}/audiobookshelf/metadata/backups b2:b2-audiobookshelf-backup/backups
+              ${cfg.configDir}/audiobookshelf/metadata/backups b2:ajaxbits-audiobookshelf-backup/backups
           ''
           ++ optional (cfg.backups.healthchecksUrl != "") "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}")
       );
