@@ -20,7 +20,6 @@ in {
               --checksum \
               --ignore-existing \
               --transfers=4 \
-              --log-level=INFO \
               ${cfg.audiobooksDir} b2:ajaxbits-audiobookshelf-backup/audiobooks
           ''
           ++ optional cfg.backups.metadata.enable ''
@@ -30,7 +29,6 @@ in {
               --checksum \
               --ignore-existing \
               --transfers=4 \
-              --log-level=INFO \
               ${cfg.configDir}/audiobookshelf/metadata/backups b2:ajaxbits-audiobookshelf-backup/backups
           ''
           ++ optional (cfg.backups.healthchecksUrl != "") "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}")
