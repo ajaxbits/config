@@ -8,6 +8,8 @@
 
   cfg = config.components.audiobookshelf;
 in {
+  imports = [./backup.nix];
+
   options.components.audiobookshelf = with lib; {
     enable = mkEnableOption "Enable audiobookshelf component.";
     port = mkOption {
