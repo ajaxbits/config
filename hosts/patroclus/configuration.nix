@@ -3,6 +3,7 @@
     ./hardware-configuration.nix
   ];
 
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -22,7 +23,7 @@
       enable = true;
       cloudflare.enable = true;
     };
-    cd.enable = true;
+    cd.enable = false;
     ebooks.enable = true;
     filesystems = {
       bcachefs.enable = false;
