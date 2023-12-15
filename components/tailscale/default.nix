@@ -64,7 +64,7 @@ in {
       inherit authKeyFile;
       enable = true;
       package = pkgsUnstable.tailscale; # use latest for most updated featureset
-      permitCertUid = "root";
+      permitCertUid = mkIf config.services.caddy.enable config.services.caddy.user;
 
       extraUpFlags =
         [

@@ -13,7 +13,6 @@
   networking.firewall.enable = false;
 
   components = {
-    analytics.enable = true;
     audiobookshelf = {
       enable = true;
       backups.enable = true;
