@@ -43,7 +43,7 @@
       backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
     };
     tailscale = {
-      enable = true;
+      enable = false;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
       tags = ["ajax" "homelab" "nixos"];
       advertiseExitNode = true;
