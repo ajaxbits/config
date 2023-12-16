@@ -4,8 +4,10 @@
   lib,
   ...
 }:
-with lib;
-with builtins; let
+let
+  inherit (builtins) concatStringsSep toFile;
+  inherit (lib) mkEnableOption mkIf mkOption types;
+
   cfg = config.components.tailscale;
 in {
   options.components.tailscale = {
