@@ -19,7 +19,6 @@ in {
   config = {
     environment.systemPackages = import ./pkgs.nix pkgs;
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.tmp.cleanOnBoot = true;
 
     networking.domain = "ajax.casa";
