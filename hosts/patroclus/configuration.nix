@@ -15,7 +15,6 @@
   components = {
     audiobookshelf = {
       enable = true;
-      address = "0.0.0.0";
       backups.enable = true;
       backups.healthchecksUrl = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
     };
