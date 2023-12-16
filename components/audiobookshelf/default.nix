@@ -4,13 +4,14 @@
   pkgsUnstable,
   ...
 }: let
-  libationVersion = "11.0.4";
+  inherit (lib) mkEnableOption mkOption types;
 
   cfg = config.components.audiobookshelf;
+  libationVersion = "11.0.4";
 in {
   imports = [./backup.nix];
 
-  options.components.audiobookshelf = with lib; {
+  options.components.audiobookshelf = {
     enable = mkEnableOption "Enable audiobookshelf component.";
     port = mkOption {
       type = types.int;

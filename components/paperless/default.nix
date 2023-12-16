@@ -2,7 +2,6 @@
   config,
   lib,
   self,
-  pkgs,
   pkgsUnstable,
   ...
 }: let
@@ -10,9 +9,9 @@
   inherit (builtins) toString;
 
   cfg = config.components.paperless;
-
-  backupEncryptionPassword = "Baggage-Crisping-Gloating5"; # not a secret, only for cloud privacy
 in {
+  imports = [./backup.nix];
+
   options.components.paperless = {
     enable = mkEnableOption "Enable Paperless component";
     backups = {
@@ -78,57 +77,12 @@ in {
       paperless = {
         isSystemUser = true;
         group = "paperless";
-        extraGroups = ["documentsoperators" "rcloneoperators"];
+        extraGroups = ["documentsoperators"];
       };
     };
     users.groups = {
       paperless = {};
       documentsoperators = {};
-      rcloneoperators = {};
-    };
-
-    systemd.services.paperless-backup = mkIf cfg.backups.enable (
-      let
-        rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
-        backup = pkgs.writeShellScript "paperless-backup" ''
-          set -eux
-          mkdir -p /tmp/paperless
-          ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless \
-            --zip \
-            --split-manifest
-          ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/*.zip
-
-          ${pkgs.rclone}/bin/rclone sync \
-            --config ${rcloneConfigFile} \
-            --verbose \
-            /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
-          ${pkgs.rclone}/bin/rclone sync \
-            --config ${rcloneConfigFile} \
-            --verbose \
-            /tmp/paperless/paperlessExportEncrypted.zip b2-paperless-backups:paperless-backups
-
-          rm -rfv /tmp/paperless
-
-          ${(
-            if cfg.backups.healthchecksUrl != ""
-            then "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
-            else ""
-          )}
-        '';
-      in {
-        script = "${backup}";
-        serviceConfig = {User = config.services.paperless.user;};
-      }
-    );
-
-    systemd.timers.paperless-backup = mkIf cfg.backups.enable {
-      description = "Run a paperless backup on a schedule";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-        WakeSystem = true;
-        Persistent = true;
-      };
     };
 
     age.secrets = {
@@ -137,11 +91,6 @@ in {
         mode = "440";
         owner = config.users.users.paperless.name;
         inherit (config.users.users.paperless) group;
-      };
-      "rclone/rclone.conf" = mkIf cfg.backups.enable {
-        file = "${self}/secrets/rclone/rclone.conf.age";
-        mode = "440";
-        group = config.users.groups.rcloneoperators.name;
       };
     };
   };

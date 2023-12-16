@@ -3,10 +3,9 @@
   config,
   lib,
   ...
-}:
-let
+}: let
   inherit (builtins) concatStringsSep toFile;
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib) mkEnableOption mkIf mkOption optional optionalString types;
 
   cfg = config.components.tailscale;
 in {
@@ -54,14 +53,10 @@ in {
     services.tailscale = let
       authKeyFile = toFile "ts-authkey" cfg.initialAuthKey;
       tags =
-        if cfg.mullvad
-        then cfg.tags ++ ["mullvad"]
-        else cfg.tags;
+        cfg.tags
+        ++ optional cfg.mullvad "mullvad";
       tagsList = concatStringsSep "," (map (name: "tag:${name}") tags);
-      routes =
-        if (cfg.advertiseRoutes != [])
-        then (concatStringsSep "," cfg.advertiseRoutes)
-        else "";
+      routes = optionalString (cfg.advertiseRoutes != []) (concatStringsSep "," cfg.advertiseRoutes);
     in {
       inherit authKeyFile;
       enable = true;
@@ -78,16 +73,8 @@ in {
           "${tagsList}"
           "--ssh"
         ]
-        ++ (
-          if !cfg.acceptRoutes
-          then []
-          else ["--accept-routes"]
-        )
-        ++ (
-          if cfg.advertiseExitNode
-          then ["--advertise-exit-node"]
-          else []
-        );
+        ++ optional cfg.acceptRoutes "--accept-routes"
+        ++ optional cfg.advertiseExitNode "--advertise-exit-node";
 
       useRoutingFeatures = with cfg;
         if acceptRoutes && advertiseRoutes != []
@@ -107,11 +94,11 @@ in {
     # tests
     assertions = [
       {
-        assertion = !(cfg.advertiseExitNode && cfg.useExitNode != "");
+        assertion = cfg.enable -> !(cfg.advertiseExitNode && cfg.useExitNode != "");
         message = "advertiseExitNode and useExitNode cannot be both defined";
       }
       {
-        assertion = cfg.initialAuthKey != "";
+        assertion = cfg.enable -> cfg.initialAuthKey != "";
         message = "You must set a tailscale auth key for initial setup";
       }
     ];

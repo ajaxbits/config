@@ -3,12 +3,14 @@
   lib,
   ...
 }: let
+  inherit (lib) mkIf;
+
   cfg = config.components.ebooks;
   ebookDir = "/data/media/books";
 in {
   options.components.ebooks.enable = lib.mkEnableOption "Enable ebook server";
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.calibre-web = {
       enable = true;
       listen.ip =

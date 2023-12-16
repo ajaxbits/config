@@ -14,7 +14,10 @@ in {
         domain = "grafana.ajax.casa";
         protocol = "http";
         http_port = 2342;
-        http_addr = "127.0.0.1";
+        http_addr =
+          if config.components.caddy.enable
+          then "127.0.0.1"
+          else "0.0.0.0";
         enable_gzip = true; # recommended for perf, change if compat is bad
       };
       provision = {
