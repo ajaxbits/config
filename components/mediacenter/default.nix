@@ -4,8 +4,9 @@
   pkgs,
   pkgsUnstable,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkIf optionals;
+
   cfg = config.components.mediacenter;
 in {
   options.components.mediacenter = {
@@ -102,13 +103,7 @@ in {
     };
 
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
-    environment.systemPackages =
-      []
-      ++ (
-        if cfg.linux-isos.enable
-        then [pkgs.docker-compose pkgsUnstable.recyclarr]
-        else []
-      );
+    environment.systemPackages = optionals cfg.linux-isos.enable [pkgs.docker-compose pkgsUnstable.recyclarr];
 
     services.caddy = lib.mkIf config.components.caddy.enable {
       virtualHosts = let

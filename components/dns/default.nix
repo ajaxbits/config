@@ -2,9 +2,10 @@
   config,
   lib,
   ...
-}:
-with lib;
-with builtins; let
+}: let
+  inherit (builtins) toString;
+  inherit (lib) mkEnableOption mkIf optionals;
+
   cfg = config.components.dns;
 in {
   options.components.dns = {
@@ -62,19 +63,16 @@ in {
       };
     };
 
-    services.prometheus.scrapeConfigs =
-      if config.components.monitoring.enable
-      then [
-        {
-          job_name = "blocky";
-          static_configs = [
-            {
-              targets = ["127.0.0.1:${toString config.services.blocky.settings.ports.http}"];
-            }
-          ];
-        }
-      ]
-      else [];
+    services.prometheus.scrapeConfigs = optionals config.components.monitoring.enable [
+      {
+        job_name = "blocky";
+        static_configs = [
+          {
+            targets = ["127.0.0.1:${toString config.services.blocky.settings.ports.http}"];
+          }
+        ];
+      }
+    ];
 
     services.grafana.settings.panels = lib.mkIf config.components.monitoring.enable {
       disable_sanitize_html = true;
