@@ -14,7 +14,7 @@
   
   services.ntfy-sh.enable = true;
   services.ntfy-sh.settings.listen-unix = "/run/ntfy.sock";
-  services.ntfy-sh.settings.listen-unix-mode = "0777";
+  services.ntfy-sh.settings.listen-unix-mode = 777;
   services.ntfy-sh.settings.base-url = "https://ntfy.ajax.casa";
   services.caddy.virtualHosts."https://ntfy.ajax.casa".extraConfig = ''
         encode gzip zstd
