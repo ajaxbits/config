@@ -13,8 +13,13 @@
   networking.firewall.enable = false;
   
   services.ntfy-sh.enable = true;
-  services.ntfy-sh.settings.listen-unix = "/run/ntfy.sock";
-  services.ntfy-sh.settings.listen-unix-mode = 777;
+  services.ntfy-sh.settings.listen-http = "";
+  services.ntfy-sh.settings.listen-unix = "/run/ntfy-sh/ntfy.sock";
+  systemd.tmpfiles.rules = [
+    "d /run/ntfy-sh 0700 ntfy-sh ntfy-sh - -"
+    # "f ${cfg.settings.cache-file} 0600 ${cfg.user} ${cfg.group} - -"
+  ];
+  services.ntfy-sh.settings.listen-unix-mode = 700;
   services.ntfy-sh.settings.base-url = "https://ntfy.ajax.casa";
   services.caddy.virtualHosts."https://ntfy.ajax.casa".extraConfig = ''
         encode gzip zstd
