@@ -23,7 +23,7 @@
   services.ntfy-sh.settings.base-url = "https://ntfy.ajax.casa";
   services.caddy.virtualHosts."https://ntfy.ajax.casa".extraConfig = ''
         encode gzip zstd
-        reverse_proxy unix//run/ntfy.sock
+        reverse_proxy unix//run/ntfy-sh/ntfy.sock
         import cloudflare
       '';
   
