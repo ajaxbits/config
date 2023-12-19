@@ -2,6 +2,7 @@
   description = "NixOS configurations";
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
+    custom.url = "github:ajaxbits/nixpkgs/paperless213-settings";
     unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +27,7 @@
   outputs = {
     self,
     nixpkgs,
+    custom,
     unfree,
     unstable,
     flake-parts,
@@ -86,6 +88,10 @@
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
             "${self}/components"
+            {
+              disabledModules = ["${nixpkgs}/nixos/modules/services/misc/paperless.nix"];
+              imports = ["${custom}/nixos/modules/services/misc/paperless.nix"];
+            }
           ];
         };
 
