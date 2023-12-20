@@ -3,6 +3,7 @@
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
+    latest.url = "github:nixos/nixpkgs/master";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -26,6 +27,7 @@
   outputs = {
     self,
     nixpkgs,
+    latest,
     unfree,
     unstable,
     flake-parts,
@@ -62,6 +64,9 @@
             })
           ];
         };
+        pkgsLatest = import latest {
+          inherit system;
+        };
         pkgsUnfree = unfree.legacyPackages.${system};
         pkgsUnstable = unstable.legacyPackages.${system};
         deployPkgs = import nixpkgs {
@@ -81,7 +86,7 @@
       in {
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self lib pkgs pkgsUnstable pkgsUnfree;};
+          specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
           modules = [
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"

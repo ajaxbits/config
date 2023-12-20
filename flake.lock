@@ -138,6 +138,22 @@
         "type": "github"
       }
     },
+    "latest": {
+      "locked": {
+        "lastModified": 1703032144,
+        "narHash": "sha256-diY4uEfU/7JkTfzs7tKHt7K4MX/trzkVhqpN3rjemE4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "64121103ec8253dce1c285ffd2b1e35f0351fe30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1702453208,
@@ -208,6 +224,7 @@
         "caddy": "caddy",
         "deploy-rs": "deploy-rs",
         "flake-parts": "flake-parts",
+        "latest": "latest",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "unfree": "unfree",
