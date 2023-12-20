@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgsUnstable,
   ...
 }: let
   inherit (lib) mkForce mkIf optionalString;
@@ -10,7 +9,6 @@ in {
   config = mkIf cfg.enable {
     services.esphome = {
       enable = true;
-      package = pkgsUnstable.esphome;
       enableUnixSocket = config.components.caddy.enable;
     };
 
