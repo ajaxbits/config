@@ -35,7 +35,7 @@ in {
     };
     
     services.caddy.virtualHosts."https://esphome.ajax.casa".extraConfig = optionalString config.components.caddy.enable ''
-      reverse_proxy http://localhost:6052
+      reverse_proxy http://0.0.0.0:6052
       import cloudflare
     '';
   };
