@@ -18,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     virtualisation.oci-containers.containers.esphome = {
       image = "ghcr.io/esphome/esphome:${version}";
-      user = "esphome";
+      user = "root";
       volumes = ["/etc/localtime:/etc/localtime:ro" "/data/config/esphome:/config"];
     };
 
