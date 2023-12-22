@@ -23,7 +23,7 @@ in {
     };
 
     users.users = {
-      paperless = {
+      esphome = {
         isSystemUser = true;
         group = "esphome";
         extraGroups = ["configoperators"];
