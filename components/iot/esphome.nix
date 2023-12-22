@@ -20,6 +20,7 @@ in {
       image = "ghcr.io/esphome/esphome:${version}";
       user = "root";
       volumes = ["/etc/localtime:/etc/localtime:ro" "/data/config/esphome:/config"];
+      extraOptions = ["--network=host"];
     };
 
     users.users = {
