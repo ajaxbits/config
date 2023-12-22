@@ -13,27 +13,29 @@
     ;
 
   cfg = config.components.iot.esphome;
+  version = "2023.12.3";
 in {
   config = mkIf cfg.enable {
-    services.esphome = {
-      enable = true;
-      package = pkgsLatest.esphome;
-      enableUnixSocket = config.components.caddy.enable;
+    virtualisation.oci-containers.containers.esphome = {
+      image = "ghcr.io/esphome/esphome:${version}";
+      user = "esphome";
+      volumes = ["/etc/localtime:/etc/localtime:ro" "/data/config/esphome:/config"];
     };
 
-    systemd.services.esphome.serviceConfig =
-      {
-        ProtectHostname = mkForce false;
-        ProtectKernelLogs = mkForce false;
-        ProtectKernelTunables = mkForce false;
-        ProcSubset = "all";
-      }
-      // optionalAttrs config.components.caddy.enable {
-        RuntimeDirectoryMode = mkForce "0755";
+    users.users = {
+      paperless = {
+        isSystemUser = true;
+        group = "esphome";
+        extraGroups = ["configoperators"];
       };
-
+    };
+    users.groups = {
+      esphome = {};
+      configoperators = {};
+    };
+    
     services.caddy.virtualHosts."https://esphome.ajax.casa".extraConfig = optionalString config.components.caddy.enable ''
-      reverse_proxy unix//run/esphome/esphome.sock
+      reverse_proxy http://localhost:6052
       import cloudflare
     '';
   };
