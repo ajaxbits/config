@@ -12,20 +12,6 @@
 
   networking.firewall.enable = false;
 
-  services.ntfy-sh.enable = true;
-  services.ntfy-sh.settings.listen-http = "";
-  services.ntfy-sh.settings.listen-unix = "/run/ntfy-sh/ntfy.sock";
-  services.ntfy-sh.settings.base-url = "https://ntfy.ajax.casa";
-  systemd.services.ntfy-sh.serviceConfig = {
-    RuntimeDirectory = "ntfy-sh";
-    RuntimeDirectoryMode = "0755";
-  };
-  services.caddy.virtualHosts."https://ntfy.ajax.casa".extraConfig = ''
-    encode gzip zstd
-    reverse_proxy unix//run/ntfy-sh/ntfy.sock
-    import cloudflare
-  '';
-
   components = {
     audiobookshelf = {
       enable = true;
