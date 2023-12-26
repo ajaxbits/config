@@ -42,6 +42,7 @@ in {
         PAPERLESS_TIKA_ENABLED = "1";
         PAPERLESS_TIKA_ENDPOINT = "http://127.0.0.1:5551";
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
+        PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE = true;
       };
     };
 
