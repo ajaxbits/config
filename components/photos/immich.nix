@@ -9,6 +9,8 @@
   cfg = config.components.photos;
 
   version = "v1.91.4";
+  url = "https://photos.ajax.casa";
+  port = 2283;
 in {
   config = mkIf cfg.enable {
     # Runtime
@@ -163,7 +165,7 @@ in {
         "/etc/localtime:/etc/localtime:ro"
       ];
       ports = [
-        "2283:3001/tcp"
+        "127.0.0.1:${toString port}:3001/tcp"
       ];
       cmd = ["start.sh" "immich"];
       dependsOn = [
@@ -250,5 +252,12 @@ in {
     };
 
     age.secrets."immich/.env".file = "${self}/secrets/immich/.env.age";
+    services.caddy.virtualHosts."${url}" = lib.mkIf config.components.caddy.enable {
+      extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://127.0.0.1:${toString port}
+        import cloudflare
+      '';
+    };
   };
 }
