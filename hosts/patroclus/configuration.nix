@@ -42,6 +42,7 @@
       backups.enable = true;
       backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
     };
+    photos.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
