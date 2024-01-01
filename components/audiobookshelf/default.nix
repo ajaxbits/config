@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  pkgs,
   pkgsUnstable,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption types;
+  inherit (lib) mkEnableOption mkIf mkOption types;
 
   cfg = config.components.audiobookshelf;
   libationVersion = "11.0.4";
@@ -67,7 +68,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     systemd.services.audiobookshelf = {
       description = "Audiobookshelf";
       after = ["network.target"];
@@ -121,14 +122,14 @@ in {
         SystemCallErrorNumber = "EPERM";
       };
     };
-    users.users = lib.mkIf (cfg.user == "audiobookshelf") {
+    users.users = mkIf (cfg.user == "audiobookshelf") {
       audiobookshelf = {
         isSystemUser = true;
         group = "audiobookshelf";
         extraGroups = ["mediaoperators" "configoperators"];
       };
     };
-    users.groups = lib.mkIf (cfg.group == "audiobookshelf") {
+    users.groups = mkIf (cfg.group == "audiobookshelf") {
       audiobookshelf = {};
       mediaoperators = {};
       configoperators = {};
@@ -144,7 +145,29 @@ in {
       ];
     };
 
-    services.caddy.virtualHosts."https://audiobooks.ajax.casa" = lib.mkIf config.components.caddy.enable {
+    # FIXME: I know. This sux. I will learn what is actually happening one day.
+    systemd.services.libation-hack = let
+      script = ''
+        set -eux
+        ${pkgs.coreutils}/bin/chgrp -R mediaoperators ${cfg.audiobooksDir}
+        ${pkgs.coreutils}/bin/chmod -R g+rw ${cfg.audiobooksDir}
+      '';
+    in {
+      inherit script;
+      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+      serviceConfig.User = "root";
+    };
+    systemd.timers.libation-hack = {
+      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*:0/30";
+        WakeSystem = true;
+        Persistent = true;
+      };
+    };
+
+    services.caddy.virtualHosts."https://audiobooks.ajax.casa" = mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}

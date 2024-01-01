@@ -28,6 +28,7 @@
       bcachefs.enable = false;
       zfs.enable = true;
     };
+    iot.esphome.enable = true;
     mediacenter = {
       enable = true;
       intel.enable = true;
