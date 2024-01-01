@@ -8,7 +8,7 @@
   inherit (lib) mkIf mkOverride;
   cfg = config.components.photos;
 
-  version = "1.91.4";
+  version = "v1.91.4";
 in {
   config = mkIf cfg.enable {
     # Runtime
