@@ -29,11 +29,12 @@ in {
           enabledCollectors = ["systemd"];
           port = 9002;
         };
+        # TODO: bring under unifi networking umbrella
         unpoller = lib.mkIf cfg.networking.enable {
           enable = true;
           controllers = [
             {
-              url = "https://172.22.0.3:8443";
+              url = "https://wifi.ajax.casa";
               pass = config.age.secrets."prometheus/unpoller-pass".path;
               user = "unifipoller@example.com";
               verify_ssl = false;
