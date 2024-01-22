@@ -67,7 +67,7 @@ in {
         MEM_STARTUP = "1024";
         MONGO_AUTHSOURCE = "";
         MONGO_TLS = "";
-        TZ = "Etc/UTC";
+        TZ = "America/Chicago";
       };
       volumes = ["${unifiDir}:/config:rw"];
       ports = [
