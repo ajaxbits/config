@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOption types;
-  inherit (builtins) toString;
+  inherit (builtins) toJSON toString;
 
   cfg = config.components.paperless;
 in {
@@ -44,6 +44,9 @@ in {
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
         PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE = true;
         PAPERLESS_CONSUMER_ASN_BARCODE_PREFIX = "ZB";
+        PAPERLESS_OCR_USER_ARGS = toJSON {
+          invalidate_digital_signatures = true;
+        };
       };
     };
 
