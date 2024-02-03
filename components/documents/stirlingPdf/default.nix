@@ -70,7 +70,7 @@ in {
       extraConfig =
         ''
           encode gzip zstd
-          reverse_proxy http://127.0.0.1:${toString config.services.paperless.port}
+          reverse_proxy http://${internalAddress}
         ''
         + (
           if config.components.caddy.cloudflare.enable
