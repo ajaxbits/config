@@ -5,23 +5,12 @@
   pkgsUnstable,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+  inherit (lib) mkIf;
   inherit (builtins) toJSON toString;
 
-  cfg = config.components.paperless;
+  cfg = config.components.documents.paperless;
 in {
   imports = [./backup.nix];
-
-  options.components.paperless = {
-    enable = mkEnableOption "Enable Paperless component";
-    backups = {
-      enable = mkEnableOption "Enable backups for paperless documents";
-      healthchecksUrl = mkOption {
-        description = "Healthchecks endpoint for backup monitoring";
-        type = types.str;
-      };
-    };
-  };
 
   config = mkIf cfg.enable {
     services.paperless = {

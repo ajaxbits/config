@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf optionalString;
 
-  cfg = config.components.paperless;
+  cfg = config.components.documents.paperless;
 
   backupEncryptionPassword = "Baggage-Crisping-Gloating5"; # not a secret, only for cloud privacy
 in {
