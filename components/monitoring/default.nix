@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  pkgsJnsgruk,
+  ...
+}: let
   inherit (lib) mkEnableOption mkOption types;
 in {
   options.components.monitoring = {
@@ -23,6 +27,7 @@ in {
       default = true;
       description = "Enable network monitoring.";
     };
+    disk.enable = mkEnableOption "Enable detailed disk monitoring.";
   };
 
   imports = [
@@ -31,5 +36,7 @@ in {
     ./prometheus
     ./smokeping.nix
     ./uptimekuma.nix
+    ./scrutiny.nix
+    pkgsJnsgruk.nixosModules.scrutiny
   ];
 }

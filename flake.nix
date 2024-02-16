@@ -7,6 +7,9 @@
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
+    jnsgruk.url = "github:jnsgruk/nixos-config";
+    jnsgruk.inputs.nixpkgs.follows = "unstable";
+
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -62,6 +65,7 @@
             (_self: _super: {
               caddy-patched = caddy.packages.${system}.caddy;
             })
+            inputs.jnsgruk.overlays.additions
           ];
         };
         pkgsLatest = import latest {
@@ -69,6 +73,7 @@
         };
         pkgsUnfree = unfree.legacyPackages.${system};
         pkgsUnstable = unstable.legacyPackages.${system};
+        pkgsJnsgruk = inputs.jnsgruk;
         deployPkgs = import nixpkgs {
           inherit system;
           overlays = [
@@ -86,7 +91,7 @@
       in {
         nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
+          specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree pkgsJnsgruk;};
           modules = [
             "${self}/hosts/patroclus/configuration.nix"
             "${self}/common"
