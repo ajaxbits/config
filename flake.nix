@@ -10,7 +10,6 @@
     jnsgruk.url = "github:jnsgruk/nixos-config";
     jnsgruk.inputs.nixpkgs.follows = "unstable";
 
-
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
