@@ -1,19 +1,16 @@
 {
   config,
   lib,
-  pkgsLatest,
   ...
 }: let
   inherit
     (lib)
-    mkForce
     mkIf
-    optionalAttrs
     optionalString
     ;
 
   cfg = config.components.iot.esphome;
-  version = "2023.12.8";
+  version = "2024.2.0";
 in {
   config = mkIf cfg.enable {
     virtualisation.oci-containers.containers.esphome = {
