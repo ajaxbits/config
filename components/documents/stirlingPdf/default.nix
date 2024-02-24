@@ -7,7 +7,7 @@
   inherit (lib) mkIf mkOverride;
   cfg = config.components.documents.stirlingPdf;
 
-  version = "0.20.1";
+  version = "0.21.0";
   configDir = "/data/config/stirling-pdf/extraConfigs";
   internalPort = 8124;
   internalAddress =
