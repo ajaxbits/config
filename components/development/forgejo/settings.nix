@@ -9,7 +9,7 @@
     DOMAIN = domain;
     ROOT_URL = "https://${domain}";
     HTTP_PORT = 3333;
-    HTTP_HOST = "127.0.0.1";
+    HTTP_ADDR = "127.0.0.1";
     DISABLE_REGISTRATION = true;
   };
 }

@@ -29,7 +29,7 @@ in {
       extraConfig =
         ''
           encode gzip zstd
-          reverse_proxy ${config.services.forgejo.settings.server.ROOT_URL}
+          reverse_proxy http://${config.services.forgejo.settings.server.HTTP_ADDR}:${toString config.services.forgejo.settings.server.HTTP_PORT}
         ''
         + (
           if config.components.caddy.cloudflare.enable
