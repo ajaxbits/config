@@ -23,6 +23,7 @@
       cloudflare.enable = true;
     };
     cd.enable = true;
+    development.forge.enable = true;
     ebooks.enable = true;
     filesystems = {
       bcachefs.enable = false;
