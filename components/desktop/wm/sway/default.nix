@@ -131,7 +131,7 @@ in {
           inherit modifier;
 
           input."*" = {
-            xkb_options = "caps:swapescape";
+            xkb_options = "caps:escape";
           };
           input."1133:50184:Logitech_USB_Trackball" = {
             scroll_button = "276";
