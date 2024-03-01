@@ -87,10 +87,10 @@ in {
         bars.bottom = {
           blocks = [
             {
-	      block = "net";
-	      format = " $icon  $ip ";
-	      format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
-	    }
+              block = "net";
+              format = " $icon  $ip ";
+              format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
+            }
             {
               block = "disk_space";
               path = "/";
