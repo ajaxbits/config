@@ -10,7 +10,6 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -81,9 +80,6 @@
               "${self}/common"
               "${self}/components"
               home-manager.nixosModules.home-manager
-              {
-                home-manager.users.${user}.home.stateVersion = "23.11"; # TODO: make this programatic one day
-              }
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
@@ -93,9 +89,6 @@
               "${self}/common"
               "${self}/components"
               home-manager.nixosModules.home-manager
-              {
-                home-manager.users.${user}.home.stateVersion = "23.11"; # TODO: make this programatic one day
-              }
             ];
           };
         };

@@ -34,28 +34,28 @@ in {
             "browser.aboutConfig.showWarning" = false;
             "browser.shell.checkDefaultBrowser" = false;
           };
+          extensions = with pkgsNUR.nur.repos.rycee.firefox-addons; [
+            auto-tab-discard
+            bitwarden
+            bypass-paywalls-clean
+            clearurls
+            consent-o-matic
+            decentraleyes
+            facebook-container
+            gruvbox-dark-theme
+            i-dont-care-about-cookies
+            kagi-search
+            multi-account-containers
+            privacy-badger
+            privacy-possum
+            return-youtube-dislikes
+            snowflake
+            sponsorblock
+            temporary-containers
+            ublock-origin
+            vimium-c
+          ];
         };
-        extensions = with pkgsNUR.nur.repos.rycee.firefox-addons; [
-          auto-tab-discard
-          bitwarden
-          bypass-paywalls-clean
-          clearurls
-          consent-o-matic
-          decentraleyes
-          facebook-container
-          gruvbox-dark-theme
-          i-dont-care-about-cookies
-          kagi-search
-          multi-account-containers
-          privacy-badger
-          privacy-possum
-          return-youtube-dislikes
-          snowflake
-          sponsorblock
-          temporary-containers
-          ublock-origin
-          vimium-c
-        ];
       };
     };
   };
