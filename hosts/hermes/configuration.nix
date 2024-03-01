@@ -24,6 +24,7 @@
   components = {
     desktop = {
       wm.sway.enable = true;
+      browser.firefox.enable = true;
     };
     cd.enable = true;
     tailscale = {
