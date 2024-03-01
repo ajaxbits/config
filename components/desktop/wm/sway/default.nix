@@ -81,7 +81,49 @@ in {
       fontDir.enable = true;
     };
 
-    home-manager.users.${user} = {...}: {
+    home-manager.users.${user} = {config, ...}: {
+      programs.i3status-rust = {
+        enable = true;
+        bars.bottom = {
+          blocks = [
+            {
+	      block = "net";
+	      format = " $icon  $ip ";
+	      format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
+	    }
+            {
+              block = "disk_space";
+              path = "/";
+              info_type = "available";
+              interval = 60;
+              warning = 20.0;
+              alert = 10.0;
+            }
+            {
+              block = "memory";
+              format = " $icon $mem_used_percents ";
+            }
+            {
+              block = "cpu";
+              interval = 1;
+            }
+            {block = "sound";}
+            {block = "backlight";}
+            {
+              block = "time";
+              interval = 60;
+              format = " $timestamp.datetime(f:'%a %d/%m %R') ";
+            }
+          ];
+          settings = {
+            theme = {
+              theme = "gruvbox-dark";
+            };
+          };
+          icons = "awesome5";
+          theme = "gruvbox-dark";
+        };
+      };
       wayland.windowManager.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
@@ -252,7 +294,7 @@ in {
           };
 
           bars = [
-            {
+            rec {
               position = "bottom";
 
               fonts = {
@@ -260,7 +302,7 @@ in {
                 size = 10.0;
               };
 
-              # statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
+              statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${config.xdg.configHome}/i3status-rust/config-${position}.toml";
 
               colors = {
                 background = "#1d2021";
