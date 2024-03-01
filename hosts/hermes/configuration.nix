@@ -20,8 +20,8 @@
     };
     cd.enable = true;
     tailscale = {
-      enable = false;
-      initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
+      enable = true;
+      initialAuthKey = "tskey-auth-k5VoMt2CNTRL-C4sAH3gN4u596AcSmBdwz5ZDXZnX1vHM";
       tags = ["ajax" "nixos"];
       advertiseExitNode = false;
     };
