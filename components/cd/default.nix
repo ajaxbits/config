@@ -10,12 +10,12 @@ in {
   options.components.cd.enable = lib.mkEnableOption "Enable CI/CD through Garnix";
 
   config = lib.mkIf cfg.enable {
-    nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
+    # nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
 
     system.autoUpgrade = {
       enable = true;
 
-      flake = "github:${repo}#${config.networking.hostName}";
+      flake = "github:${repo}/init-laptop#${config.networking.hostName}";
 
       dates = "minutely";
       flags = [
@@ -36,6 +36,6 @@ in {
       };
     };
 
-    age.secrets."garnix/github-access-token".file = "${self}/secrets/garnix/github-access-token.age";
+    # age.secrets."garnix/github-access-token".file = "${self}/secrets/garnix/github-access-token.age";
   };
 }
