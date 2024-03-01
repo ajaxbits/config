@@ -33,6 +33,7 @@ in {
             "browser.uidensity" = 1;
             "browser.aboutConfig.showWarning" = false;
             "browser.shell.checkDefaultBrowser" = false;
+            "browser.fullscreen.autohide" = false;
           };
           extensions = with pkgsNUR.nur.repos.rycee.firefox-addons; [
             auto-tab-discard
@@ -49,7 +50,6 @@ in {
             privacy-badger
             privacy-possum
             return-youtube-dislikes
-            snowflake
             sponsorblock
             temporary-containers
             ublock-origin
