@@ -8,6 +8,7 @@
       "nixtrash" = "nix-collect-garbage -d";
       "dnixtrash" = "sudo nix-collect-garbage -d";
       "lg" = "${pkgs.lazygit}/bin/lazygit";
+      "v" = "nvim";
     };
 
     shellAliases = {

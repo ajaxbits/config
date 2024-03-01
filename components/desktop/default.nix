@@ -13,8 +13,9 @@ in {
   options.components.desktop.enable = mkEnableOption "Enable desktop features.";
 
   imports = [
-    ./wm/sway
-    ./browser/firefox
+    ./browser
+    ./terminal
+    ./wm
   ];
 
 

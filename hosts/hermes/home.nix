@@ -65,5 +65,11 @@
     enable = true;
     extraConfig = "set selection-clipboard clipboard";
   };
-  programs.lazygit.settings.os.openLinkCommand = "${pkgs.firefox}/bin/firefox {{link}} >/dev/null";
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      notARepository = "skip";
+      os.openLinkCommand = "${pkgs.firefox}/bin/firefox {{link}} >/dev/null";
+    };
+  };
 }
