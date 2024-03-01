@@ -2,12 +2,12 @@
 let
   agamemnon = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCc1d8GMX5g84ZFflg8YWJ7rqUlLzVBrc2ENvUqNEGs";
   patroclus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGUxl2SlkRLPnP/OgLd5jn0BGasYtNrgZ2YNP1rPIFnA";
-  ajax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1HH8/qgcU63wichBiB5nvSv0+9B9xxWdy2AYQr3oyr";
+  odysseus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHVURjOpHel+KZ7NfN3OuXYhu7kGNb7bfq27yJzL6og9";
   aphrodite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
-  writers = [ajax aphrodite];
+  writers = [aphrodite];
 
-  allKeys = [agamemnon ajax aphrodite patroclus];
+  allKeys = [agamemnon odysseus aphrodite patroclus];
 in {
   # users
   "users/adminPass.age".publicKeys = allKeys;
