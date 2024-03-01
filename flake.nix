@@ -10,8 +10,9 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    deploy-rs.url = "github:serokell/deploy-rs";
     agenix = {
       url = "https://flakehub.com/f/ryantm/agenix/0.14.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +32,7 @@
     unfree,
     unstable,
     flake-parts,
-    deploy-rs,
+    home-manager,
     agenix,
     nixos-hardware, # deadnix: skip
     caddy,
@@ -47,7 +48,6 @@
         devShells.default = pkgs.mkShell {
           packages = [
             pkgs.bashInteractive
-            deploy-rs.packages.${system}.default
             agenix.packages.${system}.default
           ];
         };
@@ -55,6 +55,8 @@
     }
     // (
       let
+        inherit (pkgs) lib;
+
         system = "x86_64-linux";
         pkgs = import nixpkgs {
           inherit system;
@@ -69,43 +71,29 @@
         };
         pkgsUnfree = unfree.legacyPackages.${system};
         pkgsUnstable = unstable.legacyPackages.${system};
-        deployPkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            deploy-rs.overlay
-            (_self: super: {
-              deploy-rs = {
-                inherit (pkgs) deploy-rs;
-                inherit (super.deploy-rs) lib;
-              };
-            })
-          ];
-        };
-
-        inherit (pkgs) lib;
       in {
-        nixosConfigurations.patroclus = nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
-          modules = [
-            "${self}/hosts/patroclus/configuration.nix"
-            "${self}/common"
-            "${self}/components"
-          ];
-        };
-
-        deploy.nodes.patroclus = {
-          hostname = "patroclus";
-          fastConnection = true;
-          profiles.system = {
-            sshUser = "root";
-            user = "root";
-            path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.patroclus;
+        nixosConfigurations = {
+          patroclus = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
+            modules = [
+              "${self}/hosts/patroclus/configuration.nix"
+              "${self}/common"
+              "${self}/components"
+              home-manager.nixosModules.home-manager
+            ];
+          };
+          odysseus = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
+            modules = [
+              "${self}/hosts/odysseus/configuration.nix"
+              "${self}/common"
+              "${self}/components"
+              home-manager.nixosModules.home-manager
+            ];
           };
         };
-
-        # This is highly advised, and will prevent many possible mistakes
-        checks = builtins.mapAttrs (_system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
       }
     );
 
