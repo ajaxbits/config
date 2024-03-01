@@ -18,12 +18,9 @@
     desktop = {
       wm.sway.enable = true;
     };
-    filesystems = {
-      bcachefs.enable = false;
-      zfs.enable = true;
-    };
+    cd.enable = true;
     tailscale = {
-      enable = true;
+      enable = false;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
       tags = ["ajax" "nixos"];
       advertiseExitNode = false;
