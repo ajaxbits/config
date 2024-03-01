@@ -10,6 +10,8 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.url = "github:nix-community/NUR";
+    neovim.url = "github:ajaxbits/neovim-flake";
+    neovim.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -35,6 +37,7 @@
     unstable,
     flake-parts,
     home-manager,
+    neovim,
     nur,
     agenix,
     nixos-hardware, # deadnix: skip

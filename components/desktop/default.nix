@@ -1,11 +1,14 @@
 {
   config,
   lib,
+  overlays,
   user,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.components.desktop.wm.sway;
+  pkgsNeovim = pkgs.extend (overlays.neovim);
 in {
   options.components.desktop.enable = mkEnableOption "Enable desktop features.";
 
@@ -14,7 +17,10 @@ in {
     ./browser/firefox
   ];
 
+
   config = mkIf cfg.enable {
+    environment.systemPackages = [pkgsNeovim.neovim-full];
+
     home-manager.useGlobalPkgs = true;
 
     home-manager.useUserPackages = true;
