@@ -49,6 +49,7 @@
   };
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.bluetooth.enable = true;
 
   services.fstrim.enable = true;
   services.fstrim.interval = "daily";
