@@ -7,7 +7,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.plymouth.enable = true;
 
-  networking.hostName = "odysseus";
+  networking.hostName = "hermes";
   networking.hostId = "b7d14532";
   networking.networkmanager.enable = true;
   systemd.services.NetworkManager-wait-online.enable = false; #TODO this is a bugfix, evaluate later

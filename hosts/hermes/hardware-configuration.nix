@@ -53,7 +53,7 @@
   services.fstrim.enable = true;
   services.fstrim.interval = "daily";
 
-  swapDevices = [{device = "/dev/disk/by-uuid/67d23b95-2958-4875-84dc-e5800f278609";}];
+  swapDevices = [{device = "/dev/disk/by-label/swap";}];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }

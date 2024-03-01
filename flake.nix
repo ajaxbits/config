@@ -84,11 +84,11 @@
               home-manager.nixosModules.home-manager
             ];
           };
-          odysseus = nixpkgs.lib.nixosSystem {
+          hermes = nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
             modules = [
-              "${self}/hosts/odysseus/configuration.nix"
+              "${self}/hosts/hermes/configuration.nix"
               "${self}/common"
               "${self}/components"
               home-manager.nixosModules.home-manager
