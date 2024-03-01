@@ -91,7 +91,6 @@
               "${self}/common"
               "${self}/components"
               home-manager.nixosModules.home-manager
-              (nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
             ];
           };
         };
