@@ -2,11 +2,14 @@
   pkgs,
   lib,
   config,
+  overlays,
   user,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOptionDefault;
   fs = lib.fileset;
+
+  comic-code = (pkgs.extend (overlays.comic-code)).comic-code;
 
   cfg = config.components.desktop.wm.sway;
 
@@ -70,6 +73,7 @@ in {
     fonts = {
       packages = with pkgs; [
         atkinson-hyperlegible
+        comic-code
         font-awesome
         (nerdfonts.override {fonts = ["Iosevka"];})
       ];
@@ -87,10 +91,10 @@ in {
         bars.bottom = {
           blocks = [
             {
-	      block = "net";
-	      format = " $icon  $ip ";
-	      format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
-	    }
+              block = "net";
+              format = " $icon  $ip ";
+              format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
+            }
             {
               block = "disk_space";
               path = "/";
@@ -289,7 +293,7 @@ in {
           };
 
           fonts = {
-            names = ["Atkinson Hyperlegible" "Iosevka Nerd Font"];
+            names = ["Atkinson Hyperlegible" "ComicCodeLigatures Nerd Font" "Iosevka Nerd Font"];
             size = 10.0;
           };
 

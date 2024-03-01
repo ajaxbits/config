@@ -10,8 +10,6 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.url = "github:nix-community/NUR";
-    neovim.url = "github:ajaxbits/neovim-flake";
-    neovim.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -27,6 +25,12 @@
       url = "github:ajaxbits/nixos-caddy-patched";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    comic-code = {
+      url = "github:ajaxbits/comic-code";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim.url = "github:ajaxbits/neovim-flake";
+    neovim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -37,6 +41,7 @@
     unstable,
     flake-parts,
     home-manager,
+    comic-code,
     neovim,
     nur,
     agenix,
