@@ -14,6 +14,13 @@
 
   networking.firewall.enable = false;
 
+  services.nextdns = {
+    enable = true;
+    arguments = [
+      "-config"
+      "b698e3"
+    ];
+  };
   components = {
     desktop = {
       wm.sway.enable = true;
