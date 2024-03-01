@@ -31,7 +31,7 @@
     "fs.inotify.max_user_watches" = "1048576";
   };
   boot.kernelParams = ["acpi_rev_override=1"];
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   environment.systemPackages = [
     pkgs.libsmbios

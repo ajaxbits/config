@@ -67,7 +67,7 @@ in {
 
     # Enable fonts
     fonts = {
-      fonts = with pkgs; [
+      packages = with pkgs; [
         font-awesome
         (nerdfonts.override {fonts = ["Iosevka"];})
       ];
@@ -317,7 +317,7 @@ in {
       # };
 
       # Notifications
-      programs.mako = {
+      services.mako = {
         enable = true;
         anchor = "bottom-right";
         backgroundColor = colors.normal_black;
