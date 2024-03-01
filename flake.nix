@@ -9,6 +9,8 @@
 
     home-manager.url = "github:nix-community/home-manager/release-23.11"; 
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nur.url = "github:nix-community/NUR";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -34,6 +36,7 @@
     unstable,
     flake-parts,
     home-manager,
+    nur,
     agenix,
     nixos-hardware, # deadnix: skip
     caddy,
@@ -65,6 +68,7 @@
             (_self: _super: {
               caddy-patched = caddy.packages.${system}.caddy;
             })
+            nur.overlay
           ];
         };
         pkgsLatest = import latest {
