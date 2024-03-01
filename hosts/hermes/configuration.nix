@@ -1,4 +1,4 @@
-{
+{user, ...}: {
   imports = [
     ./hardware-configuration.nix
   ];
@@ -23,6 +23,7 @@
   };
   components = {
     desktop = {
+      enable = true;
       wm.sway.enable = true;
       browser.firefox.enable = true;
     };
@@ -35,14 +36,8 @@
     };
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.backupFileExtension = "bkup";
-  home-manager.users.admin = {...}: {
+  home-manager.users.${user} = {...}: {
     imports = [./home.nix];
-
-    programs.home-manager.enable = true;
-    home.enableNixpkgsReleaseCheck = true;
   };
 
   # This value determines the NixOS release from which the default

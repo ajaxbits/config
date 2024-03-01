@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  user,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOptionDefault;
@@ -68,6 +69,7 @@ in {
     # Enable fonts
     fonts = {
       packages = with pkgs; [
+        atkinson-hyperlegible
         font-awesome
         (nerdfonts.override {fonts = ["Iosevka"];})
       ];
@@ -79,7 +81,7 @@ in {
       fontDir.enable = true;
     };
 
-    home-manager.users.admin = {...}: {
+    home-manager.users.${user} = {...}: {
       wayland.windowManager.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
@@ -109,12 +111,11 @@ in {
           output."*".bg = "${wallpaper} fill";
 
           startup = [
-            # {command = "mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | ${pkgs.wob}/bin/wob";}
+            {command = "mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | ${pkgs.wob}/bin/wob";}
             {command = "${pkgs.mako}/bin/mako";}
-            # {command = "${pkgs.autotiling}/bin/autotiling";}
-            # {command = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store";}
-            # {command = "${pkgs.wl-clipboard}/bin/wl-paste -p -t text --watch ${pkgs.clipman}/bin/clipman store -P --histpath='~/.local/share/clipman-primary.json'";}
-            # {command = "${pkgs.gammastep}/bin/gammastep -l 41.881832:-87.623177";}
+            {command = "${pkgs.autotiling}/bin/autotiling";}
+            {command = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store";}
+            {command = "${pkgs.wl-clipboard}/bin/wl-paste -p -t text --watch ${pkgs.clipman}/bin/clipman store -P --histpath='~/.local/share/clipman-primary.json'";}
           ];
 
           window.titlebar = false;
@@ -246,75 +247,75 @@ in {
           };
 
           fonts = {
-            names = ["Iosevka Nerd Font"];
+            names = ["Atkinson Hyperlegible" "Iosevka Nerd Font"];
             size = 10.0;
           };
 
-          # bars = [
-          #   {
-          #     position = "bottom";
+          bars = [
+            {
+              position = "bottom";
 
-          #     fonts = {
-          #       names = ["Iosevka Nerd Font"];
-          #       size = 10.0;
-          #     };
+              fonts = {
+                names = ["Atkinson Hyperlegible"];
+                size = 10.0;
+              };
 
-          #     statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
+              # statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.config/i3status-rust/config-default.toml";
 
-          #     colors = {
-          #       background = "#1d2021";
-          #       inactiveWorkspace = {
-          #         background = "#282828";
-          #         border = "#282828";
-          #         text = "#ebdbb2";
-          #       };
-          #       activeWorkspace = {
-          #         background = "#282828";
-          #         border = "#282828";
-          #         text = "#ebdbb2";
-          #       };
-          #       focusedWorkspace = {
-          #         background = "#83a598";
-          #         border = "#83a598";
-          #         text = "#282828";
-          #       };
-          #       urgentWorkspace = {
-          #         background = "#cc241d";
-          #         border = "#cc241d";
-          #         text = "#282828";
-          #       };
-          #     };
-          #   }
-          # ];
+              colors = {
+                background = "#1d2021";
+                inactiveWorkspace = {
+                  background = "#282828";
+                  border = "#282828";
+                  text = "#ebdbb2";
+                };
+                activeWorkspace = {
+                  background = "#282828";
+                  border = "#282828";
+                  text = "#ebdbb2";
+                };
+                focusedWorkspace = {
+                  background = "#83a598";
+                  border = "#83a598";
+                  text = "#282828";
+                };
+                urgentWorkspace = {
+                  background = "#cc241d";
+                  border = "#cc241d";
+                  text = "#282828";
+                };
+              };
+            }
+          ];
 
           gaps.smartBorders = "on";
         };
       };
 
       # Lock Screen
-      # services.swayidle = with pkgs; {
-      #   events = [
-      #     {
-      #       event = "before-sleep";
-      #       command = lock-command;
-      #     }
-      #     {
-      #       event = "lock";
-      #       command = lock-command;
-      #     }
-      #   ];
-      #   timeouts = [
-      #     {
-      #       timeout = 330;
-      #       command = lock-command;
-      #     }
-      #     {
-      #       timeout = 330;
-      #       command = "${sway}/bin/swaymsg 'output * dpms off'";
-      #       resumeCommand = "${sway}/bin/swaymsg 'output * dpms on'";
-      #     }
-      #   ];
-      # };
+      services.swayidle = with pkgs; {
+        events = [
+          {
+            event = "before-sleep";
+            command = lock-command;
+          }
+          {
+            event = "lock";
+            command = lock-command;
+          }
+        ];
+        timeouts = [
+          {
+            timeout = 330;
+            command = lock-command;
+          }
+          {
+            timeout = 330;
+            command = "${sway}/bin/swaymsg 'output * dpms off'";
+            resumeCommand = "${sway}/bin/swaymsg 'output * dpms on'";
+          }
+        ];
+      };
 
       # Notifications
       services.mako = {

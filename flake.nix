@@ -7,10 +7,9 @@
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-23.11"; 
+    home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nur.url = "github:nix-community/NUR";
-    nur.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -62,25 +61,20 @@
         inherit (pkgs) lib;
 
         system = "x86_64-linux";
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (_self: _super: {
-              caddy-patched = caddy.packages.${system}.caddy;
-            })
-            nur.overlay
-          ];
-        };
-        pkgsLatest = import latest {
-          inherit system;
-        };
+        user = "admin";
+
+        pkgs = import nixpkgs {inherit system;};
+        pkgsLatest = import latest {inherit system;};
         pkgsUnfree = unfree.legacyPackages.${system};
         pkgsUnstable = unstable.legacyPackages.${system};
+
+        overlays = import ./overlays.nix {inherit inputs system;};
+
+        specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree overlays user;};
       in {
         nixosConfigurations = {
           patroclus = nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
+            inherit specialArgs system;
             modules = [
               "${self}/hosts/patroclus/configuration.nix"
               "${self}/common"
@@ -89,8 +83,7 @@
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree;};
+            inherit specialArgs system;
             modules = [
               "${self}/hosts/hermes/configuration.nix"
               "${self}/common"
