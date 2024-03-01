@@ -3,11 +3,14 @@
   config,
   lib,
   pkgs,
+  overlays,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkMerge;
 
   cfg = config.components.caddy;
+
+  pkgsCaddyPatched = pkgs.extend (overlays.caddy);
 
   monitorConfig = mkIf (cfg.enable && config.components.monitoring.enable) {
     services.caddy.globalConfig = ''
@@ -36,7 +39,7 @@ in {
     {services.caddy.enable = cfg.enable;}
     (mkIf cfg.cloudflare.enable {
       services.caddy = {
-        package = pkgs.caddy-patched;
+        package = pkgsCaddyPatched.caddy-patched;
         extraConfig = ''
           (cloudflare) {
             tls {

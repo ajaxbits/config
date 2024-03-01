@@ -2,13 +2,14 @@
   self,
   config,
   pkgs,
+  user,
   ...
 }: {
   users.mutableUsers =
     false;
   users.defaultUserShell =
     pkgs.fish;
-  users.users.admin = {
+  users.users.${user} = {
     uid = 1000;
     description = "admin user";
     isNormalUser = true;
@@ -23,7 +24,7 @@
   };
   security.sudo.extraRules = [
     {
-      users = ["admin"];
+      users = [user];
       commands = [
         {
           command = "ALL";
@@ -32,7 +33,7 @@
       ];
     }
   ];
-  nix.settings.trusted-users = ["admin"];
+  nix.settings.trusted-users = [user];
 
   age.secrets = {
     "users/adminPass" = {
