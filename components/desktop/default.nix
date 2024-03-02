@@ -16,8 +16,9 @@ in {
     ./browser
     ./terminal
     ./wm
-  ];
 
+    ./bluetooth.nix
+  ];
 
   config = mkIf cfg.enable {
     environment.systemPackages = [pkgsNeovim.neovim-full];

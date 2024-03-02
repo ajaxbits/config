@@ -15,7 +15,6 @@
 
   networking.firewall.enable = false;
 
-  services.blueman.enable = true;
   services.nextdns = {
     enable = true;
     arguments = [
