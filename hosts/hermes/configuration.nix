@@ -1,5 +1,6 @@
 {user, ...}: {
   imports = [
+    ./tlp.nix
     ./hardware-configuration.nix
   ];
 
