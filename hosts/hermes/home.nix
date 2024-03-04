@@ -1,9 +1,11 @@
 {
   user,
   pkgs,
-  lib,
+  overlays,
   ...
-}: {
+}: let
+  neovimPkgs = pkgs.extend (overlays.neovim);
+in {
   manual.html.enable = true;
   programs.man.enable = true;
 
@@ -31,6 +33,8 @@
   home.homeDirectory = "/home/${user}";
 
   home.packages = with pkgs; [
+    neovimPkgs.neovim
+
     # CLI tools
     bottom
     feh

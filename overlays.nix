@@ -7,7 +7,7 @@
     caddy-patched = inputs.caddy.packages.${system}.caddy;
   };
   neovim = _self: _super: {
-    neovim-full = inputs.neovim.packages.${system}.default;
+    neovim = inputs.neovim.packages.${system}.default;
   };
   nur = inputs.nur.overlay;
 }
