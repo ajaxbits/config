@@ -70,7 +70,6 @@ in {
     fonts = {
       packages = with pkgs; [
         atkinson-hyperlegible
-        font-awesome
         (nerdfonts.override {fonts = ["Iosevka"];})
       ];
       fontconfig = {
@@ -121,7 +120,7 @@ in {
               theme = "gruvbox-dark";
             };
           };
-          icons = "awesome5";
+          icons = "emoji";
           theme = "gruvbox-dark";
         };
       };
