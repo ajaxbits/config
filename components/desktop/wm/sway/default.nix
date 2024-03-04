@@ -109,10 +109,11 @@ in {
             }
             {block = "sound";}
             {block = "backlight";}
+            {block = "battery";}
             {
               block = "time";
               interval = 60;
-              format = " $timestamp.datetime(f:'%a %d/%m %R') ";
+              format = " $timestamp.datetime(f:'%a %d/%m %r') ";
             }
           ];
           settings = {
