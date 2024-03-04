@@ -113,7 +113,7 @@ in {
             {
               block = "time";
               interval = 60;
-              format = " $timestamp.datetime(f:'%a %d/%m %r') ";
+              format = " $timestamp.datetime(f:'%a %d/%m %I:%M %p') ";
             }
           ];
           settings = {
