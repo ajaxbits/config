@@ -5,12 +5,12 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "patroclus";
-  networking.hostId = "a7d14532";
-  networking.networkmanager.enable = true;
-
-  networking.firewall.enable = false;
+  networking = {
+    hostName = "patroclus";
+    hostId = "a7d14532";
+    networkmanager.enable = true;
+    firewall.enable = false;
+  };
 
   components = {
     audiobookshelf = {
@@ -47,6 +47,7 @@
       stirlingPdf.enable = true;
     };
     photos.enable = true;
+    productivity.todo.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
