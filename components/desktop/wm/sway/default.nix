@@ -81,48 +81,69 @@ in {
     };
 
     home-manager.users.${user} = {config, ...}: {
-      programs.i3status-rust = {
-        enable = true;
-        bars.bottom = {
-          blocks = [
-            {
-              block = "net";
-              format = " $icon  $ip ";
-              format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
-            }
-            {
-              block = "disk_space";
-              path = "/";
-              info_type = "available";
-              interval = 60;
-              warning = 20.0;
-              alert = 10.0;
-            }
-            {
-              block = "memory";
-              format = " $icon $mem_used_percents ";
-            }
-            {
-              block = "cpu";
-              interval = 1;
-            }
-            {block = "sound";}
-            {block = "backlight";}
-            {block = "battery";}
-            {
-              block = "time";
-              interval = 60;
-              format = " $timestamp.datetime(f:'%a %d/%m %I:%M %p') ";
-            }
-          ];
-          settings = {
-            theme = {
-              theme = "gruvbox-dark";
+      programs = {
+        i3status-rust = {
+          enable = true;
+          bars.bottom = {
+            blocks = [
+              {
+                block = "net";
+                format = " $icon  $ip ";
+                format_alt = " $icon ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K) ";
+              }
+              {
+                block = "disk_space";
+                path = "/";
+                info_type = "available";
+                interval = 60;
+                warning = 20.0;
+                alert = 10.0;
+              }
+              {
+                block = "memory";
+                format = " $icon $mem_used_percents ";
+              }
+              {block = "sound";}
+              {block = "backlight";}
+              {block = "battery";}
+              {
+                block = "time";
+                interval = 60;
+                format = " $timestamp.datetime(f:'%a %d/%m %I:%M %p') ";
+              }
+            ];
+            settings = {
+              theme = {
+                theme = "gruvbox-dark";
+              };
             };
+            icons = "emoji";
+            theme = "gruvbox-dark";
           };
-          icons = "emoji";
-          theme = "gruvbox-dark";
         };
+
+        # Auto log-in
+        fish.loginShellInit =
+          lib.mkBefore
+          ''
+            if test (tty) = /dev/tty1
+              exec sway &> /dev/null
+            end
+          '';
+        bash.profileExtra =
+          lib.mkBefore
+          ''
+            if [[ "$(tty)" == /dev/tty1 ]]; then
+              exec sway &> /dev/null
+            fi
+          '';
+        zsh.loginExtra =
+          lib.mkBefore
+          ''
+            if [[ "$(tty)" == /dev/tty1 ]]; then
+              exec sway &> /dev/null
+            fi
+          '';
       };
       wayland.windowManager.sway = {
         enable = true;
@@ -371,29 +392,6 @@ in {
         margin = "16";
         padding = "8";
       };
-
-      # Auto log-in
-      programs.fish.loginShellInit =
-        lib.mkBefore
-        ''
-          if test (tty) = /dev/tty1
-            exec sway &> /dev/null
-          end
-        '';
-      programs.bash.profileExtra =
-        lib.mkBefore
-        ''
-          if [[ "$(tty)" == /dev/tty1 ]]; then
-            exec sway &> /dev/null
-          fi
-        '';
-      programs.zsh.loginExtra =
-        lib.mkBefore
-        ''
-          if [[ "$(tty)" == /dev/tty1 ]]; then
-            exec sway &> /dev/null
-          fi
-        '';
 
       # Misc
       home.sessionVariables = {
