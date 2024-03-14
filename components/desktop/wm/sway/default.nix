@@ -217,7 +217,13 @@ in {
               # Special Stuff
               "${super}+Delete" = "mode 'System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown'";
               "${super}+v" = "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
-              # "${super}+period" = "exec launch-rofimoji";
+              "${super}+period" = let
+                packagePath = package: "${pkgs.${package}}/bin/${package}";
+              in ''
+                exec BEMOJI_PICKER_CMD=${packagePath "wmenu"} \
+                    BEMOJI_TYPE_CMD=${packagePath "wtype"} \
+                    ${packagePath "bemoji"} -t
+              '';
               "Print" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify save area";
               "Shift+Print" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area";
             };
