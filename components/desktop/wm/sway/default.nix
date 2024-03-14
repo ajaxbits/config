@@ -177,8 +177,7 @@ in {
             {command = "mkfifo $SWAYSOCK.wob && tail -f $SWAYSOCK.wob | ${pkgs.wob}/bin/wob";}
             {command = "${pkgs.mako}/bin/mako";}
             {command = "${pkgs.autotiling}/bin/autotiling";}
-            {command = "${pkgs.wl-clipboard}/bin/wl-paste -t text --watch ${pkgs.clipman}/bin/clipman store";}
-            {command = "${pkgs.wl-clipboard}/bin/wl-paste -p -t text --watch ${pkgs.clipman}/bin/clipman store -P --histpath='~/.local/share/clipman-primary.json'";}
+            {command = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store";}
           ];
 
           window.titlebar = false;
@@ -217,7 +216,7 @@ in {
 
               # Special Stuff
               "${super}+Delete" = "mode 'System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown'";
-              # "${super}+v" = "exec ${pkgs.clipman}/bin/clipman pick -t wofi";
+              "${super}+v" = "exec ${pkgs.cliphist}/bin/cliphist list | ${pkgs.wmenu}/bin/wmenu | ${pkgs.cliphist}/bin/cliphist decode | ${pkgs.wl-clipboard}/bin/wl-copy";
               # "${super}+period" = "exec launch-rofimoji";
               "Print" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify save area";
               "Shift+Print" = "exec ${pkgs.sway-contrib.grimshot}/bin/grimshot --notify copy area";
