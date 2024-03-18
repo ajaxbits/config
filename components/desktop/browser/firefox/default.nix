@@ -50,7 +50,6 @@ in {
             privacy-badger
             privacy-possum
             return-youtube-dislikes
-            sideberry
             sponsorblock
             temporary-containers
             ublock-origin
