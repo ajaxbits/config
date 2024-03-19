@@ -16,8 +16,8 @@ jobs:
         id: verify
         run: |
           CHECK_SUITE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/check-suites/${{ github.event.check_suite.id }} )
-          PR_NUMBER=$(echo "$CHECK_SUITE" | jq .pull_requests.[0].number)
-          HEAD_SHA=$(echo "$CHECK_SUITE" | jq .pull_requests.[0].base.sha)
+          PR_NUMBER=$(echo "$CHECK_SUITE" | jq '.pull_requests.[0].number')
+          HEAD_SHA=$(echo "$CHECK_SUITE" | jq '.pull_requests.[0].base.sha')
           
           if [[ "$PR_NUMBER" != "null" ]]; then
             echo "All check suites completed and associated with a PR"
@@ -29,7 +29,7 @@ jobs:
             echo "head_sha=null" >> "$GITHUB_OUTPUT"
           fi
       - name: Build current system
-        if: steps.verify.outputs.should_run != 'null'
+        if: steps.verify.outputs.should_run != 'null' 
         run: |
           nix run github:mic92/nix-fast-build -- \
             --no-nom \
