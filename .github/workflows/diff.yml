@@ -1,0 +1,50 @@
+name: Get system diffs on PR
+on:
+  check_suite:
+    types: [completed]
+
+jobs:
+  get-diff:
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Verify PR Association and Check Suite Status
+        id: verify
+        run: |
+          CHECK_SUITE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/check-suites/${{ github.event.check_suite.id }} )
+          PR_NUMBER=$(echo "$CHECK_SUITE" | jq .pull_requests.[0].number)
+          HEAD_SHA=$(echo "$CHECK_SUITE" | jq .pull_requests.[0].base.sha)
+          
+          if [[ "$PR_NUMBER" != "null" ]]; then
+            echo "All check suites completed and associated with a PR"
+            echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
+            echo "head_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          else
+            echo "Not all check suites are completed or not associated with a PR"
+            echo "pr_numbser=null" >> "$GITHUB_OUTPUT"
+            echo "head_sha=null" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Build current system
+        if: steps.verify.outputs.should_run != 'null'
+        run: |
+          nix run github:mic92/nix-fast-build -- \
+            --no-nom \
+            --flake github:ajaxbits/config \
+            --out-link old
+      - name: Build new system
+        if: steps.verify.outputs.pr_number != 'null'
+        run: |
+          nix run github:mic92/nix-fast-build -- \
+            --no-nom \
+            --flake github:ajaxbits/config/${{ steps.verify.outputs.head_sha }} \
+            --out-link new
+      - name: Get diff
+        if: steps.verify.outputs.pr_number != 'null'
+        run: |
+          nix run gitlab:khumba/nvd --no-write-lock-file -- \
+            diff old new
+            
