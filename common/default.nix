@@ -41,6 +41,7 @@ in {
     services.fwupd.enable = true;
 
     programs.ssh.startAgent = true;
+    programs.mosh.enable = true;
 
     assertions = [
       {
