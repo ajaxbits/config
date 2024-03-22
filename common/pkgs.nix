@@ -9,6 +9,7 @@ with pkgs; [
   jq
   kitty.terminfo
   neovim
+  nix-output-monitor
   rclone
   ripgrep
   rsync
