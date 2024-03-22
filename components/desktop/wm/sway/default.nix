@@ -54,7 +54,7 @@ in {
     };
 
     # A/V
-    security.rtkit.enable = true;
+    security.rtkit.enable = config.services.pipewire.enable;
     services.pipewire = {
       enable = true;
       alsa.enable = true;
