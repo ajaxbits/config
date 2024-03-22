@@ -12,6 +12,8 @@ in {
     ./git.nix
     ./nix.nix
     ./fish.nix
+    ./security.nix
+    ./ssh.nix
     ./users.nix
     ./upgrade-diff.nix
   ];
@@ -19,8 +21,11 @@ in {
   config = {
     environment.systemPackages = import ./pkgs.nix pkgs;
 
-    boot.kernelPackages = pkgs.linuxPackages;
-    boot.tmp.cleanOnBoot = true;
+    boot = {
+      kernelPackages = pkgs.linuxPackages;
+      tmp.cleanOnBoot = true;
+      initrd.systemd.enable = true;
+    };
 
     networking.domain = "ajax.casa";
 
@@ -31,17 +36,7 @@ in {
 
     console.keyMap = "us";
 
-    services.openssh = {
-      enable = true;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-      };
-    };
     services.fwupd.enable = true;
-
-    programs.ssh.startAgent = true;
-    programs.mosh.enable = true;
 
     assertions = [
       {
