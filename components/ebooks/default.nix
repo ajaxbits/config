@@ -25,17 +25,8 @@ in {
       };
     };
 
-    users.users = {
-      calibreweb = {
-        isSystemUser = true;
-        group = "calibreweb";
-        extraGroups = ["mediaoperators"];
-      };
-    };
-    users.groups = {
-      calibreweb = {};
-      mediaoperators = {};
-    };
+    users.users.${config.services.calibre-web.user}.extraGroups = ["mediaoperators"];
+    users.groups.mediaoperators = {};
 
     services.caddy.virtualHosts."https://books.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
