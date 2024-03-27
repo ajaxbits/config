@@ -2,6 +2,8 @@
   pkgs,
   lib,
   config,
+  inputs,
+  system,
   user,
   ...
 }: let
@@ -81,6 +83,10 @@ in {
     };
 
     home-manager.users.${user} = {config, ...}: {
+      imports = [
+        inputs.centerpiece.hmModules.${system}.default
+        ./centerpiece.nix
+      ];
       programs = {
         i3status-rust = {
           enable = true;
