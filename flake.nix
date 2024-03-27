@@ -24,6 +24,10 @@
       url = "github:ajaxbits/nixos-caddy-patched";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    centerpiece = {
+      url = "github:friedow/centerpiece";
+      inputs.nixpkgs.follows = "unstable";
+    };
     neovim.url = "github:ajaxbits/nvim";
     nur.url = "github:nix-community/NUR";
   };
@@ -72,7 +76,7 @@
 
         overlays = import ./overlays.nix {inherit inputs system;};
 
-        specialArgs = {inherit inputs self lib pkgs pkgsLatest pkgsUnstable pkgsUnfree overlays user;};
+        specialArgs = {inherit inputs self system lib pkgs pkgsLatest pkgsUnstable pkgsUnfree overlays user;};
       in {
         nixosConfigurations = {
           patroclus = nixpkgs.lib.nixosSystem {
