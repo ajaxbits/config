@@ -17,11 +17,76 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.jellyfin = {
-      enable = true;
-      user = "jellyfin";
-      group = "mediaoperators";
-      openFirewall = true;
+    services = {
+      jellyfin = {
+        enable = true;
+        user = "jellyfin";
+        group = "mediaoperators";
+        openFirewall = true;
+      };
+
+      sonarr = mkIf cfg.linux-isos.enable {
+        enable = true;
+        user = "sonarr";
+        openFirewall = true;
+      };
+      radarr = mkIf cfg.linux-isos.enable {
+        enable = true;
+        user = "radarr";
+        openFirewall = true;
+      };
+      prowlarr = mkIf cfg.linux-isos.enable {
+        enable = true;
+        openFirewall = true;
+      };
+      bazarr = lib.mkIf cfg.linux-isos.enable {
+        enable = true;
+        user = "bazarr";
+        group = "bazarr";
+      };
+
+      caddy = lib.mkIf config.components.caddy.enable {
+        virtualHosts = let
+          endpoints = [
+            {
+              host = "movies";
+              port = 7878;
+            }
+            {
+              host = "shows";
+              port = 8989;
+            }
+            {
+              host = "subtitles";
+              port = config.services.bazarr.listenPort;
+            }
+            {
+              host = "indexers";
+              port = 9696;
+            }
+            {
+              host = "bubflix";
+              port = 8096;
+            }
+            {
+              host = "jellyfin";
+              port = 8096;
+            }
+            {
+              host = "downloads";
+              port = 9091;
+            }
+          ];
+
+          createReverseProxy = attr: {
+            "https://${attr.host}.ajax.casa".extraConfig = ''
+              import cloudflare
+              reverse_proxy http://localhost:${toString attr.port}
+            '';
+          };
+        in
+          builtins.foldl' (a: b: a // b) {} (map createReverseProxy endpoints);
+      };
     };
     systemd.services.jellyfin.path = [pkgs.yt-dlp]; # required for yt metadata
 
@@ -82,70 +147,7 @@ in {
       ];
     };
 
-    services.sonarr = mkIf cfg.linux-isos.enable {
-      enable = true;
-      user = "sonarr";
-      openFirewall = true;
-    };
-    services.radarr = mkIf cfg.linux-isos.enable {
-      enable = true;
-      user = "radarr";
-      openFirewall = true;
-    };
-    services.prowlarr = mkIf cfg.linux-isos.enable {
-      enable = true;
-      openFirewall = true;
-    };
-    services.bazarr = lib.mkIf cfg.linux-isos.enable {
-      enable = true;
-      user = "bazarr";
-      group = "bazarr";
-    };
-
     virtualisation.docker.enable = cfg.linux-isos.enable || cfg.youtube.enable;
     environment.systemPackages = optionals cfg.linux-isos.enable [pkgs.docker-compose pkgsUnstable.recyclarr];
-
-    services.caddy = lib.mkIf config.components.caddy.enable {
-      virtualHosts = let
-        endpoints = [
-          {
-            host = "movies";
-            port = 7878;
-          }
-          {
-            host = "shows";
-            port = 8989;
-          }
-          {
-            host = "subtitles";
-            port = config.services.bazarr.listenPort;
-          }
-          {
-            host = "indexers";
-            port = 9696;
-          }
-          {
-            host = "bubflix";
-            port = 8096;
-          }
-          {
-            host = "jellyfin";
-            port = 8096;
-          }
-          {
-            host = "downloads";
-            port = 9091;
-          }
-        ];
-
-        createReverseProxy = attr: {
-          "https://${attr.host}.ajax.casa".extraConfig = ''
-            import cloudflare
-            reverse_proxy http://localhost:${toString attr.port}
-          '';
-        };
-      in
-        builtins.foldl' (a: b: a // b) {} (map createReverseProxy endpoints);
-    };
   };
 }

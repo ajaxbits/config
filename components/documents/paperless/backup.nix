@@ -13,8 +13,9 @@
 in {
   config = mkIf cfg.backups.enable {
     systemd.services.paperless-backup = let
+      inherit (cfg.backups) healthchecksUrl;
+
       rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
-      healthchecksUrl = cfg.backups.healthchecksUrl;
       backup = pkgs.writeShellScript "paperless-backup" ''
         set -eux
         mkdir -p /tmp/paperless
