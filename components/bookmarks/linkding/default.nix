@@ -11,11 +11,6 @@
 
   configDir = "/data/config";
   port = 9923;
-
-  endpoint =
-    if cfgCaddy.enable
-    then "0.0.0.0:${toString port}"
-    else "127.0.0.1:${toString port}";
   url = "https://links.${config.networking.domain}";
 in {
   options.components.bookmarks = {
@@ -46,6 +41,10 @@ in {
         user = config.users.users.linkding;
         inherit (user) uid;
         inherit (config.users.groups.${user.group}) gid;
+        endpoint =
+          if cfgCaddy.enable
+          then "127.0.0.1:${toString port}"
+          else "0.0.0.0:${toString port}";
       in {
         image = "sissbruecker/linkding:latest";
         user = "${toString uid}:${toString gid}";
