@@ -18,7 +18,7 @@ in {
   in
     mkIf cfg.enable {
       imports = [
-        (./compose.nix {
+        (import ./compose.nix {
           inherit port;
           configDir = "/data/config";
           public = !cfgCaddy.enable;
