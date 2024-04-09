@@ -42,9 +42,13 @@ in {
       };
       oci-containers.backend = "docker";
 
-      oci-containers.containers."linkding" = {
+      oci-containers.containers."linkding" = let
+        user = config.users.users.linkding;
+        inherit (user) uid;
+        inherit (config.users.groups.${user.group}) gid;
+      in {
         image = "sissbruecker/linkding:latest";
-        user = config.users.users.linkding.name;
+        user = "${toString uid}:${toString gid}";
         environment = {
           LD_CONTAINER_NAME = "linkding";
           LD_DISABLE_BACKGROUND_TASKS = "False";
