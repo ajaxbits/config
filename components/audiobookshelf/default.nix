@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   pkgsUnstable,
   ...
 }: let
@@ -124,7 +125,7 @@ in {
     users.users = mkIf (cfg.user == "audiobookshelf") {
       audiobookshelf = {
         isSystemUser = true;
-        group = config.users.groups.audiobookshelf.name;
+        group = "audiobookshelf";
         extraGroups = ["mediaoperators" "configoperators"];
         uid = 986;
       };
@@ -137,17 +138,34 @@ in {
 
     virtualisation.oci-containers.backend = "docker";
 
-    virtualisation.oci-containers.containers.libation = let
-      user = config.users.users.audiobookshelf;
-      inherit (user) uid;
-      inherit (config.users.groups.${user.group}) gid;
-    in {
+    virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
-      user = "${toString uid}:${toString gid}";
       volumes = [
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
       ];
+    };
+
+    # FIXME: I know. This sux. I will learn what is actually happening one day.
+    systemd.services.libation-hack = let
+      script = ''
+        set -eux
+        ${pkgs.coreutils}/bin/chgrp -R mediaoperators ${cfg.audiobooksDir}
+        ${pkgs.coreutils}/bin/chmod -R g+rw ${cfg.audiobooksDir}
+      '';
+    in {
+      inherit script;
+      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+      serviceConfig.User = "root";
+    };
+    systemd.timers.libation-hack = {
+      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "*:0/30";
+        WakeSystem = true;
+        Persistent = true;
+      };
     };
 
     services.caddy.virtualHosts."https://audiobooks.ajax.casa" = mkIf config.components.caddy.enable {
