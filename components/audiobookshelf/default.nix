@@ -136,18 +136,6 @@ in {
 
     virtualisation.oci-containers.backend = "docker";
 
-    virtualisation.oci-containers.containers.libation = let
-      user = config.users.users.audiobookshelf;
-      inherit (user) uid;
-      inherit (config.users.groups.${user.group}) gid;
-    in {
-      image = "rmcrackan/libation:${libationVersion}";
-      user = "${toString uid}:${toString gid}";
-      volumes = [
-        "${cfg.audiobooksDir}:/data"
-        "${cfg.configDir}/libation:/config"
-      ];
-    };
 
     services.caddy.virtualHosts."https://audiobooks.ajax.casa" = mkIf config.components.caddy.enable {
       extraConfig = ''
