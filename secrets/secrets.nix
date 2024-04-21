@@ -23,6 +23,9 @@ in {
   "libation/Settings.json.age".publicKeys = allKeys;
   "libation/AccountsSettings.json.age".publicKeys = allKeys;
 
+  # linkding
+  "linkding/.env.age".publicKeys = allKeys;
+
   # forgejo
   "forgejo/postgresql-pass.age".publicKeys = allKeys;
 

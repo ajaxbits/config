@@ -13,7 +13,7 @@ in {
     enable = mkEnableOption "Enable tailscale";
     initialAuthKey = mkOption {
       type = types.str;
-      description = "One-time auth key for initial connection. MAKE SURE TO EXPIRE IT IMMEDIATLEY.";
+      description = "One-time auth key for initial connection. MAKE SURE TO EXPIRE IT IMMEDIATELY.";
     };
 
     # routes
@@ -61,7 +61,7 @@ in {
       inherit authKeyFile;
       enable = true;
       package = pkgsUnstable.tailscale; # use latest for most updated featureset
-      permitCertUid = mkIf config.services.caddy.enable config.services.caddy.user;
+      permitCertUid = "root";
 
       extraUpFlags =
         [

@@ -127,12 +127,13 @@ in {
         isSystemUser = true;
         group = "audiobookshelf";
         extraGroups = ["mediaoperators" "configoperators"];
+        uid = 986;
       };
     };
     users.groups = mkIf (cfg.group == "audiobookshelf") {
-      audiobookshelf = {};
-      mediaoperators = {};
-      configoperators = {};
+      audiobookshelf.gid = 983;
+      mediaoperators.gid = 986;
+      configoperators.gid = 982;
     };
 
     virtualisation.oci-containers.backend = "docker";
