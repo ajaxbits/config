@@ -22,6 +22,8 @@
   boot.extraModprobeConfig = ''
     nct6683 force=on
   '';
+  
+  powerManagement.cpuFreqGovernor = "conservative";
 
   services.fstrim.enable = true;
 
