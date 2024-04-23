@@ -5,6 +5,8 @@
   self,
   ...
 }: let
+  version = "1.30.0";
+
   inherit (lib) mkEnableOption optionalString;
   cfg = config.components.bookmarks;
   cfgCaddy = config.components.caddy;
@@ -46,7 +48,7 @@ in {
           then "127.0.0.1:${toString port}"
           else "0.0.0.0:${toString port}";
       in {
-        image = "sissbruecker/linkding:latest";
+        image = "sissbruecker/linkding:${version}-plus";
         user = "${toString uid}:${toString gid}";
         environment = {
           LD_CONTAINER_NAME = "linkding";
