@@ -1,0 +1,4 @@
+home.ajax.casa {
+    import cloudflare
+    reverse_proxy 172.22.0.3:4119
+}
