@@ -10,7 +10,7 @@
 
   cfg = config.components.caddy;
 
-  pkgsCaddyPatched = pkgs.extend (overlays.caddy);
+  pkgsCaddyPatched = pkgs.extend overlays.caddy;
 
   monitorConfig = mkIf (cfg.enable && config.components.monitoring.enable) {
     services.caddy.globalConfig = ''
@@ -36,7 +36,14 @@ in {
   };
 
   config = mkMerge [
-    {services.caddy.enable = cfg.enable;}
+    {
+      services.caddy = {
+        inherit (cfg) enable;
+        extraConfig = ''
+          ${builtins.readFile ./Caddyfile.extra}
+        '';
+      };
+    }
     (mkIf cfg.cloudflare.enable {
       services.caddy = {
         package = pkgsCaddyPatched.caddy-patched;
@@ -52,10 +59,10 @@ in {
       systemd.services.caddy.serviceConfig.EnvironmentFile = "${config.age.secretsDir}/caddy/cloudflareApiToken";
       age.secrets = {
         "caddy/cloudflareApiToken" = {
+          inherit (config.services.caddy) group;
           file = "${self}/secrets/caddy/cloudflareApiToken.age";
           mode = "440";
           owner = config.services.caddy.user;
-          group = config.services.caddy.group;
         };
       };
 
