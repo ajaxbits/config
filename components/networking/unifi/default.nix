@@ -8,7 +8,7 @@
   inherit (builtins) toFile toString;
   cfg = config.components.networking.unifi;
 
-  version = "8.1.127";
+  version = "8.2.93";
 
   dbUser = "unifi";
   dbName = "unifi";
