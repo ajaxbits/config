@@ -401,6 +401,26 @@
         "type": "github"
       }
     },
+    "musnix": {
+      "inputs": {
+        "nixpkgs": [
+          "unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717357578,
+        "narHash": "sha256-e7mG0KhSnMkdgIGPKw6Bs2B6D44B/GB6Zo0NgxFxJTc=",
+        "owner": "musnix",
+        "repo": "musnix",
+        "rev": "d5bf04a634422284b8484e7e87d1584662dc597b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "musnix",
+        "repo": "musnix",
+        "type": "github"
+      }
+    },
     "neovim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -610,6 +630,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager_3",
         "latest": "latest",
+        "musnix": "musnix",
         "neovim": "neovim",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
