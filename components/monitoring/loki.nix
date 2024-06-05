@@ -20,11 +20,13 @@ in {
                 store = "inmemory";
               };
               replication_factor = 1;
+              heartbeat_timeout = "10m";
             };
           };
           chunk_idle_period = "1h";
           max_chunk_age = "1h";
-          chunk_target_size = 999999;
+          chunk_target_size = 1572864;
+          chunk_encoding = "snappy";
           chunk_retain_period = "30s";
           max_transfer_retries = 0;
         };
@@ -60,10 +62,6 @@ in {
         limits_config = {
           reject_old_samples = true;
           reject_old_samples_max_age = "168h";
-        };
-
-        chunk_store_config = {
-          max_look_back_period = "0s";
         };
 
         table_manager = {
