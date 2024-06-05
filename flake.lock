@@ -503,11 +503,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1717426401,
-        "narHash": "sha256-L24IFeDxdBWaDwy+hSPZY413lwSK5bpAv76PD1qmQoc=",
+        "lastModified": 1717527299,
+        "narHash": "sha256-ovOF+XsV+L0Se6r/d/7jJay6IB89ytJljK5+/vlC8LM=",
         "owner": "ajaxbits",
         "repo": "nvim",
-        "rev": "7bc9ff7d41c7e24f42a8f40068841663aa031ff7",
+        "rev": "6894e9de1d86c32a6118fac602e70ebdbead18dc",
         "type": "github"
       },
       "original": {
