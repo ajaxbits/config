@@ -9,8 +9,13 @@ in {
     services.loki = {
       enable = true;
       configuration = {
-        server.http_listen_port = 3030;
         auth_enabled = false;
+        analytics.reporting_enabled = false;
+
+        server = {
+          http_listen_port = 3030;
+          log_level = "warn";
+        };
 
         ingester = {
           lifecycler = {
@@ -30,36 +35,32 @@ in {
           chunk_retain_period = "30s";
         };
 
-        schema_config = {
-          configs = [
-            {
-              from = "2022-06-06";
-              store = "boltdb-shipper";
-              object_store = "filesystem";
-              schema = "v11";
-              index = {
-                prefix = "index_";
-                period = "24h";
-              };
-            }
-          ];
-        };
+        schema_config.configs = [
+          {
+            from = "2025-01-01";
+            store = "tsdb";
+            object_store = "filesystem";
+            schema = "v13";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
+        ];
 
         storage_config = {
-          boltdb_shipper = {
-            active_index_directory = "/var/lib/loki/boltdb-shipper-active";
-            cache_location = "/var/lib/loki/boltdb-shipper-cache";
+          tsdb_shipper = {
+            active_index_directory = "/var/lib/loki/tsdb-index";
+            cache_location = "/var/lib/loki/tsdb-cache";
             cache_ttl = "24h";
           };
-
-          filesystem = {
-            directory = "/var/lib/loki/chunks";
-          };
+          filesystem.directory = "/var/lib/loki/chunks";
         };
 
         limits_config = {
           reject_old_samples = true;
           reject_old_samples_max_age = "168h";
+          allow_structured_metadata = false;
         };
 
         table_manager = {
@@ -69,11 +70,7 @@ in {
 
         compactor = {
           working_directory = "/var/lib/loki";
-          compactor_ring = {
-            kvstore = {
-              store = "inmemory";
-            };
-          };
+          compactor_ring.kvstore.store = "inmemory";
         };
       };
     };
@@ -112,7 +109,6 @@ in {
           }
         ];
       };
-      # extraFlags
     };
   };
 }
