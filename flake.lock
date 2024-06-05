@@ -382,11 +382,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716729592,
-        "narHash": "sha256-Y3bOjoh2cFBqZN0Jw1zUdyr7tjygyxl2bD/QY73GZP0=",
+        "lastModified": 1717476296,
+        "narHash": "sha256-ScHe38Tr+TxGURC17kby4mIIxOG3aJvZWXzPM79UnEk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2c78a57c544dd19b07442350727ced097e1aa6e6",
+        "rev": "095ef64aa3b2ab4a4f1bf07f29997e21e3a5576a",
         "type": "github"
       },
       "original": {
@@ -420,11 +420,11 @@
     },
     "latest": {
       "locked": {
-        "lastModified": 1717429904,
-        "narHash": "sha256-7uDTFQWmZb6xRWk9j5WjfdEBPgg4ZktvaACYYQD/184=",
+        "lastModified": 1717551221,
+        "narHash": "sha256-ucynJbJfpbeHHhmWePexzRvGkyr46cdWCRIolcv1++M=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "663d5bb7d0db9b6b3816b42369f29a6bb97617d7",
+        "rev": "5a0c4f829d320768d91939266f1dbfbe0662d1fd",
         "type": "github"
       },
       "original": {
@@ -476,26 +476,6 @@
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
     },
-    "musnix": {
-      "inputs": {
-        "nixpkgs": [
-          "unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1717357578,
-        "narHash": "sha256-e7mG0KhSnMkdgIGPKw6Bs2B6D44B/GB6Zo0NgxFxJTc=",
-        "owner": "musnix",
-        "repo": "musnix",
-        "rev": "d5bf04a634422284b8484e7e87d1584662dc597b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "musnix",
-        "repo": "musnix",
-        "type": "github"
-      }
-    },
     "neovim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -540,11 +520,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1717248095,
-        "narHash": "sha256-e8X2eWjAHJQT82AAN+mCI0B68cIDBJpqJ156+VRrFO0=",
+        "lastModified": 1717515267,
+        "narHash": "sha256-3d/rDckP583688YqVPc6SyXTy2gHpma0HzCv3idi1OE=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "7b49d3967613d9aacac5b340ef158d493906ba79",
+        "rev": "82b2e20fbffe6a5f0555701af136ad3e734a5faa",
         "type": "github"
       },
       "original": {
@@ -644,12 +624,12 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1716633019,
-        "narHash": "sha256-xim1b5/HZYbWaZKyI7cn9TJCM6ewNVZnesRr00mXeS4=",
-        "rev": "9d29cd266cebf80234c98dd0b87256b6be0af44e",
-        "revCount": 558675,
+        "lastModified": 1717281328,
+        "narHash": "sha256-evZPzpf59oNcDUXxh2GHcxHkTEG4fjae2ytWP85jXRo=",
+        "rev": "b3b2b28c1daa04fe2ae47c21bb76fd226eac4ca1",
+        "revCount": 630973,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2311.558675%2Brev-9d29cd266cebf80234c98dd0b87256b6be0af44e/018fb680-a725-7c9d-825e-aadb0901263e/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2405.630973%2Brev-b3b2b28c1daa04fe2ae47c21bb76fd226eac4ca1/018fe2c3-0014-77f8-9cb4-67a4ada52227/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -684,11 +664,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1717429509,
-        "narHash": "sha256-c7mqDqNUP5BVtUZLTeglj5NjM1jvncUZy9fhydhB8RQ=",
+        "lastModified": 1717548551,
+        "narHash": "sha256-AdAqWt3bQlLcv9hVWM7vS78Pfd0YjCGQaM4imFLN2io=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "963de5e47dbd9550a36d90c9075b40002000547a",
+        "rev": "dfceb15024a051ec9ce314851ec525d6f61e92a7",
         "type": "github"
       },
       "original": {
@@ -707,7 +687,6 @@
         "latest": "latest",
         "lix": "lix",
         "lix-module": "lix-module",
-        "musnix": "musnix",
         "neovim": "neovim",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
@@ -808,12 +787,12 @@
     },
     "unstable": {
       "locked": {
-        "lastModified": 1716509168,
-        "narHash": "sha256-4zSIhSRRIoEBwjbPm3YiGtbd8HDWzFxJjw5DYSDy1n8=",
-        "rev": "bfb7a882678e518398ce9a31a881538679f6f092",
-        "revCount": 630835,
+        "lastModified": 1717196966,
+        "narHash": "sha256-yZKhxVIKd2lsbOqYd5iDoUIwsRZFqE87smE2Vzf6Ck0=",
+        "rev": "57610d2f8f0937f39dbd72251e9614b1561942d8",
+        "revCount": 633517,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.630835%2Brev-bfb7a882678e518398ce9a31a881538679f6f092/018fafb0-ec0d-7254-8082-b09ecc86e5fc/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.633517%2Brev-57610d2f8f0937f39dbd72251e9614b1561942d8/018fdf2b-c7ce-7ce0-8423-05bd35425cad/source.tar.gz"
       },
       "original": {
         "type": "tarball",

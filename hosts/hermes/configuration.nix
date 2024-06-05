@@ -1,4 +1,4 @@
-{pkgs, user, ...}: {
+{user, ...}: {
   imports = [
     ./tlp.nix
     ./hardware-configuration.nix
@@ -41,12 +41,6 @@
   home-manager.users.${user} = {...}: {
     imports = [./home.nix];
   };
-
-  musnix = {
-    enable = true;
-  };
-  services.pipewire.jack.enable = true;
-  environment.systemPackages = [pkgs.zrythm];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

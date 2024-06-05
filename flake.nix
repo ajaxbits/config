@@ -39,10 +39,6 @@
       inputs.nixpkgs.follows = "unstable";
     };
     neovim.url = "github:ajaxbits/nvim";
-    musnix = {
-      url = "github:musnix/musnix";
-      inputs.nixpkgs.follows = "unstable";
-    };
     nur.url = "github:nix-community/NUR";
   };
 
