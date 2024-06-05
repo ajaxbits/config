@@ -7,6 +7,16 @@
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
+    lix = {
+      url = "git+https://git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
+      flake = false;
+    };
+    lix-module = {
+      url = "git+https://git.lix.systems/lix-project/nixos-module";
+      inputs.lix.follows = "lix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -90,6 +100,7 @@
               "${self}/common"
               "${self}/components"
               home-manager.nixosModules.home-manager
+              inputs.lix-module.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
@@ -100,6 +111,7 @@
               "${self}/components"
               home-manager.nixosModules.home-manager
               inputs.musnix.nixosModules.musnix
+              inputs.lix-module.nixosModules.default
             ];
           };
         };
@@ -110,10 +122,12 @@
     extra-substituters = [
       "https://cache.garnix.io"
       "https://numtide.cachix.org"
+      "https://cache.lix.systems"
     ];
     extra-trusted-public-keys = [
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
     ];
   };
 }
