@@ -58,6 +58,7 @@
     nur,
     agenix,
     nixos-hardware, # deadnix: skip
+    lix-module,
     caddy,
     ...
   } @ inputs:
@@ -75,9 +76,8 @@
           ];
         };
       };
-    }
-    // (
-      let
+
+      flake.nixosConfigurations = let
         inherit (pkgs) lib;
 
         system = "x86_64-linux";
@@ -92,31 +92,29 @@
 
         specialArgs = {inherit inputs self system lib pkgs pkgsLatest pkgsUnstable pkgsUnfree overlays user;};
       in {
-        nixosConfigurations = {
-          patroclus = nixpkgs.lib.nixosSystem {
-            inherit specialArgs system;
-            modules = [
-              "${self}/hosts/patroclus/configuration.nix"
-              "${self}/common"
-              "${self}/components"
-              home-manager.nixosModules.home-manager
-              inputs.lix-module.nixosModules.default
-            ];
-          };
-          hermes = nixpkgs.lib.nixosSystem {
-            inherit specialArgs system;
-            modules = [
-              "${self}/hosts/hermes/configuration.nix"
-              "${self}/common"
-              "${self}/components"
-              home-manager.nixosModules.home-manager
-              inputs.musnix.nixosModules.musnix
-              inputs.lix-module.nixosModules.default
-            ];
-          };
+        patroclus = nixpkgs.lib.nixosSystem {
+          inherit specialArgs system;
+          modules = [
+            "${self}/hosts/patroclus/configuration.nix"
+            "${self}/common"
+            "${self}/components"
+            home-manager.nixosModules.home-manager
+            lix-module.nixosModules.default
+          ];
         };
-      }
-    );
+        hermes = nixpkgs.lib.nixosSystem {
+          inherit specialArgs system;
+          modules = [
+            "${self}/hosts/hermes/configuration.nix"
+            "${self}/common"
+            "${self}/components"
+            home-manager.nixosModules.home-manager
+            inputs.musnix.nixosModules.musnix
+            lix-module.nixosModules.default
+          ];
+        };
+      };
+    };
 
   nixConfig = {
     extra-substituters = [
