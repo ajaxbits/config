@@ -3,7 +3,6 @@
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
-    latest.url = "github:nixos/nixpkgs/master";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -45,7 +44,6 @@
   outputs = {
     self,
     nixpkgs,
-    latest,
     unfree,
     unstable,
     flake-parts,
@@ -80,13 +78,12 @@
         user = "admin";
 
         pkgs = import nixpkgs {inherit system;};
-        pkgsLatest = import latest {inherit system;};
         pkgsUnfree = unfree.legacyPackages.${system};
-        pkgsUnstable = unstable.legacyPackages.${system};
+        pkgsUnstable = import unstable {inherit system;};
 
         overlays = import ./overlays.nix {inherit inputs system;};
 
-        specialArgs = {inherit inputs self system lib pkgs pkgsLatest pkgsUnstable pkgsUnfree overlays user;};
+        specialArgs = {inherit inputs self system lib pkgsUnstable pkgsUnfree overlays user;};
       in {
         patroclus = nixpkgs.lib.nixosSystem {
           inherit specialArgs system;
