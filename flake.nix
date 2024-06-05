@@ -105,7 +105,6 @@
             "${self}/common"
             "${self}/components"
             home-manager.nixosModules.home-manager
-            inputs.musnix.nixosModules.musnix
             lix-module.nixosModules.default
           ];
         };

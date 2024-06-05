@@ -36,7 +36,7 @@ in {
 
       handle {
         encode zstd gzip
-        root * ${config.services.vikunja.package-frontend}
+        root * ${config.services.vikunja.package}
         try_files {path} index.html
         file_server
       }
