@@ -131,16 +131,11 @@ in {
       youtube = mkIf cfg.youtube.enable {};
     };
 
-    nixpkgs.config = mkIf cfg.intel.enable {
-      packageOverrides = pkgs: {
-        vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
-      };
-    };
     hardware.opengl = mkIf cfg.intel.enable {
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
-        vaapiIntel
+        vaapi-intel-hybrid
         vaapiVdpau
         libvdpau-va-gl
         intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
