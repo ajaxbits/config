@@ -28,7 +28,6 @@ in {
           chunk_target_size = 1572864;
           chunk_encoding = "snappy";
           chunk_retain_period = "30s";
-          max_transfer_retries = 0;
         };
 
         schema_config = {
@@ -51,7 +50,6 @@ in {
             active_index_directory = "/var/lib/loki/boltdb-shipper-active";
             cache_location = "/var/lib/loki/boltdb-shipper-cache";
             cache_ttl = "24h";
-            shared_store = "filesystem";
           };
 
           filesystem = {
@@ -71,7 +69,6 @@ in {
 
         compactor = {
           working_directory = "/var/lib/loki";
-          shared_store = "filesystem";
           compactor_ring = {
             kvstore = {
               store = "inmemory";
@@ -79,7 +76,6 @@ in {
           };
         };
       };
-      # user, group, dataDir, extraFlags, (configFile)
     };
 
     services.promtail = {
