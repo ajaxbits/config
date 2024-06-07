@@ -418,22 +418,6 @@
         "type": "github"
       }
     },
-    "latest": {
-      "locked": {
-        "lastModified": 1717551221,
-        "narHash": "sha256-ucynJbJfpbeHHhmWePexzRvGkyr46cdWCRIolcv1++M=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "5a0c4f829d320768d91939266f1dbfbe0662d1fd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "lix": {
       "flake": false,
       "locked": {
@@ -463,11 +447,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717036776,
-        "narHash": "sha256-joKTxvywYlKspGGKOIXho6oRbggOPyayEqAyuZCavO0=",
+        "lastModified": 1717647344,
+        "narHash": "sha256-m8XYt8NU2T4gvkien7H7LFGXHhSA5z4tHOeuXQ3DJi4=",
         "ref": "refs/heads/main",
-        "rev": "b4b38e6b5fe18da9464f291ae5fbf2ea9acb9ccb",
-        "revCount": 86,
+        "rev": "4e25f1ab68f2270f9cff59216056c21073db0164",
+        "revCount": 87,
         "type": "git",
         "url": "https://git.lix.systems/lix-project/nixos-module"
       },
@@ -520,11 +504,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1717515267,
-        "narHash": "sha256-3d/rDckP583688YqVPc6SyXTy2gHpma0HzCv3idi1OE=",
+        "lastModified": 1717574423,
+        "narHash": "sha256-cz3P5MZffAHwL2IQaNzsqUBsJS+u0J/AAwArHMAcCa0=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "82b2e20fbffe6a5f0555701af136ad3e734a5faa",
+        "rev": "d6c6cf6f5fead4057d8fb2d5f30aa8ac1727f177",
         "type": "github"
       },
       "original": {
@@ -624,12 +608,12 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1717281328,
-        "narHash": "sha256-evZPzpf59oNcDUXxh2GHcxHkTEG4fjae2ytWP85jXRo=",
-        "rev": "b3b2b28c1daa04fe2ae47c21bb76fd226eac4ca1",
-        "revCount": 630973,
+        "lastModified": 1717555607,
+        "narHash": "sha256-WZ1s48OODmRJ3DHC+I/DtM3tDRuRJlNqMvxvAPTD7ec=",
+        "rev": "0b8e7a1ae5a94da2e1ee3f3030a32020f6254105",
+        "revCount": 631154,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2405.630973%2Brev-b3b2b28c1daa04fe2ae47c21bb76fd226eac4ca1/018fe2c3-0014-77f8-9cb4-67a4ada52227/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2405.631154%2Brev-0b8e7a1ae5a94da2e1ee3f3030a32020f6254105/018febdf-c9a2-7ac6-96bc-6dac4d829339/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -664,11 +648,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1717548551,
-        "narHash": "sha256-AdAqWt3bQlLcv9hVWM7vS78Pfd0YjCGQaM4imFLN2io=",
+        "lastModified": 1717713191,
+        "narHash": "sha256-kOPimQTcgsc9j8X/OK4wF+fCUOXqpr8J/V57TqBGLCE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "dfceb15024a051ec9ce314851ec525d6f61e92a7",
+        "rev": "b04f3815c4f83814bef8495a7c633fb533fec2af",
         "type": "github"
       },
       "original": {
@@ -684,7 +668,6 @@
         "centerpiece": "centerpiece",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager_3",
-        "latest": "latest",
         "lix": "lix",
         "lix-module": "lix-module",
         "neovim": "neovim",
@@ -787,12 +770,12 @@
     },
     "unstable": {
       "locked": {
-        "lastModified": 1717196966,
-        "narHash": "sha256-yZKhxVIKd2lsbOqYd5iDoUIwsRZFqE87smE2Vzf6Ck0=",
-        "rev": "57610d2f8f0937f39dbd72251e9614b1561942d8",
-        "revCount": 633517,
+        "lastModified": 1717602782,
+        "narHash": "sha256-pL9jeus5QpX5R+9rsp3hhZ+uplVHscNJh8n8VpqscM0=",
+        "rev": "e8057b67ebf307f01bdcc8fba94d94f75039d1f6",
+        "revCount": 635424,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.633517%2Brev-57610d2f8f0937f39dbd72251e9614b1561942d8/018fdf2b-c7ce-7ce0-8423-05bd35425cad/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.1.635424%2Brev-e8057b67ebf307f01bdcc8fba94d94f75039d1f6/018fee7f-e359-73ae-add1-47245bae62d4/source.tar.gz"
       },
       "original": {
         "type": "tarball",
