@@ -14,7 +14,12 @@ in {
     intel.enable = mkEnableOption "Enables intel graphics hardware acceleration";
     linux-isos.enable = mkEnableOption "Enable infrastructure for discovering cool Linux ISOs to download.";
     youtube.enable = mkEnableOption "Enable archival of youtube videos";
+    invidious.enable = mkEnableOption "Enable Invidious instance.";
   };
+
+  imports = [
+    ./invidious
+  ];
 
   config = mkIf cfg.enable {
     services = {
