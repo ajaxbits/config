@@ -8,7 +8,7 @@
       enable = true;
       package = pkgsUnstable.invidious;
 
-      domain = "https://yt.ajax.casa";
+      domain = "yt.ajax.casa";
       address = "127.0.0.1";
       port = 3111;
 
@@ -31,7 +31,7 @@
     services.caddy.virtualHosts = let
       inherit (config.services.invidious) address domain port;
     in {
-      "${domain}".extraConfig = ''
+      "https://${domain}".extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${address}:${toString port}
         import cloudflare
