@@ -35,6 +35,7 @@
       enable = true;
       intel.enable = true;
       linux-isos.enable = true;
+      invidious.enable = true;
     };
     miniflux.enable = true;
     monitoring.enable = true;
