@@ -1,6 +1,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./invidious.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
