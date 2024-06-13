@@ -24,6 +24,8 @@ in {
       settings = {
         db.user = "invidious";
         https_only = caddyEnabled;
+        external_port = optionalString caddyEnabled 443;
+        popular_enabled = false;
       };
 
       http3-ytproxy = {
