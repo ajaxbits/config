@@ -52,15 +52,9 @@ in {
             header_down -alt-svc
             header_down -Cache-Control
             header_down -etag
-
             header_down Cache-Control "private"
-
-            buffer_requests 16MB
-            buffer_responses 16MB
-
             transport http {
                 versions 1.1
-                keepalive
             }
         }
       '';
