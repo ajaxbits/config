@@ -49,7 +49,6 @@
       stirlingPdf.enable = true;
     };
     photos.enable = true;
-    productivity.todo.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
