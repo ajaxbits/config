@@ -1,19 +1,26 @@
-{user, ...}: {
+{
+  user,
+  inputs,
+  pkgsUnstable,
+  ...
+}: {
   imports = [
     ./tlp.nix
     ./hardware-configuration.nix
   ];
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    plymouth.enable = true;
+  };
+  networking = {
+    hostName = "hermes";
+    hostId = "b7d14532";
+    networkmanager.enable = true; #TODO this is a bugfix, evaluate later
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.plymouth.enable = true;
-
-  networking.hostName = "hermes";
-  networking.hostId = "b7d14532";
-  networking.networkmanager.enable = true;
-  systemd.services.NetworkManager-wait-online.enable = false; #TODO this is a bugfix, evaluate later
-
-  networking.firewall.enable = false;
+    firewall.enable = false;
+  };
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   services.nextdns = {
     enable = true;
@@ -22,6 +29,9 @@
       "b698e3"
     ];
   };
+
+  services.udev.packages = [inputs.mypkgs.legacyPackages.x86_64-linux.edl];
+
   components = {
     desktop = {
       enable = true;
@@ -40,6 +50,7 @@
 
   home-manager.users.${user} = {...}: {
     imports = [./home.nix];
+    extraSpecialArgs = {inherit inputs pkgsUnstable;};
   };
 
   # This value determines the NixOS release from which the default
