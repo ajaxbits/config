@@ -460,6 +460,22 @@
         "url": "https://git.lix.systems/lix-project/nixos-module"
       }
     },
+    "mypkgs": {
+      "locked": {
+        "lastModified": 1719863928,
+        "narHash": "sha256-37SryRsF2y29uJcU2cJJ5C5ct6kc3AqRJYP71HKjDh0=",
+        "owner": "ajaxbits",
+        "repo": "nixpkgs",
+        "rev": "f4fc02ef9d22e8c8c5338501bea1a6a9b9848757",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ajaxbits",
+        "ref": "edl-udev-rules",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "neovim": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -670,6 +686,7 @@
         "home-manager": "home-manager_3",
         "lix": "lix",
         "lix-module": "lix-module",
+        "mypkgs": "mypkgs",
         "neovim": "neovim",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5",
