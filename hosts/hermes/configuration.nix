@@ -50,8 +50,8 @@
 
   home-manager.users.${user} = {...}: {
     imports = [./home.nix];
-    extraSpecialArgs = {inherit inputs pkgsUnstable;};
   };
+  home-manager.extraSpecialArgs = {inherit inputs pkgsUnstable;};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
