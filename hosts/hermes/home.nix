@@ -1,6 +1,7 @@
 {
   user,
   pkgs,
+  pkgsUnstable,
   overlays,
   ...
 }: let
@@ -34,6 +35,7 @@ in {
 
   home.packages = with pkgs; [
     neovimPkgs.neovim
+    pkgsUnstable.zed-editor
 
     # CLI tools
     bottom
