@@ -7,13 +7,8 @@
     unfree.inputs.nixpkgs.follows = "nixpkgs";
     mypkgs.url = "github:ajaxbits/nixpkgs/edl-udev-rules";
 
-    lix = {
-      url = "git+https://git.lix.systems/lix-project/lix?ref=refs/tags/2.90-beta.1";
-      flake = false;
-    };
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.lix.follows = "lix";
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -42,71 +37,87 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    unfree,
-    unstable,
-    flake-parts,
-    home-manager,
-    neovim,
-    nur,
-    agenix,
-    nixos-hardware, # deadnix: skip
-    lix-module,
-    caddy,
-    ...
-  } @ inputs:
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux" "aarch64-darwin" "x86_64-darwin"];
-      perSystem = {
-        pkgs,
-        system,
-        ...
-      }: {
-        devShells.default = pkgs.mkShell {
-          packages = [
-            pkgs.bashInteractive
-            agenix.packages.${system}.default
-          ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      unfree,
+      unstable,
+      flake-parts,
+      home-manager,
+      neovim,
+      nur,
+      agenix,
+      nixos-hardware, # deadnix: skip
+      lix-module,
+      caddy,
+      ...
+    }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      perSystem =
+        { pkgs, system, ... }:
+        {
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pkgs.bashInteractive
+              agenix.packages.${system}.default
+            ];
+          };
         };
-      };
 
-      flake.nixosConfigurations = let
-        inherit (pkgs) lib;
+      flake.nixosConfigurations =
+        let
+          inherit (pkgs) lib;
 
-        system = "x86_64-linux";
-        user = "admin";
+          system = "x86_64-linux";
+          user = "admin";
 
-        pkgs = import nixpkgs {inherit system;};
-        pkgsUnfree = unfree.legacyPackages.${system};
-        pkgsUnstable = import unstable {inherit system;};
+          pkgs = import nixpkgs { inherit system; };
+          pkgsUnfree = unfree.legacyPackages.${system};
+          pkgsUnstable = import unstable { inherit system; };
 
-        overlays = import ./overlays.nix {inherit inputs system;};
+          overlays = import ./overlays.nix { inherit inputs system; };
 
-        specialArgs = {inherit inputs self system lib pkgsUnstable pkgsUnfree overlays user;};
-      in {
-        patroclus = nixpkgs.lib.nixosSystem {
-          inherit specialArgs system;
-          modules = [
-            "${self}/hosts/patroclus/configuration.nix"
-            "${self}/common"
-            "${self}/components"
-            home-manager.nixosModules.home-manager
-            lix-module.nixosModules.default
-          ];
+          specialArgs = {
+            inherit
+              inputs
+              self
+              system
+              lib
+              pkgsUnstable
+              pkgsUnfree
+              overlays
+              user
+              ;
+          };
+        in
+        {
+          patroclus = nixpkgs.lib.nixosSystem {
+            inherit specialArgs system;
+            modules = [
+              "${self}/hosts/patroclus/configuration.nix"
+              "${self}/common"
+              "${self}/components"
+              home-manager.nixosModules.home-manager
+              lix-module.nixosModules.default
+            ];
+          };
+          hermes = nixpkgs.lib.nixosSystem {
+            inherit specialArgs system;
+            modules = [
+              "${self}/hosts/hermes/configuration.nix"
+              "${self}/common"
+              "${self}/components"
+              home-manager.nixosModules.home-manager
+              lix-module.nixosModules.default
+            ];
+          };
         };
-        hermes = nixpkgs.lib.nixosSystem {
-          inherit specialArgs system;
-          modules = [
-            "${self}/hosts/hermes/configuration.nix"
-            "${self}/common"
-            "${self}/components"
-            home-manager.nixosModules.home-manager
-            lix-module.nixosModules.default
-          ];
-        };
-      };
     };
 
   nixConfig = {
