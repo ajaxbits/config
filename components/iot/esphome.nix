@@ -10,7 +10,7 @@
     ;
 
   cfg = config.components.iot.esphome;
-  version = "2024.7.3";
+  version = "2024.8.0";
 in {
   config = mkIf cfg.enable {
     virtualisation.oci-containers.containers.esphome = {
