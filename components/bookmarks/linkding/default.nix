@@ -5,7 +5,7 @@
   self,
   ...
 }: let
-  version = "1.30.0";
+  version = "1.31.1";
 
   inherit (lib) mkEnableOption optionalString;
   cfg = config.components.bookmarks;
