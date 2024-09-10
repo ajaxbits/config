@@ -6,7 +6,7 @@
 }:
 let
   inherit (lib) mkIf mkOverride;
-  inherit (builtins) toFile toString;
+  inherit (builtins) readFile toString;
   cfg = config.components.networking.unifi;
 
   version = "8.4.59";
@@ -17,16 +17,18 @@ let
   dbHost = "unifi-db";
   dbPort = 27017;
 
+  mongoInitDb = {
+    rootUsername = "root";
+    rootPassword = dbPass;
+  };
+  mongoAuthSource = "admin";
+
   configDir = "/data/config/unifi";
   unifiDir = configDir;
   dbDir = "${configDir}/db";
 
-  # TODO: use env vars here to put password in secrets management.
-  # https://github.com/linuxserver/docker-unifi-network-application/issues/9#issuecomment-1872274349
-  mongoInit = toFile "init-mongo.js" ''
-    db.getSiblingDB("unifi").createUser({user: "${dbUser}", pwd: "${dbPass}", roles: [{role: "dbOwner", db: "${dbName}"}]});
-    db.getSiblingDB("unifi_stat").createUser({user: "${dbUser}", pwd: "${dbPass}", roles: [{role: "dbOwner", db: "${dbName}_stat"}]});
-  '';
+  # TODO: put password in secrets management.
+  mongoInit = pkgs.writeShellScript "init-mongo.sh" (readFile ./init-mongo.sh);
 in
 {
   config = mkIf cfg.enable {
@@ -43,8 +45,16 @@ in
           ports = [ "${toString dbPort}:27017" ];
           volumes = [
             "${dbDir}:/data/db:rw"
-            "${mongoInit}:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+            "${mongoInit}:/docker-entrypoint-initdb.d/init-mongo.sh:ro"
           ];
+          environment = {
+            MONGO_INITDB_ROOT_USERNAME = mongoInitDb.rootUsername;
+            MONGO_INITDB_ROOT_PASSWORD = mongoInitDb.rootPassword;
+            MONGO_USER = dbUser;
+            MONGO_PASS = dbPass;
+            MONGO_DBNAME = dbName;
+            MONGO_AUTHSOURCE = mongoAuthSource;
+          };
           log-driver = "journald";
           extraOptions = [
             "--network-alias=unifi-db"
@@ -62,7 +72,7 @@ in
             MONGO_PASS = dbPass;
             MEM_LIMIT = "1024";
             MEM_STARTUP = "1024";
-            MONGO_AUTHSOURCE = "";
+            MONGO_AUTHSOURCE = "admin";
             MONGO_TLS = "";
             TZ = "America/Chicago";
           };
