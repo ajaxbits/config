@@ -4,19 +4,39 @@
   lib,
   self,
   ...
-}: let
+}:
+let
   version = "1.31.1";
 
-  inherit (lib) mkEnableOption optionalString;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    optionals
+    optionalString
+    types
+    ;
   cfg = config.components.bookmarks;
   cfgCaddy = config.components.caddy;
 
   configDir = "/data/config";
   port = 9923;
   url = "https://links.${config.networking.domain}";
-in {
+in
+{
+  imports = [ ./backups.nix ];
+
   options.components.bookmarks = {
     enable = mkEnableOption "Enable bookmark management.";
+    linkding.containerName = mkOption {
+      description = "Container name for linkding.";
+      type = types.str;
+      default = "linkding";
+    };
+    backups.enable = mkEnableOption "Enable bookmarks backup.";
+    backups.healthchecksUrl = mkOption {
+      description = "Healthchecksurl";
+      type = types.str;
+    };
   };
 
   config = {
@@ -24,11 +44,16 @@ in {
       users.linkding = {
         isSystemUser = true;
         group = config.users.groups.linkding.name;
-        extraGroups = [config.users.groups.configoperators.name];
+        extraGroups =
+          [ config.users.groups.configoperators.name ]
+          ++ optionals cfg.backups.enable [
+            config.users.groups.rcloneoperators.name
+            "docker"
+          ];
       };
       groups = {
-        configoperators = {};
-        linkding = {};
+        configoperators = { };
+        linkding = { };
       };
     };
 
@@ -39,34 +64,33 @@ in {
       };
       oci-containers.backend = "docker";
 
-      oci-containers.containers."linkding" = let
-        user = config.users.users.linkding;
-        inherit (user) uid;
-        inherit (config.users.groups.${user.group}) gid;
-        endpoint =
-          if cfgCaddy.enable
-          then "127.0.0.1:${toString port}"
-          else "0.0.0.0:${toString port}";
-      in {
-        image = "sissbruecker/linkding:${version}-plus";
-        user = "${toString uid}:${toString gid}";
-        environment = {
-          LD_CONTAINER_NAME = "linkding";
-          LD_DISABLE_BACKGROUND_TASKS = "False";
-          LD_DISABLE_URL_VALIDATION = "False";
-          LD_ENABLE_AUTH_PROXY = "False";
-          LD_HOST_DATA_DIR = "${configDir}/linkding";
-          LD_HOST_PORT = toString port;
+      oci-containers.containers.${cfg.linkding.containerName} =
+        let
+          user = config.users.users.linkding;
+          inherit (user) uid;
+          inherit (config.users.groups.${user.group}) gid;
+          endpoint = if cfgCaddy.enable then "127.0.0.1:${toString port}" else "0.0.0.0:${toString port}";
+        in
+        {
+          image = "sissbruecker/linkding:${version}-plus";
+          user = "${toString uid}:${toString gid}";
+          environment = {
+            LD_CONTAINER_NAME = cfg.linkding.containerName;
+            LD_DISABLE_BACKGROUND_TASKS = "False";
+            LD_DISABLE_URL_VALIDATION = "False";
+            LD_ENABLE_AUTH_PROXY = "False";
+            LD_HOST_DATA_DIR = "${configDir}/linkding";
+            LD_HOST_PORT = toString port;
+          };
+          environmentFiles = [ "${config.age.secretsDir}/linkding/.env" ];
+          volumes = [ "${configDir}/linkding:/etc/linkding/data:rw" ];
+          ports = [ "${endpoint}:9090/tcp" ];
+          log-driver = "journald";
+          extraOptions = [
+            "--network-alias=linkding"
+            "--network=linkding_default"
+          ];
         };
-        environmentFiles = ["${config.age.secretsDir}/linkding/.env"];
-        volumes = ["${configDir}/linkding:/etc/linkding/data:rw"];
-        ports = ["${endpoint}:9090/tcp"];
-        log-driver = "journald";
-        extraOptions = [
-          "--network-alias=linkding"
-          "--network=linkding_default"
-        ];
-      };
     };
 
     systemd = {
@@ -77,14 +101,14 @@ in {
           RestartSec = lib.mkOverride 500 "100ms";
           RestartSteps = lib.mkOverride 500 9;
         };
-        after = ["docker-network-linkding_default.service"];
-        requires = ["docker-network-linkding_default.service"];
-        partOf = ["docker-compose-linkding-root.target"];
-        wantedBy = ["docker-compose-linkding-root.target"];
+        after = [ "docker-network-linkding_default.service" ];
+        requires = [ "docker-network-linkding_default.service" ];
+        partOf = [ "docker-compose-linkding-root.target" ];
+        wantedBy = [ "docker-compose-linkding-root.target" ];
       };
 
       services."docker-network-linkding_default" = {
-        path = [pkgs.docker];
+        path = [ pkgs.docker ];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
@@ -93,15 +117,15 @@ in {
         script = ''
           docker network inspect linkding_default || docker network create linkding_default
         '';
-        partOf = ["docker-compose-linkding-root.target"];
-        wantedBy = ["docker-compose-linkding-root.target"];
+        partOf = [ "docker-compose-linkding-root.target" ];
+        wantedBy = [ "docker-compose-linkding-root.target" ];
       };
 
       targets."docker-compose-linkding-root" = {
         unitConfig = {
           Description = "Root target generated by compose2nix.";
         };
-        wantedBy = ["multi-user.target"];
+        wantedBy = [ "multi-user.target" ];
       };
     };
 
@@ -115,9 +139,11 @@ in {
     };
   };
 
-  config.services.caddy.virtualHosts.${url}.extraConfig = optionalString (cfg.enable && cfgCaddy.enable) ''
-    encode gzip zstd
-    reverse_proxy http://127.0.0.1:${toString port}
-    import cloudflare
-  '';
+  config.services.caddy.virtualHosts.${url}.extraConfig =
+    optionalString (cfg.enable && cfgCaddy.enable)
+      ''
+        encode gzip zstd
+        reverse_proxy http://127.0.0.1:${toString port}
+        import cloudflare
+      '';
 }

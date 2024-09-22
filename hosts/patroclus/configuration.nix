@@ -16,7 +16,13 @@
       backups.enable = true;
       backups.healthchecksUrl = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
     };
-    bookmarks.enable = true;
+    bookmarks = {
+      enable = true;
+      backups = {
+        enable = true;
+        healthchecksUrl = "https://hc-ping.com/6bbcb9d3-52c5-48e7-b9f8-20b58264f57e";
+      };
+    };
     caddy = {
       enable = true;
       cloudflare.enable = true;
