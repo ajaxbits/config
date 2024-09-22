@@ -1,7 +1,6 @@
 {
-  imports = [
-    ./hardware-configuration.nix
-  ];
+  services.avahi.enable = true;
+  imports = [ ./hardware-configuration.nix ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -52,9 +51,13 @@
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
-      tags = ["ajax" "homelab" "nixos"];
+      tags = [
+        "ajax"
+        "homelab"
+        "nixos"
+      ];
       advertiseExitNode = true;
-      advertiseRoutes = ["172.22.0.0/15"];
+      advertiseRoutes = [ "172.22.0.0/15" ];
     };
   };
 
