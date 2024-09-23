@@ -13,11 +13,6 @@ in {
 
       backup = pkgs.writeShellScript "audiobookshelf-backup" (
         concatLines (["set -eux"]
-          ++ optional (cfg.backups.audiobooks.enable || cfg.backups.metadata.enable) ''
-            ${pkgs.rclone}/bin/rclone backend lifecycle b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup \
-              --config ${rcloneConfigFile} \
-              -o daysFromHidingToDeleting=1
-          ''
           ++ optional cfg.backups.audiobooks.enable ''
             ${pkgs.rclone}/bin/rclone sync \
               --config ${rcloneConfigFile} \
