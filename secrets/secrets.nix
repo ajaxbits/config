@@ -19,9 +19,6 @@ in {
   # immich
   "immich/.env.age".publicKeys = allKeys;
 
-  # invidious
-  "invidious/extraSettingsFile.age".publicKeys = allKeys;
-
   # libation
   "libation/Settings.json.age".publicKeys = allKeys;
   "libation/AccountsSettings.json.age".publicKeys = allKeys;
