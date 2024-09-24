@@ -4,13 +4,15 @@
   self,
   pkgsUnstable,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
   inherit (builtins) toJSON toString;
 
   cfg = config.components.documents.paperless;
-in {
-  imports = [./backup.nix];
+in
+{
+  imports = [ ./backup.nix ];
 
   config = mkIf cfg.enable {
     services.paperless = {
@@ -20,10 +22,7 @@ in {
       mediaDir = "/data/documents";
       consumptionDirIsPublic = true;
 
-      address =
-        if config.components.caddy.enable
-        then "127.0.0.1"
-        else "0.0.0.0";
+      address = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
       passwordFile = "${config.age.secretsDir}/paperless/admin-password";
 
       extraConfig = {
@@ -33,9 +32,7 @@ in {
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
         PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE = true;
         PAPERLESS_CONSUMER_ASN_BARCODE_PREFIX = "ZB";
-        PAPERLESS_OCR_USER_ARGS = toJSON {
-          invalidate_digital_signatures = true;
-        };
+        PAPERLESS_OCR_USER_ARGS = toJSON { invalidate_digital_signatures = true; };
       };
     };
 
@@ -46,37 +43,41 @@ in {
           reverse_proxy http://${config.services.paperless.address}:${toString config.services.paperless.port}
         ''
         + (
-          if config.components.caddy.cloudflare.enable
-          then ''
-            import cloudflare
-          ''
-          else ''
-            tls internal
-          ''
+          if config.components.caddy.cloudflare.enable then
+            ''
+              import cloudflare
+            ''
+          else
+            ''
+              tls internal
+            ''
         );
     };
 
     virtualisation.oci-containers.backend = "docker";
     virtualisation.oci-containers.containers.paperless-tika = {
       image = "ghcr.io/paperless-ngx/tika:2.9.0-minimal";
-      ports = ["127.0.0.1:5551:9998"];
+      ports = [ "127.0.0.1:5551:9998" ];
     };
     virtualisation.oci-containers.containers.paperless-gotenberg = {
-      image = "docker.io/gotenberg/gotenberg:7.10";
-      ports = ["127.0.0.1:5552:3000"];
-      cmd = ["gotenberg" "--chromium-disable-javascript=true"];
+      image = "docker.io/gotenberg/gotenberg:8.7";
+      ports = [ "127.0.0.1:5552:3000" ];
+      cmd = [
+        "gotenberg"
+        "--chromium-disable-javascript=true"
+      ];
     };
 
     users.users = {
       paperless = {
         isSystemUser = true;
         group = "paperless";
-        extraGroups = ["documentsoperators"];
+        extraGroups = [ "documentsoperators" ];
       };
     };
     users.groups = {
-      paperless = {};
-      documentsoperators = {};
+      paperless = { };
+      documentsoperators = { };
     };
 
     age.secrets = {
