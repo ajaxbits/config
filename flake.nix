@@ -81,7 +81,7 @@
           pkgsUnfree = unfree.legacyPackages.${system};
           pkgsUnstable = import unstable { inherit system; };
 
-          overlays = import ./overlays.nix { inherit inputs system; };
+          overlays = import ./overlays.nix { inherit inputs system pkgsUnfree; };
 
           specialArgs = {
             inherit

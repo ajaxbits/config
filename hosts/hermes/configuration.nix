@@ -3,7 +3,8 @@
   inputs,
   pkgsUnstable,
   ...
-}: {
+}:
+{
   imports = [
     ./tlp.nix
     ./hardware-configuration.nix
@@ -16,7 +17,7 @@
   networking = {
     hostName = "hermes";
     hostId = "b7d14532";
-    networkmanager.enable = true; #TODO this is a bugfix, evaluate later
+    networkmanager.enable = true; # TODO this is a bugfix, evaluate later
 
     firewall.enable = false;
   };
@@ -30,7 +31,7 @@
     ];
   };
 
-  services.udev.packages = [inputs.mypkgs.legacyPackages.x86_64-linux.edl];
+  services.udev.packages = [ inputs.mypkgs.legacyPackages.x86_64-linux.edl ];
 
   components = {
     desktop = {
@@ -43,15 +44,34 @@
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-k5VoMt2CNTRL-C4sAH3gN4u596AcSmBdwz5ZDXZnX1vHM";
-      tags = ["ajax" "nixos"];
+      tags = [
+        "ajax"
+        "nixos"
+      ];
       advertiseExitNode = false;
     };
   };
 
-  home-manager.users.${user} = {...}: {
-    imports = [./home.nix];
+  home-manager.users.${user} =
+    { ... }:
+    {
+      imports = [ ./home.nix ];
+    };
+  home-manager.extraSpecialArgs = {
+    inherit inputs pkgsUnstable;
   };
-  home-manager.extraSpecialArgs = {inherit inputs pkgsUnstable;};
+
+  nixpkgs.config.allowUnfree = true;
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
+  programs.gamemode.enable = true;
+  environment.systemPackages = with pkgsUnstable; [
+    mangohud
+    protonup
+    seventeenlands
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
