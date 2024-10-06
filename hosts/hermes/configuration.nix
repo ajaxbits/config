@@ -1,5 +1,6 @@
 {
   user,
+  lib,
   inputs,
   pkgs,
   pkgsUnstable,
@@ -72,6 +73,10 @@
     enable = true;
     gamescopeSession.enable = true;
   };
+  hardware.nvidia.prime.offload = {
+    enable = true;
+    enableOffloadCmd = true;
+  };
   programs.gamemode.enable = true;
   environment.systemPackages = [
     pkgs.lutris
@@ -79,6 +84,17 @@
     pkgsUnstable.protonup
     pkgsUnstable.seventeenlands
   ];
+  specialisation = {
+    gaming-time.configuration = {
+      hardware.nvidia.prime = {
+        sync.enable = lib.mkForce true;
+        offload = {
+          enable = lib.mkForce false;
+          enableOffloadCmd = lib.mkForce false;
+        };
+      };
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
