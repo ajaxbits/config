@@ -1,6 +1,7 @@
 {
   user,
   inputs,
+  pkgs,
   pkgsUnstable,
   ...
 }:
@@ -62,15 +63,21 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
   programs.steam = {
     enable = true;
     gamescopeSession.enable = true;
   };
   programs.gamemode.enable = true;
-  environment.systemPackages = with pkgsUnstable; [
-    mangohud
-    protonup
-    seventeenlands
+  environment.systemPackages = [
+    pkgs.lutris
+    pkgsUnstable.mangohud
+    pkgsUnstable.protonup
+    pkgsUnstable.seventeenlands
   ];
 
   # This value determines the NixOS release from which the default
