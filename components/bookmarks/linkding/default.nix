@@ -6,7 +6,7 @@
   ...
 }:
 let
-  version = "1.31.1";
+  version = "1.36.0";
 
   inherit (lib)
     mkEnableOption
