@@ -30,10 +30,10 @@ in {
       ];
 
       allowReboot = true;
-      rebootWindow = {
-        lower = "01:00";
-        upper = "05:00";
-      };
+      # rebootWindow = {
+      #   lower = "01:00";
+      #   upper = "05:00";
+      # };
     };
 
     age.secrets."garnix/github-access-token".file = "${self}/secrets/garnix/github-access-token.age";
