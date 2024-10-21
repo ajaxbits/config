@@ -28,11 +28,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717553418,
-        "narHash": "sha256-lEdimBhCYRUS8661g7sJjErUOFCTmKZEzG0vaW4gJw4=",
+        "lastModified": 1729527061,
+        "narHash": "sha256-9nP6nUAQJ0XOXMkFAhxjHK0+SlRXzMYfEYBMzckd0qk=",
         "owner": "ajaxbits",
         "repo": "nixos-caddy-patched",
-        "rev": "8e31bd25c5808432b58013300a3474bcbf861a93",
+        "rev": "ec268cce1140c7423138b3db93a0859ec685f354",
         "type": "github"
       },
       "original": {
