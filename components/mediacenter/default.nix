@@ -85,6 +85,10 @@ in {
               host = "podcasts";
               port = 8010;
             }
+            {
+              host = "requests";
+              port = 5055;
+            }
           ];
 
           createReverseProxy = attr: {
