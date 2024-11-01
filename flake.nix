@@ -93,6 +93,7 @@
               pkgsUnfree
               overlays
               user
+              unstable
               ;
           };
         in
