@@ -5,7 +5,8 @@
   pkgs,
   overlays,
   ...
-}: let
+}:
+let
   inherit (lib) mkEnableOption mkIf mkMerge;
 
   cfg = config.components.caddy;
@@ -24,12 +25,13 @@
         {
           job_name = "caddy";
           scrape_interval = "15s";
-          static_configs = [{targets = ["localhost:2019"];}];
+          static_configs = [ { targets = [ "localhost:2019" ]; } ];
         }
       ];
     };
   };
-in {
+in
+{
   options.components.caddy = {
     enable = mkEnableOption "Enable caddy webserver";
     cloudflare.enable = mkEnableOption "Enable custom caddy binary, with Cloudflare plugin installed";

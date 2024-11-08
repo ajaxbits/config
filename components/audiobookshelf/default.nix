@@ -4,13 +4,20 @@
   pkgs,
   pkgsUnstable,
   ...
-}: let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+}:
+let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
 
   cfg = config.components.audiobookshelf;
   libationVersion = "11.0.4";
-in {
-  imports = [./backup.nix];
+in
+{
+  imports = [ ./backup.nix ];
 
   options.components.audiobookshelf = {
     enable = mkEnableOption "Enable audiobookshelf component.";
@@ -69,64 +76,93 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.services.audiobookshelf = {
-      description = "Audiobookshelf";
-      after = ["network.target"];
-      requires = ["network.target"];
-      wantedBy = ["multi-user.target"];
-      serviceConfig = {
-        WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-        ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/audiobookshelf/config --metadata ${cfg.configDir}/audiobookshelf/metadata";
-        ExecReload = "kill -HUP $MAINPID";
-        Restart = "always";
-        User = cfg.user;
-        Group = cfg.group;
-        StateDirectory = lib.mkDefault "audiobookshelf";
-        StateDirectoryMode = "0700";
-        ProtectHome = true;
-        PrivateDevices = true;
-        ProtectHostname = true;
-        ProtectClock = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
-        RemoveIPC = true;
-        PrivateMounts = true;
-        Type = "simple";
-        TimeoutSec = 15;
-        NoNewPrivileges = true;
-        SystemCallArchitectures = "native";
-        RestrictNamespaces = !config.boot.isContainer;
-        ProtectControlGroups = !config.boot.isContainer;
-        ProtectKernelLogs = !config.boot.isContainer;
-        ProtectKernelModules = !config.boot.isContainer;
-        ProtectKernelTunables = !config.boot.isContainer;
-        LockPersonality = true;
-        PrivateTmp = !config.boot.isContainer;
-        SystemCallFilter = [
-          "~@clock"
-          "~@aio"
-          "~@chown"
-          "~@cpu-emulation"
-          "~@debug"
-          "~@keyring"
-          "~@memlock"
-          "~@module"
-          "~@mount"
-          "~@obsolete"
-          "~@privileged"
-          "~@raw-io"
-          "~@reboot"
-          "~@setuid"
-          "~@swap"
-        ];
-        SystemCallErrorNumber = "EPERM";
+    systemd = {
+      services.audiobookshelf = {
+        description = "Audiobookshelf";
+        after = [ "network.target" ];
+        requires = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
+          ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/audiobookshelf/config --metadata ${cfg.configDir}/audiobookshelf/metadata";
+          ExecReload = "kill -HUP $MAINPID";
+          Restart = "always";
+          User = cfg.user;
+          Group = cfg.group;
+          StateDirectory = lib.mkDefault "audiobookshelf";
+          StateDirectoryMode = "0700";
+          ProtectHome = true;
+          PrivateDevices = true;
+          ProtectHostname = true;
+          ProtectClock = true;
+          RestrictRealtime = true;
+          RestrictSUIDSGID = true;
+          RemoveIPC = true;
+          PrivateMounts = true;
+          Type = "simple";
+          TimeoutSec = 15;
+          NoNewPrivileges = true;
+          SystemCallArchitectures = "native";
+          RestrictNamespaces = !config.boot.isContainer;
+          ProtectControlGroups = !config.boot.isContainer;
+          ProtectKernelLogs = !config.boot.isContainer;
+          ProtectKernelModules = !config.boot.isContainer;
+          ProtectKernelTunables = !config.boot.isContainer;
+          LockPersonality = true;
+          PrivateTmp = !config.boot.isContainer;
+          SystemCallFilter = [
+            "~@clock"
+            "~@aio"
+            "~@chown"
+            "~@cpu-emulation"
+            "~@debug"
+            "~@keyring"
+            "~@memlock"
+            "~@module"
+            "~@mount"
+            "~@obsolete"
+            "~@privileged"
+            "~@raw-io"
+            "~@reboot"
+            "~@setuid"
+            "~@swap"
+          ];
+          SystemCallErrorNumber = "EPERM";
+        };
+      };
+
+      # FIXME: I know. This sux. I will learn what is actually happening one day.
+      services.libation-hack =
+        let
+          script = ''
+            set -eux
+            ${pkgs.coreutils}/bin/chgrp -R mediaoperators ${cfg.audiobooksDir}
+            ${pkgs.coreutils}/bin/chmod -R g+rw ${cfg.audiobooksDir}
+          '';
+        in
+        {
+          inherit script;
+          description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+          serviceConfig.User = "root";
+        };
+      timers.libation-hack = {
+        description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "*:0/30";
+          WakeSystem = true;
+          Persistent = true;
+        };
       };
     };
     users.users = mkIf (cfg.user == "audiobookshelf") {
       audiobookshelf = {
         isSystemUser = true;
         group = "audiobookshelf";
-        extraGroups = ["mediaoperators" "configoperators"];
+        extraGroups = [
+          "mediaoperators"
+          "configoperators"
+        ];
         uid = 986;
       };
     };
@@ -146,30 +182,13 @@ in {
       ];
     };
 
-    # FIXME: I know. This sux. I will learn what is actually happening one day.
-    systemd.services.libation-hack = let
-      script = ''
-        set -eux
-        ${pkgs.coreutils}/bin/chgrp -R mediaoperators ${cfg.audiobooksDir}
-        ${pkgs.coreutils}/bin/chmod -R g+rw ${cfg.audiobooksDir}
+    services.caddy.virtualHosts = mkIf config.components.caddy.enable {
+      "https://audiobooks.ajax.casa".extraConfig = ''
+        encode gzip zstd
+        reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
+        import cloudflare
       '';
-    in {
-      inherit script;
-      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
-      serviceConfig.User = "root";
-    };
-    systemd.timers.libation-hack = {
-      description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnCalendar = "*:0/30";
-        WakeSystem = true;
-        Persistent = true;
-      };
-    };
-
-    services.caddy.virtualHosts."https://audiobooks.ajax.casa" = mkIf config.components.caddy.enable {
-      extraConfig = ''
+      "https://audiobooks.ajax.lol".extraConfig = ''
         encode gzip zstd
         reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
         import cloudflare
