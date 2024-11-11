@@ -15,7 +15,7 @@ in {
     system.autoUpgrade = {
       enable = true;
 
-      flake = "github:${repo}/authentik#${config.networking.hostName}";
+      flake = "github:${repo}#${config.networking.hostName}";
 
       dates = "minutely";
       flags = [
