@@ -1,5 +1,8 @@
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./authentik.nix
+    ./hardware-configuration.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -28,6 +31,7 @@
       cloudflare.enable = true;
     };
     cd.enable = true;
+    cloudflared.enable = true;
     development.forge.enable = true;
     ebooks.enable = true;
     filesystems = {

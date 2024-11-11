@@ -10,9 +10,10 @@ let
 
   inherit (lib)
     mkEnableOption
+    mkIf
     mkOption
-    optionals
     optionalString
+    optionals
     types
     ;
   cfg = config.components.bookmarks;
@@ -39,7 +40,7 @@ in
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     users = {
       users.linkding = {
         isSystemUser = true;
@@ -137,13 +138,12 @@ in
         inherit (config.users.users.linkding) group;
       };
     };
+
+    services.caddy.virtualHosts.${url}.extraConfig = optionalString (cfg.enable && cfgCaddy.enable) ''
+      encode gzip zstd
+      reverse_proxy http://127.0.0.1:${toString port}
+      import cloudflare
+    '';
   };
 
-  config.services.caddy.virtualHosts.${url}.extraConfig =
-    optionalString (cfg.enable && cfgCaddy.enable)
-      ''
-        encode gzip zstd
-        reverse_proxy http://127.0.0.1:${toString port}
-        import cloudflare
-      '';
 }

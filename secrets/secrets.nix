@@ -5,10 +5,16 @@ let
   hermes = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHVURjOpHel+KZ7NfN3OuXYhu7kGNb7bfq27yJzL6og9";
   aphrodite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
-  writers = [aphrodite];
+  writers = [ aphrodite ];
 
-  allKeys = [agamemnon hermes aphrodite patroclus];
-in {
+  allKeys = [
+    agamemnon
+    hermes
+    aphrodite
+    patroclus
+  ];
+in
+{
   # users
   "users/adminPass.age".publicKeys = allKeys;
 
@@ -42,5 +48,12 @@ in {
   "rclone/rclone.conf.age".publicKeys = allKeys;
 
   # caddy
-  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [patroclus];
+  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [ patroclus ];
+
+  # authentik
+  "authentik/env.age".publicKeys = writers ++ [ patroclus ];
+
+  # cloudflared
+  "cloudflared/creds.json.age".publicKeys = writers ++ [ patroclus ];
+  "cloudflared/cert.pem.age".publicKeys = writers ++ [ patroclus ];
 }
