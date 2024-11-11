@@ -29,20 +29,36 @@ in
         reverse_proxy :${toString port}
       '';
     };
+
+    cloudflared = mkIf config.components.cloudflared.enable {
+      tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f".ingress =
+        let
+          url = "auth.ajax.lol";
+        in
+        {
+          ${url} = {
+            service = "https://localhost:443";
+            originRequest = {
+              originServerName = url;
+              httpHostHeader = url;
+            };
+          };
+        };
+    };
   };
 
-  users.users.authentik = {
-    isSystemUser = true;
-    group = "authentik";
-  };
-  users.groups.authentik = { };
-
-  age.secrets = {
-    "authentik/env" = {
-      file = "${self}/secrets/authentik/env.age";
-      mode = "440";
-      owner = "authentik";
+  users = {
+    users.authentik = {
+      isSystemUser = true;
       group = "authentik";
     };
+    groups.authentik = { };
+  };
+
+  age.secrets."authentik/env" = {
+    file = "${self}/secrets/authentik/env.age";
+    mode = "440";
+    owner = "authentik";
+    group = "authentik";
   };
 }

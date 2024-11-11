@@ -52,4 +52,8 @@ in
 
   # authentik
   "authentik/env.age".publicKeys = writers ++ [ patroclus ];
+
+  # cloudflared
+  "cloudflared/creds.json.age".publicKeys = writers ++ [ patroclus ];
+  "cloudflared/cert.pem.age".publicKeys = writers ++ [ patroclus ];
 }
