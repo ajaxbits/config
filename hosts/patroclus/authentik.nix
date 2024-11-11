@@ -14,9 +14,12 @@ in
       enable = true;
       environmentFile = config.age.secrets."authentik/env".path;
       settings = {
-        email.from = "nobody@nobody.com";
-        disable_startup_analytics = true;
         avatars = "initials";
+        disable_startup_analytics = true;
+        email = {
+          use_ssl = true;
+          use_tls = false;
+        };
       };
     };
 
