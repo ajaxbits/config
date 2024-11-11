@@ -28,6 +28,12 @@ in
     };
   };
 
+  users.users.authentik = {
+    isSystemUser = true;
+    group = "authentik";
+  };
+  users.groups.authentik = { };
+
   age.secrets = {
     "authentik/env" = {
       file = "${self}/secrets/authentik/env.age";
