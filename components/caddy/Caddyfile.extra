@@ -2,7 +2,3 @@ home.ajax.casa {
     import cloudflare
     reverse_proxy 172.22.0.3:4119
 }
-
-http://api.blueair.io {
-    reverse_proxy localhost:8099
-}
