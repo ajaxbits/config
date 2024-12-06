@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./authentik.nix
@@ -12,6 +13,30 @@
     networkmanager.enable = true;
     firewall.enable = false;
   };
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        packages = [
+          (pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd
+        ];
+      };
+    };
+  };
+
+  users.users.admin = {
+    extraGroups = [ "libvirtd" ];
+  };
+
+  environment.systemPackages = [ pkgs.virt-manager ];
 
   components = {
     audiobookshelf = {
