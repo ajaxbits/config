@@ -1,8 +1,13 @@
+{ pkgsUnstable, ... }:
 {
   imports = [
     ./authentik.nix
     ./hardware-configuration.nix
   ];
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
