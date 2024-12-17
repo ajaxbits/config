@@ -2,3 +2,9 @@ home.ajax.casa {
     import cloudflare
     reverse_proxy 172.22.0.3:4119
 }
+
+zigbee.ajax.casa {
+    import cloudflare
+    reverse_proxy 0.0.0.0:3111
+    encode gzip zstd
+}
