@@ -1,6 +1,6 @@
 home.ajax.casa {
     import cloudflare
-    reverse_proxy 172.22.0.3:4119
+    reverse_proxy localhost:4119
 }
 
 zigbee.ajax.casa {
