@@ -3,6 +3,7 @@
   imports = [
     ./authentik.nix
     ./hardware-configuration.nix
+    ./k3s.nix
   ];
   virtualisation = {
     libvirtd.enable = true;
