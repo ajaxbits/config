@@ -7,7 +7,7 @@
     role = "server";
     tokenFile = config.age.secrets."k3s/common-secret".path;
     extraFlags = [
-      "--no-deploy traefik"
+      "--disable traefik"
     ];
   };
   users = {
