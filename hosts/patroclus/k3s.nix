@@ -3,7 +3,7 @@
   services.k3s = {
     enable = true;
     clusterInit = true;
-    disableAgent = true;
+    disableAgent = false;
     role = "server";
     tokenFile = config.age.secrets."k3s/common-secret".path;
     extraFlags = [
