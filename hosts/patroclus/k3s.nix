@@ -1,4 +1,9 @@
-{ config, self, ... }:
+{
+  config,
+  self,
+  pkgs,
+  ...
+}:
 {
   services.k3s = {
     enable = true;
@@ -10,6 +15,16 @@
       "--disable traefik"
     ];
   };
+
+  environment.systemPackages = [
+    pkgs.kubectl
+    pkgs.nfs-utils
+  ];
+  services.openiscsi = {
+    enable = true;
+    name = "${config.networking.hostName}-initiatorhost";
+  };
+
   users = {
     users.k3s = {
       isSystemUser = true;
