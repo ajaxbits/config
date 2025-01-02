@@ -56,4 +56,7 @@ in
   # cloudflared
   "cloudflared/creds.json.age".publicKeys = writers ++ [ patroclus ];
   "cloudflared/cert.pem.age".publicKeys = writers ++ [ patroclus ];
+
+  # k3s
+  "k3s/common-secret.age".publicKeys = writers ++ [ patroclus ];
 }
