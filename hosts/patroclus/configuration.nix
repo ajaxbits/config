@@ -1,4 +1,3 @@
-{ pkgsUnstable, ... }:
 {
   imports = [
     ./authentik.nix
@@ -44,7 +43,7 @@
       bcachefs.enable = false;
       zfs.enable = true;
     };
-    iot.esphome.enable = true;
+    iot.esphome.enable = false;
     mediacenter = {
       enable = true;
       intel.enable = true;
