@@ -29,7 +29,7 @@
 
   nix = {
     settings.trusted-users = ["@wheel"];
-    settings.auto-optimise-store = true;
+    optimise.automatic = true;
     gc = {
       automatic = true;
       dates = "weekly";
