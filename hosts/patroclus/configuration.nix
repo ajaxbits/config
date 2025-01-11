@@ -47,7 +47,7 @@
     mediacenter = {
       enable = true;
       intel.enable = true;
-      invidious.enable = true;
+      invidious.enable = false;
       linux-isos.enable = true;
     };
     miniflux.enable = true;
