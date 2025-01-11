@@ -19,7 +19,7 @@ in {
         if caddyEnabled
         then "127.0.0.1"
         else "0.0.0.0";
-      port = 3111;
+      port = 6666;
 
       settings = {
         db.user = "invidious";
