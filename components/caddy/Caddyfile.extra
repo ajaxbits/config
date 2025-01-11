@@ -14,3 +14,9 @@ yt.ajax.casa {
     reverse_proxy 127.0.0.1:6666
     encode gzip zstd
 }
+
+companion.yt.ajax.casa {
+    import cloudflare
+    reverse_proxy 127.0.0.1:8282
+    encode gzip zstd
+}
