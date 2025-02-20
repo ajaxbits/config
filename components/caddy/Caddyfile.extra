@@ -26,3 +26,9 @@ esphome.ajax.casa {
     reverse_proxy 0.0.0.0:6052
     encode gzip zstd
 }
+
+posts.ajax.casa {
+    import cloudflare
+    reverse_proxy localhost:8155
+    encode gzip zstd
+}
