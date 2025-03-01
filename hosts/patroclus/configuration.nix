@@ -33,7 +33,7 @@
       };
     };
     caddy = {
-      enable = true;
+      enable = false;
       cloudflare.enable = true;
     };
     cd.enable = true;
