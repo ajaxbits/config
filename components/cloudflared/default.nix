@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgsUnstable,
+  pkgs,
   self,
   ...
 }:
@@ -17,7 +17,7 @@ in
   config = mkIf cfg.enable {
     services.cloudflared = {
       enable = true;
-      package = pkgsUnstable.cloudflared;
+      package = pkgs.cloudflared;
       tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f" = {
         credentialsFile = config.age.secrets."cloudflared/creds.json".path;
         default = "http_status:404";
