@@ -2,7 +2,7 @@
   description = "NixOS configurations";
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
-    unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.0.tar.gz";
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
     mypkgs.url = "github:ajaxbits/nixpkgs/edl-udev-rules";
