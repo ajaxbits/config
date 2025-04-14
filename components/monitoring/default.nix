@@ -1,6 +1,8 @@
-{lib, ...}: let
+{ lib, ... }:
+let
   inherit (lib) mkEnableOption mkOption types;
-in {
+in
+{
   options.components.monitoring = {
     enable = mkEnableOption "Enable the monitoring stack.";
     uptime.enable = mkOption {
@@ -23,6 +25,16 @@ in {
       default = true;
       description = "Enable network monitoring.";
     };
+    victorialogs.enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable victorialogs.";
+    };
+    victoriametrics.enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable victoriametrics.";
+    };
   };
 
   imports = [
@@ -31,5 +43,7 @@ in {
     ./prometheus
     ./smokeping.nix
     ./uptimekuma.nix
+    ./victorialogs.nix
+    ./victoriametrics.nix
   ];
 }
