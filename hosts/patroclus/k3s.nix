@@ -5,16 +5,6 @@
   ...
 }:
 {
-  services.k3s = {
-    enable = true;
-    clusterInit = true;
-    disableAgent = false;
-    role = "server";
-    tokenFile = config.age.secrets."k3s/common-secret".path;
-    extraFlags = [
-      "--disable traefik"
-    ];
-  };
 
   environment.systemPackages =
     let
@@ -41,11 +31,6 @@
   # https://github.com/longhorn/longhorn/issues/2166#issuecomment-1864656450
   systemd.tmpfiles.rules = [ "L+ /usr/local/bin - - - - /run/current-system/sw/bin/" ];
 
-  services.openiscsi = {
-    enable = true;
-    name = "${config.networking.hostName}-initiatorhost";
-  };
-
   users = {
     users.k3s = {
       isSystemUser = true;
@@ -59,6 +44,30 @@
       mode = "440";
       owner = "k3s";
       group = "k3s";
+    };
+  };
+  services = {
+    k3s = {
+      enable = true;
+      clusterInit = true;
+      disableAgent = false;
+      role = "server";
+      tokenFile = config.age.secrets."k3s/common-secret".path;
+      extraFlags = [
+        "--disable traefik"
+      ];
+    };
+
+    openiscsi = {
+      enable = true;
+      name = "${config.networking.hostName}-initiatorhost";
+    };
+
+    caddy.virtualHosts."https://api.k.ajax.casa" = {
+      extraConfig = ''
+        reverse_proxy https://127.0.0.1:6443
+        import cloudflare
+      '';
     };
   };
 }
