@@ -17,6 +17,8 @@ let
   dbHost = "unifi-db";
   dbPort = 27017;
 
+  webPortalInternalPort = "8333";
+
   mongoInitDb = {
     rootUsername = "root";
     rootPassword = dbPass;
@@ -78,7 +80,7 @@ in
           };
           volumes = [ "${unifiDir}:/config:rw" ];
           ports = [
-            "127.0.0.1:8443:8443/tcp"
+            "127.0.0.1:${webPortalInternalPort}:8443/tcp"
             "3478:3478/udp"
             "10001:10001/udp"
             "8080:8080/tcp"
@@ -139,7 +141,7 @@ in
     services.caddy.virtualHosts."https://wifi.ajax.casa" = mkIf config.components.caddy.enable {
       extraConfig = ''
         encode gzip zstd
-        reverse_proxy 127.0.0.1:8443 {
+        reverse_proxy 127.0.0.1:${webPortalInternalPort} {
           transport http {
             tls_insecure_skip_verify
           }
