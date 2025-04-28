@@ -14,7 +14,7 @@ let
     ;
 
   cfg = config.components.audiobookshelf;
-  libationVersion = "11.0.4";
+  libationVersion = "12.3.0";
 in
 {
   imports = [ ./backup.nix ];
@@ -165,11 +165,21 @@ in
         ];
         uid = 986;
       };
+      libation = {
+        isSystemUser = true;
+        group = "libation";
+        extraGroups = [
+          "mediaoperators"
+          "configoperators"
+        ];
+        uid = 1001;
+      };
     };
     users.groups = mkIf (cfg.group == "audiobookshelf") {
       audiobookshelf.gid = 983;
-      mediaoperators.gid = 986;
       configoperators.gid = 982;
+      libation.gid = 1001;
+      mediaoperators.gid = 986;
     };
 
     virtualisation.oci-containers.backend = "docker";
@@ -180,6 +190,9 @@ in
         "${cfg.audiobooksDir}:/data"
         "${cfg.configDir}/libation:/config"
       ];
+      environment = {
+        SLEEP_TIME = "30m";
+      };
     };
     services = {
       caddy.virtualHosts = mkIf config.components.caddy.enable {
