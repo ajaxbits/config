@@ -7,7 +7,7 @@
     unfree.inputs.nixpkgs.follows = "nixpkgs";
     mypkgs.url = "github:ajaxbits/nixpkgs/edl-udev-rules";
 
-    authentik-nix.url = "github:nix-community/authentik-nix";
+    authentik-nix.url = "github:marcelcoding/authentik-nix";
 
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
