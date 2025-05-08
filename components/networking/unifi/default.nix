@@ -9,7 +9,7 @@ let
   inherit (builtins) readFile toString;
   cfg = config.components.networking.unifi;
 
-  version = "9.0.114";
+  version = "9.1.120";
 
   dbUser = "unifi";
   dbName = "unifi";
