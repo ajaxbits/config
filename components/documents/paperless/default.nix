@@ -2,7 +2,6 @@
   config,
   lib,
   self,
-  pkgsUnstable,
   ...
 }:
 let
@@ -17,7 +16,6 @@ in
   config = mkIf cfg.enable {
     services.paperless = {
       enable = true;
-      package = pkgsUnstable.paperless-ngx;
       user = "paperless";
       mediaDir = "/data/documents";
       consumptionDirIsPublic = true;
