@@ -111,7 +111,6 @@
               "${self}/components"
               home-manager.nixosModules.home-manager
               lix-module.nixosModules.default
-              inputs.authentik-nix.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {

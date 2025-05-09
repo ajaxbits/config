@@ -1,4 +1,6 @@
 {
+  inputs,
+  pkgsUnstable,
   config,
   lib,
   self,
@@ -9,6 +11,13 @@ let
   port = 9000;
 in
 {
+  imports = [
+    (import inputs.authentik-nix.nixosModules.default {
+      pkgs = pkgsUnstable;
+      inherit (pkgsUnstable) lib;
+    })
+  ];
+
   nixpkgs.config.permittedInsecurePackages = [
     "aspnetcore-runtime-6.0.36"
     "aspnetcore-runtime-wrapped-6.0.36"
