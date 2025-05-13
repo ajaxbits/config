@@ -7,7 +7,7 @@
     unfree.inputs.nixpkgs.follows = "nixpkgs";
     mypkgs.url = "github:ajaxbits/nixpkgs/edl-udev-rules";
 
-    authentik-nix.url = "github:marcelcoding/authentik-nix";
+    authentik-nix.url = "github:nix-community/authentik-nix";
 
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
@@ -108,7 +108,23 @@
               "${self}/components"
               home-manager.nixosModules.home-manager
               lix-module.nixosModules.default
-              inputs.authentik-nix.nixosModules.default
+              (
+                {
+                  config,
+                  ...
+                }:
+                let
+                  pkgs = inputs.authentik-nix.inputs.nixpkgs.legacyPackages.${system};
+                  inherit (pkgs) lib;
+                in
+                {
+                  imports = [
+                    (import inputs.authentik-nix.nixosModules.default {
+                      inherit pkgs lib config;
+                    })
+                  ];
+                }
+              )
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
