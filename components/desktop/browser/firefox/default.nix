@@ -2,19 +2,19 @@
   pkgs,
   lib,
   config,
-  overlays,
   user,
   ...
-}: let
+}:
+let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.components.desktop.browser.firefox;
-
-  pkgsNUR = pkgs.extend (overlays.nur);
-in {
-  options.components.desktop.browser.firefox.enable = mkEnableOption "Enable Firefox with extensions.";
+in
+{
+  options.components.desktop.browser.firefox.enable =
+    mkEnableOption "Enable Firefox with extensions.";
 
   config = mkIf cfg.enable {
-    home-manager.users.${user} = {...}: {
+    home-manager.users.${user} = _: {
       home.sessionVariables = {
         MOZ_ENABLE_WAYLAND = 1;
       };
@@ -22,7 +22,7 @@ in {
 
       programs.firefox = {
         enable = true;
-        package = pkgsNUR.firefox-wayland;
+        package = pkgs.firefox-wayland;
         profiles.default = {
           id = 0;
           name = "Default";
@@ -35,10 +35,9 @@ in {
             "browser.shell.checkDefaultBrowser" = false;
             "browser.fullscreen.autohide" = false;
           };
-          extensions = with pkgsNUR.nur.repos.rycee.firefox-addons; [
+          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
             auto-tab-discard
             bitwarden
-            bypass-paywalls-clean
             clearurls
             consent-o-matic
             decentraleyes

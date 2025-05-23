@@ -103,21 +103,22 @@
           patroclus = nixpkgs.lib.nixosSystem {
             inherit specialArgs system;
             modules = [
-              "${self}/hosts/patroclus/configuration.nix"
               "${self}/common"
               "${self}/components"
+              "${self}/hosts/patroclus/configuration.nix"
               home-manager.nixosModules.home-manager
-              lix-module.nixosModules.default
               inputs.authentik-nix.nixosModules.default
+              lix-module.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
             inherit specialArgs system;
             modules = [
-              "${self}/hosts/hermes/configuration.nix"
               "${self}/common"
               "${self}/components"
+              "${self}/hosts/hermes/configuration.nix"
               home-manager.nixosModules.home-manager
+              inputs.nur.modules.nixos.default
               lix-module.nixosModules.default
             ];
           };
