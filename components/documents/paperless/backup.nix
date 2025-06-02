@@ -4,49 +4,34 @@
   self,
   pkgs,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf optionalString;
 
   cfg = config.components.documents.paperless;
 
   backupEncryptionPassword = "Baggage-Crisping-Gloating5"; # not a secret, only for cloud privacy
-in {
+in
+{
   config = mkIf cfg.backups.enable {
-    systemd.services.paperless-backup = let
-      inherit (cfg.backups) healthchecksUrl;
-
-      rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
-      backup = pkgs.writeShellScript "paperless-backup" ''
-        set -eux
-        mkdir -p /tmp/paperless
-        ${config.services.paperless.dataDir}/paperless-manage document_exporter /tmp/paperless \
-          --zip \
-          --split-manifest
-        ${pkgs._7zz}/bin/7zz a -tzip /tmp/paperless/paperlessExportEncrypted.zip -m0=lzma -p${backupEncryptionPassword} /tmp/paperless/*.zip
-
-        ${pkgs.rclone}/bin/rclone sync \
-          --config ${rcloneConfigFile} \
-          --verbose \
-          /tmp/paperless/paperlessExportEncrypted.zip r2:paperless-backup
-        ${pkgs.rclone}/bin/rclone sync \
-          --config ${rcloneConfigFile} \
-          --verbose \
-          /tmp/paperless/paperlessExportEncrypted.zip b2-paperless-backups:paperless-backups
-
-        rm -rfv /tmp/paperless
-
-        ${optionalString
-          (healthchecksUrl != "")
-          "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${healthchecksUrl}"}
-      '';
-    in {
-      script = "${backup}";
-      serviceConfig = {User = config.services.paperless.user;};
+    services.paperless.exporter = {
+      enable = true;
+      onCalendar = null;
+      settings = {
+        compare-checksums = true; # Compare file checksums when determining whether to export a file or not. If not specified, file size and time modified is used instead.
+        delete = true; # After exporting, delete files in the export directory that do not belong to the current export, such as files from deleted documents.
+        no-color = true;
+        no-progress-bar = true;
+        passphrase = backupEncryptionPassword;
+        split-manifest = true; # Export document information in individual manifest json files.
+        zip = true;
+        zip-name = "paperlessExportEncrypted"; # .zip is automatically appended by the system
+      };
     };
 
-    systemd.timers.paperless-backup = {
-      description = "Run a paperless backup on a schedule";
-      wantedBy = ["timers.target"];
+    systemd.timers.paperless-exporter = {
+      description = "Run a paperless export on a schedule";
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = "daily";
         WakeSystem = true;
@@ -54,8 +39,48 @@ in {
       };
     };
 
-    users.users.paperless.extraGroups = ["rcloneoperators"];
-    users.groups.rcloneoperators = {};
+    systemd.services.paperless-backup =
+      let
+        inherit (cfg.backups) healthchecksUrl;
+
+        rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
+        exporterService = [ "paperless-exporter.service" ];
+
+        exportDir = config.services.paperless.exporter.directory;
+        exportName = "${config.services.paperless.exporter.settings.zip-name}.zip";
+        exportPath = "${exportDir}/${exportName}";
+
+        backup =
+          let
+            curl = lib.getExe pkgs.curl;
+            rclone = lib.getExe pkgs.rclone;
+          in
+          pkgs.writeShellScript "paperless-backup" ''
+            set -eux
+
+            ${rclone} sync \
+              --config ${rcloneConfigFile} \
+              --verbose \
+              ${exportPath} r2:paperless-backup
+            ${rclone} sync \
+              --config ${rcloneConfigFile} \
+              --verbose \
+              ${exportPath} b2-paperless-backups:paperless-backups
+
+            ${optionalString (
+              healthchecksUrl != ""
+            ) "${curl} -fsS -m 10 --retry 5 -o /dev/null ${healthchecksUrl}"}
+          '';
+      in
+      {
+        script = "${backup}";
+        serviceConfig.User = config.services.paperless.user;
+        after = exporterService;
+        requires = exporterService;
+      };
+
+    users.users.paperless.extraGroups = [ "rcloneoperators" ];
+    users.groups.rcloneoperators = { };
 
     age.secrets = {
       "rclone/rclone.conf" = {
