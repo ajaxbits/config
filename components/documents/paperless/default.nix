@@ -6,9 +6,11 @@
 }:
 let
   inherit (lib) mkIf;
+  inherit (lib.strings) optionalString;
   inherit (builtins) toJSON toString;
 
   cfg = config.components.documents.paperless;
+  publicURL = "https://documents.ajax.casa";
 in
 {
   imports = [ ./backup.nix ];
@@ -23,18 +25,21 @@ in
       address = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
       passwordFile = "${config.age.secretsDir}/paperless/admin-password";
 
-      extraConfig = {
-        PAPERLESS_TIME_ZONE = "America/Chicago";
+      settings = {
+        PAPERLESS_CONSUMER_ASN_BARCODE_PREFIX = "ZB";
+        PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE = true;
+        PAPERLESS_OCR_USER_ARGS = toJSON { invalidate_digital_signatures = true; };
         PAPERLESS_TIKA_ENABLED = "1";
         PAPERLESS_TIKA_ENDPOINT = "http://127.0.0.1:5551";
         PAPERLESS_TIKA_GOTENBERG_ENDPOINT = "http://127.0.0.1:5552";
-        PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE = true;
-        PAPERLESS_CONSUMER_ASN_BARCODE_PREFIX = "ZB";
-        PAPERLESS_OCR_USER_ARGS = toJSON { invalidate_digital_signatures = true; };
+        PAPERLESS_TIME_ZONE = "America/Chicago";
+
+        # This setting can be used to set the three options below (ALLOWED_HOSTS, CORS_ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS). If the other options are set the values will be combined with this one. Do not include a trailing slash. E.g. https://paperless.domain.com Defaults to empty string, leaving the other settings unaffected.
+        PAPERLESS_URL = optionalString config.components.caddy.enable publicURL;
       };
     };
 
-    services.caddy.virtualHosts."https://documents.ajax.casa" = mkIf config.components.caddy.enable {
+    services.caddy.virtualHosts.${publicURL} = mkIf config.components.caddy.enable {
       extraConfig =
         ''
           encode gzip zstd
