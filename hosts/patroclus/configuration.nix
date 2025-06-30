@@ -36,7 +36,7 @@
       enable = true;
       cloudflare.enable = true;
     };
-    cd.enable = true;
+    cd.enable = false;
     cloudflared.enable = true;
     development.forge.enable = true;
     ebooks.enable = true;
