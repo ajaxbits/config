@@ -3,7 +3,6 @@
     ./authentik.nix
     ./hardware-configuration.nix
     ./k3s.nix
-    ./writefreely.nix
   ];
   virtualisation = {
     libvirtd.enable = true;
