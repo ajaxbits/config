@@ -59,4 +59,7 @@ in
 
   # k3s
   "k3s/common-secret.age".publicKeys = writers ++ [ patroclus ];
+
+  # attic
+  "attic/atticd.env.age".publicKeys = writers ++ [ patroclus ];
 }
