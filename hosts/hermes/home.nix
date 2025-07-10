@@ -50,7 +50,7 @@ in {
     xwayland
 
     # GUI Apps
-    gnome.nautilus
+    nautilus
     remmina
 
     # system tools

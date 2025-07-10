@@ -127,12 +127,14 @@
 
   nixConfig = {
     extra-substituters = [
+      "https://cache.nix.ajax.casa/default?priority=10"
       "https://cache.garnix.io"
       "https://cache.lix.systems"
       "https://nix-community.cachix.org"
       "https://numtide.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "default:UWyYKJgYFtej9lMrKcS5imS+WVuVRS6hKi9yaRL1g0s="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
