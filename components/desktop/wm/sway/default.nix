@@ -50,7 +50,7 @@ in {
         wlr.enable = true;
         extraPortals = with pkgs; [
           xdg-desktop-portal-gtk
-          xdg-desktop-portal-kde
+          kdePackages.xdg-desktop-portal-kde
         ];
       };
     };
@@ -72,7 +72,7 @@ in {
     fonts = {
       packages = with pkgs; [
         atkinson-hyperlegible
-        (nerdfonts.override {fonts = ["Iosevka"];})
+        nerd-fonts.iosevka
       ];
       fontconfig = {
         enable = true;
