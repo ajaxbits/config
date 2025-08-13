@@ -17,6 +17,7 @@
         "docker"
         "networkmanager"
         "wheel"
+        "video"
       ];
       hashedPasswordFile = config.age.secrets."users/adminPass".path;
       openssh.authorizedKeys.keys = [
@@ -39,6 +40,13 @@
       ];
     }
   ];
+  security.doas.extraRules = [
+    {
+      users = [ user ];
+      keepEnv = true;
+    }
+  ];
+
   nix.settings.trusted-users = [ user ];
 
   age.secrets = {
