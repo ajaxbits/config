@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  nixos-raspberrypi,
+  lib,
   ...
 }:
 let
@@ -8,9 +10,16 @@ let
 in
 {
   imports = [
+    nixos-raspberrypi.nixosModules.raspberry-pi-5.base
+    nixos-raspberrypi.nixosModules.raspberry-pi-5.bluetooth
     ./configtxt.nix
-    ./disks.nix
+
+    # TODO: revisit every major upgrade of nixpkgs. Renaming thing that should be reverted
+    (lib.mkAliasOptionModuleMD [ "environment" "checkConfigurationOptions" ] [ "_module" "check" ])
   ];
+
+  # TODO: revisit every major upgrade of nixpkgs. Renaming thing that should be reverted
+  disabledModules = [ "rename.nix" ];
 
   # Time & hostname
   time.timeZone = "America/Chicago";
@@ -55,8 +64,8 @@ in
 
   # Packages
   environment.systemPackages = with pkgs; [
-    nvim
-    raspberry-pi-eeprom
+    neovim
+    # raspberry-pi-eeprom # TODO: the overlay doesn't seem to work
     tree
   ];
 

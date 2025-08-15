@@ -29,6 +29,7 @@
       ];
     };
   };
+  programs.fish.enable = true;
   security.sudo.extraRules = [
     {
       users = [ user ];

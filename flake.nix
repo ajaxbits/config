@@ -132,19 +132,41 @@
               lix-module.nixosModules.default
             ];
           };
-          arachne = inputs.nixos-raspberrypi.lib.nixosSystemFull {
-            specialArgs = inputs;
-            modules = [
-              inputs.disko.nixosModules.disko
-              inputs.agenix.nixosModules.age
-              inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.base
-              inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.bluetooth
-              "${self}/hosts/arachne/configuration.nix"
-              "${self}/common/users.nix"
-              "${self}/common/ssh.nix"
-            ];
-          };
-        };
+        }
+        // (
+          let
+            mkArachne =
+              installer:
+              inputs.nixos-raspberrypi.lib.nixosSystemFull {
+                specialArgs = {
+                  inherit self inputs user;
+                  inherit (inputs) nixos-raspberrypi;
+                };
+                modules =
+                  [
+                    inputs.agenix.nixosModules.age
+                    "${self}/hosts/arachne/configuration.nix"
+                    "${self}/common/users.nix"
+                    "${self}/common/ssh.nix"
+                  ]
+                  ++ (
+                    if !installer then
+                      [
+                        inputs.disko.nixosModules.disko
+                        "${self}/hosts/arachne/disks.nix"
+                      ]
+                    else
+                      [
+                        inputs.nixos-raspberrypi.nixosModules.sd-image
+                      ]
+                  );
+              };
+          in
+          {
+            arachne = mkArachne false;
+            arachneInstaller = mkArachne true;
+          }
+        );
     };
 
   nixConfig = {
