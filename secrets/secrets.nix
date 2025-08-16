@@ -1,16 +1,19 @@
 # TODO: think about agenix-rekey for this
 let
   agamemnon = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMCc1d8GMX5g84ZFflg8YWJ7rqUlLzVBrc2ENvUqNEGs";
-  patroclus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGUxl2SlkRLPnP/OgLd5jn0BGasYtNrgZ2YNP1rPIFnA";
+  bitwarden = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILd+8Pi5rRPT8aLaRAd1YPeBba2zEbTST+9YtzHVugBz";
   hermes = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHVURjOpHel+KZ7NfN3OuXYhu7kGNb7bfq27yJzL6og9";
-  aphrodite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
+  patroclus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGUxl2SlkRLPnP/OgLd5jn0BGasYtNrgZ2YNP1rPIFnA";
+  workMac = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
-  writers = [ aphrodite ];
+  writers = [
+    bitwarden
+    workMac
+  ];
 
-  allKeys = [
+  allKeys = writers ++ [
     agamemnon
     hermes
-    aphrodite
     patroclus
   ];
 in
