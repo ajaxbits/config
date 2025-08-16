@@ -1,13 +1,18 @@
 {
   config,
-  self,
   lib,
   ...
-}: let
-  repo = "ajaxbits/config";
+}:
+let
   cfg = config.components.cd;
-in {
+in
+{
   options.components.cd.enable = lib.mkEnableOption "Enable CI/CD through Garnix";
+  options.components.cd.repo = lib.mkOption {
+    type = lib.types.str;
+    description = "Repo that is used to pull config from";
+    default = "ajaxbits/config";
+  };
 
   config = lib.mkIf cfg.enable {
     nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
@@ -15,7 +20,7 @@ in {
     system.autoUpgrade = {
       enable = true;
 
-      flake = "github:${repo}#${config.networking.hostName}";
+      flake = "github:${cfg.repo}#${config.networking.hostName}";
 
       dates = "minutely";
       flags = [
@@ -36,6 +41,6 @@ in {
       };
     };
 
-    age.secrets."garnix/github-access-token".file = "${self}/secrets/garnix/github-access-token.age";
+    age.secrets."garnix/github-access-token".file = ../../secrets/garnix/github-access-token.age;
   };
 }
