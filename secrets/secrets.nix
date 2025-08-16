@@ -69,4 +69,7 @@ in
 
   # attic
   "attic/atticd.env.age".publicKeys = writers ++ [ patroclus ];
+
+  # zfs
+  "zfs/encryptionPass.age".publicKeys = writers ++ [ nixos-rpi-installer ];
 }
