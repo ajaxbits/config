@@ -7,7 +7,6 @@ with pkgs; [
   hck
   git
   jq
-  kitty.terminfo
   neovim
   nix-output-monitor
   rclone

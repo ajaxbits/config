@@ -52,7 +52,7 @@
 
   age.secrets = {
     "users/adminPass" = {
-      file = "${self}/secrets/users/adminPass.age";
+      file = ../secrets/users/adminPass.age;
       mode = "440";
       owner = config.users.users.root.name;
       group = config.users.users.root.group;

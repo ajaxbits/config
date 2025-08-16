@@ -2,43 +2,55 @@
   config,
   lib,
   ...
-}: let
-  inherit (lib) any attrNames filter hasAttr length mapAttrsToList mkMerge unique;
+}:
+let
+  inherit (lib)
+    any
+    attrNames
+    filter
+    hasAttr
+    length
+    mapAttrsToList
+    mkMerge
+    unique
+    ;
 
   /*
-    *
-  Outputs duplicates in a list.
+      *
+    Outputs duplicates in a list.
 
-  Given a list, returns a list of elements that appear more than once.
+    Given a list, returns a list of elements that appear more than once.
 
-  # Examples
+    # Examples
 
-  ```
-  getDuplicates [ "foo", "bar", "foo" ]
-  ->
-  [ "foo" ]
-  ``
+    ```
+    getDuplicates [ "foo", "bar", "foo" ]
+    ->
+    [ "foo" ]
+    ``
 
-  # Type
+    # Type
 
-  ```
-  getDuplicates :: [a] -> [a]
-  ```
+    ```
+    getDuplicates :: [a] -> [a]
+    ```
 
-  # Arguments
+    # Arguments
 
-  - [list] List of elements to find duplicates within.
-
+    - [list] List of elements to find duplicates within.
   */
-  getDuplicates = list: let
-    countOccurrences = elem: length (filter (x: x == elem) list);
-    duplicates = filter (elem: countOccurrences elem > 1) list;
-  in
+  getDuplicates =
+    list:
+    let
+      countOccurrences = elem: length (filter (x: x == elem) list);
+      duplicates = filter (elem: countOccurrences elem > 1) list;
+    in
     unique duplicates;
 
-  conflictingUsersAndGroups = let
-    inherit (config.ids) gids uids;
-  in
+  conflictingUsersAndGroups =
+    let
+      inherit (config.ids) gids uids;
+    in
     filter (userName: hasAttr userName gids && uids.${userName} == gids.${userName}) (attrNames uids);
 
   allUids = mapAttrsToList (_user: id: id) config.ids.uids;
@@ -46,18 +58,19 @@
 
   duplicateUids = getDuplicates allUids;
   duplicateGids = getDuplicates allGids;
-in {
+in
+{
   assertions = [
     {
-      assertion = duplicateUids == [];
+      assertion = duplicateUids == [ ];
       message = "Duplicate UIDs found in ids.uids: ${lib.concatStringsSep ", " (lib.map toString duplicateUids)}";
     }
     {
-      assertion = duplicateGids == [];
+      assertion = duplicateGids == [ ];
       message = "Duplicate UIDs found in ids.gids: ${lib.concatStringsSep ", " (lib.map toString duplicateGids)}";
     }
     {
-      assertion = conflictingUsersAndGroups == [];
+      assertion = conflictingUsersAndGroups == [ ];
       message = ''
         The following users were found that have the same id as a group of the same name.
           ${lib.concatStringsSep ", " conflictingUsersAndGroups}
