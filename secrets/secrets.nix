@@ -55,7 +55,10 @@ in
   "rclone/rclone.conf.age".publicKeys = allKeys;
 
   # caddy
-  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [ patroclus ];
+  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [
+    patroclus
+    nixos-rpi-installer
+  ];
 
   # authentik
   "authentik/env.age".publicKeys = writers ++ [ patroclus ];
