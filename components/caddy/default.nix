@@ -1,5 +1,4 @@
 {
-  self,
   config,
   lib,
   pkgs,
@@ -58,11 +57,12 @@ in
           }
         '';
       };
-      systemd.services.caddy.serviceConfig.EnvironmentFile = "${config.age.secretsDir}/caddy/cloudflareApiToken";
+      systemd.services.caddy.serviceConfig.EnvironmentFile =
+        "${config.age.secretsDir}/caddy/cloudflareApiToken";
       age.secrets = {
         "caddy/cloudflareApiToken" = {
           inherit (config.services.caddy) group;
-          file = "${self}/secrets/caddy/cloudflareApiToken.age";
+          file = ../../secrets/caddy/cloudflareApiToken.age;
           mode = "440";
           owner = config.services.caddy.user;
         };
