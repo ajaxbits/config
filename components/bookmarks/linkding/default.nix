@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  self,
   ...
 }:
 let
@@ -132,7 +131,7 @@ in
 
     age.secrets = {
       "linkding/.env" = {
-        file = "${self}/secrets/linkding/.env.age";
+        file = ../../../secrets/linkding/.env.age;
         mode = "440";
         owner = config.users.users.linkding.name;
         inherit (config.users.users.linkding) group;
