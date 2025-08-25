@@ -6,8 +6,6 @@ let
   patroclus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGUxl2SlkRLPnP/OgLd5jn0BGasYtNrgZ2YNP1rPIFnA";
   workMac = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB";
 
-  nixos-rpi-installer = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFfVwO34kka4ZpXxrqHnRAtnEjusFKACRifSkuxW6p5j";
-
   writers = [
     bitwarden
     workMac
@@ -17,8 +15,6 @@ let
     agamemnon
     hermes
     patroclus
-
-    nixos-rpi-installer
   ];
 in
 {
@@ -55,10 +51,7 @@ in
   "rclone/rclone.conf.age".publicKeys = allKeys;
 
   # caddy
-  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [
-    patroclus
-    nixos-rpi-installer
-  ];
+  "caddy/cloudflareApiToken.age".publicKeys = writers ++ [ patroclus ];
 
   # authentik
   "authentik/env.age".publicKeys = writers ++ [ patroclus ];
@@ -72,7 +65,4 @@ in
 
   # attic
   "attic/atticd.env.age".publicKeys = writers ++ [ patroclus ];
-
-  # zfs
-  "zfs/encryptionPass.age".publicKeys = writers ++ [ nixos-rpi-installer ];
 }
