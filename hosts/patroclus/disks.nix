@@ -1,7 +1,6 @@
 {
-  disks,
   hostName,
-  lib,
+  pkgs ? <nixpkgs>,
   ...
 }:
 let
@@ -9,35 +8,21 @@ let
   sectorSizeBytes = 512;
 
   rootPool = "zroot";
-
-  # local
-  #     /nix
-  # system
-  #     /root
-  #     /var
-  # srv
-  #     /containers
-  #     /media
-  #     /documents => encrypted
-  #     /config
-in
-rec {
-  ### DISKS ###
-  disko.devices = {
-    disk = lib.genAttrs disks (device: {
-      inherit device;
-      name = lib.removePrefix "/dev/" device;
+  mkDisk =
+    { name, device }:
+    {
+      inherit name device;
       type = "disk";
       content = {
         type = "gpt";
         partitions = {
           ESP = {
-            size = "64M";
+            size = "512M";
             type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";
-              mountpoint = "/boot";
+              mountpoint = "/boot/${name}";
               mountOptions = [ "umask=0077" ];
             };
           };
@@ -50,7 +35,21 @@ rec {
           };
         };
       };
-    });
+    };
+in
+rec {
+  ### DISKS ###
+  disko.devices = {
+    disk = {
+      a = mkDisk {
+        name = "a";
+        device = "/dev/REPLACEME";
+      };
+      b = mkDisk {
+        name = "b";
+        device = "/dev/REPLACEME";
+      };
+    };
 
     zpool = {
       ${rootPool} = {
@@ -86,6 +85,18 @@ rec {
         postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${rootPool}@blank$' || zfs snapshot ${rootPool}@blank";
 
         datasets = {
+
+          # local
+          #     /nix
+          # system
+          #     /root
+          #     /var
+          # srv
+          #     /containers
+          #     /media
+          #     /documents => encrypted
+          #     /config
+
           reserved = {
             type = "zfs_fs";
             options = {
@@ -168,7 +179,7 @@ rec {
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot/efi-0";
+      efi.efiSysMountPoint = disko.devices.disk.a.content.partitions.ESP.content.mountpoint;
     };
     supportedFilesystems = [ "zfs" ];
     zfs.forceImportRoot = false;
@@ -178,4 +189,26 @@ rec {
     trim.enable = disko.devices.zpool.${rootPool}.options.autotrim == "on";
   };
   fileSystems."/srv".neededForBoot = true;
+
+  systemd.services.boot-sync = {
+    description = "Mirror boot files to backup NVMe";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "nixos-rebuild.service" ];
+    path = with pkgs; [ rsync ];
+
+    # run every time a new generation appears
+    startAt = "multi-user.target";
+
+    script =
+      let
+        bootPaths = builtins.mapAttrs (
+          _: diskConfig: diskConfig.content.partitions.ESP.content.mountpoint
+        ) disko.devices.disk;
+      in
+      ''
+        set -euo pipefail
+        rsync -a --delete ${bootPaths.a} ${bootPaths.b}
+        bootctl install --esp-path=${bootPaths.b} --entry-token=auto
+      '';
+  };
 }
