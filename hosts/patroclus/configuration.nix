@@ -1,8 +1,8 @@
+{ hostName, ... }:
 {
   imports = [
     ./authentik.nix
     ./hardware-configuration.nix
-    ./k3s.nix
   ];
   virtualisation = {
     libvirtd.enable = true;
@@ -12,7 +12,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking = {
-    hostName = "patroclus";
+    hostName = hostName;
     hostId = "a7d14532";
     networkmanager.enable = true;
     firewall.enable = false;
