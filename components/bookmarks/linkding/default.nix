@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  dataDir ? "/srv",
   ...
 }:
 let
@@ -18,7 +19,7 @@ let
   cfg = config.components.bookmarks;
   cfgCaddy = config.components.caddy;
 
-  configDir = "/data/config";
+  configDir = "${dataDir}/config";
   port = 9923;
   url = "https://links.${config.networking.domain}";
 in

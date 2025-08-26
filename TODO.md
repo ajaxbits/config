@@ -1,0 +1,2 @@
+- [ ] Redo /data to be a var
+- [ ] Secret relative paths
