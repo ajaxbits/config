@@ -1,4 +1,3 @@
-{ hostName, ... }:
 {
   imports = [
     ./authentik.nix
@@ -13,7 +12,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking = {
-    inherit hostName;
+    hostName = "patroclus";
     networkmanager.enable = true;
     firewall.enable = false;
   };

@@ -21,6 +21,12 @@ let
               mountOptions = [ "umask=0077" ]; # TODO: analyze
             };
           };
+          swap = {
+            size = "8G";
+            type = "8200";
+            label = "swap-${name}";
+            content.type = "swap";
+          };
           zfs = {
             size = "100%";
             content = {
@@ -32,7 +38,7 @@ let
       };
     };
 in
-{
+rec {
   disko.devices.disk = {
     a = mkDisk {
       name = "a";
@@ -43,4 +49,8 @@ in
       device = "/dev/REPLACEME";
     };
   };
+
+  swapDevices = builtins.map (disk: {
+    device = "/dev/disk/by-label/${disk.content.partitions.swap.label}";
+  }) (builtins.attrValues disko.devices.disk);
 }

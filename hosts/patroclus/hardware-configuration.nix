@@ -7,39 +7,32 @@
   inputs,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     inputs.nixos-hardware.nixosModules.common-cpu-intel
   ];
   boot = {
-    initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod"];
-    initrd.kernelModules = [];
-    kernelModules = ["kvm-intel"];
-    extraModulePackages = [];
     extraModprobeConfig = ''
       nct6683 force=on
     '';
+    initrd = {
+      availableKernelModules = [
+        "ahci"
+        "nvme"
+        "sd_mod"
+        "usb_storage"
+        "xhci_pci"
+      ];
+    };
+    kernelModules = [ "kvm-intel" ];
   };
 
   powerManagement.cpuFreqGovernor = "conservative";
 
   services.fstrim.enable = true;
-
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/87528ced-2676-4e1a-aa60-2e106f518f67";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/93DD-FC3B";
-    fsType = "vfat";
-  };
-
-  swapDevices = [
-    {device = "/dev/disk/by-uuid/32db7adf-e950-4ae1-9dbe-b9dd1da758fa";}
-  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

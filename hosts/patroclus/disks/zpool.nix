@@ -71,19 +71,10 @@ in
         };
       };
 
-      system = {
-        type = "zfs_fs";
-        options.mountpoint = "none";
-      };
       local = {
         type = "zfs_fs";
         options.mountpoint = "none";
       };
-      srv = {
-        type = "zfs_fs";
-        options.mountpoint = "none";
-      };
-
       "local/nix" = {
         type = "zfs_fs";
         mountpoint = "/nix";
@@ -97,6 +88,10 @@ in
         };
       };
 
+      system = {
+        type = "zfs_fs";
+        options.mountpoint = "none";
+      };
       "system/root" = {
         type = "zfs_fs";
         mountpoint = "/";
@@ -108,6 +103,11 @@ in
         options.mountpoint = "legacy";
       };
 
+      srv = {
+        type = "zfs_fs";
+        mountpoint = "/srv";
+        options.mountpoint = "legacy";
+      };
       "srv/media" = {
         type = "zfs_fs";
         mountpoint = "/srv/media";
