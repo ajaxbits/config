@@ -1,22 +1,22 @@
 {
   config,
+  dataPaths,
   lib,
   ...
-}: let
+}:
+let
   inherit (lib) mkIf;
 
   cfg = config.components.ebooks;
-  ebookDir = "/data/media/books";
-in {
+  ebookDir = "${dataPaths.media}/books";
+in
+{
   options.components.ebooks.enable = lib.mkEnableOption "Enable ebook server";
 
   config = mkIf cfg.enable {
     services.calibre-web = {
       enable = true;
-      listen.ip =
-        if config.components.caddy.enable
-        then "127.0.0.1"
-        else "0.0.0.0";
+      listen.ip = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
       openFirewall = !config.components.caddy.enable;
       options = {
         enableBookUploading = true;
@@ -25,8 +25,8 @@ in {
       };
     };
 
-    users.users.${config.services.calibre-web.user}.extraGroups = ["mediaoperators"];
-    users.groups.mediaoperators = {};
+    users.users.${config.services.calibre-web.user}.extraGroups = [ "mediaoperators" ];
+    users.groups.mediaoperators = { };
 
     services.caddy.virtualHosts."https://books.ajax.casa" = lib.mkIf config.components.caddy.enable {
       extraConfig = ''
