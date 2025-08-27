@@ -2,6 +2,7 @@
 {
   imports = [
     ./authentik.nix
+    ./disks
     ./hardware-configuration.nix
   ];
   virtualisation = {
@@ -12,8 +13,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking = {
-    hostName = hostName;
-    hostId = "a7d14532";
+    inherit hostName;
     networkmanager.enable = true;
     firewall.enable = false;
   };
