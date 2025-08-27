@@ -3,7 +3,6 @@
   lib,
   pkgs,
   pkgsUnstable,
-  unstable,
   ...
 }:
 let
@@ -22,9 +21,7 @@ in
 
   imports = [
     ./invidious
-    "${unstable}/nixos/modules/services/misc/jellyseerr.nix"
   ];
-  disabledModules = [ "services/misc/jellyseerr.nix" ]; # TODO: remove once package opt merged
 
   config = mkIf cfg.enable {
     services = {
