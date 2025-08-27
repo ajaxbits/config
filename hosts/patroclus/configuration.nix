@@ -62,7 +62,7 @@
       };
       stirlingPdf.enable = true;
     };
-    photos.enable = true;
+    # photos.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
