@@ -3,6 +3,7 @@
   hostName,
   rootPoolName,
   sectorSizeBytes,
+  dataPaths,
   ...
 }:
 let
@@ -110,27 +111,27 @@ in
       };
       "srv/media" = {
         type = "zfs_fs";
-        mountpoint = "/srv/media";
+        mountpoint = dataPaths.media;
         options.mountpoint = "legacy";
       };
       "srv/media/audiobooks" = {
         type = "zfs_fs";
-        mountpoint = "/srv/media/audiobooks";
+        mountpoint = dataPaths.audiobooks;
         options.mountpoint = "legacy";
       };
       "srv/documents" = {
         type = "zfs_fs";
-        mountpoint = "/srv/documents";
+        mountpoint = dataPaths.documents;
         options.mountpoint = "legacy";
       };
       "srv/config" = {
         type = "zfs_fs";
-        mountpoint = "/srv/config";
+        mountpoint = dataPaths.config;
         options.mountpoint = "legacy";
       };
       "srv/containers" = {
         type = "zfs_fs";
-        mountpoint = "/srv/containers";
+        mountpoint = dataPaths.containers;
         options.mountpoint = "legacy";
       };
     };

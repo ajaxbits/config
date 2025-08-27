@@ -1,5 +1,6 @@
 {
   config,
+  dataPaths,
   lib,
   pkgs,
   pkgsUnstable,
@@ -34,17 +35,22 @@ in
     audiobooksDir = mkOption {
       type = types.str;
       description = "Directory where audiobooks are";
-      default = "/data/media/audiobooks";
+      default = dataPaths.audiobooks;
     };
     podcastsDir = mkOption {
       type = types.str;
       description = "Directory where podcasts are";
-      default = "/data/media/podcasts";
+      default = "${dataPaths.media}/podcasts";
     };
     configDir = mkOption {
       type = types.str;
       description = "Directory to store mutable config in";
-      default = "/data/config";
+      default = "${dataPaths.config}/audiobookshelf";
+    };
+    libationDataDir = mkOption {
+      type = types.str;
+      description = "Directory to store libation data in";
+      default = "${dataPaths.containers}/libation";
     };
     user = mkOption {
       type = types.str;
@@ -84,7 +90,7 @@ in
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-          ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/audiobookshelf/config --metadata ${cfg.configDir}/audiobookshelf/metadata";
+          ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/config --metadata ${cfg.configDir}/metadata";
           ExecReload = "kill -HUP $MAINPID";
           Restart = "always";
           User = cfg.user;
@@ -178,7 +184,7 @@ in
       image = "rmcrackan/libation:${libationVersion}";
       volumes = [
         "${cfg.audiobooksDir}:/data"
-        "${cfg.configDir}/libation:/config"
+        "${cfg.libationDataDir}:/config"
       ];
     };
     services = {
