@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  dataPaths,
   ...
 }:
 let
@@ -25,7 +26,7 @@ let
   };
   mongoAuthSource = "admin";
 
-  configDir = "/data/config/unifi";
+  configDir = "${dataPaths.containers}/unifi";
   unifiDir = configDir;
   dbDir = "${configDir}/db";
 
