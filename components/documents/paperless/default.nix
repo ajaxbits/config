@@ -1,5 +1,6 @@
 {
   config,
+  dataPaths,
   lib,
   self,
   ...
@@ -19,7 +20,7 @@ in
     services.paperless = {
       enable = true;
       user = "paperless";
-      mediaDir = "/data/documents";
+      mediaDir = dataPaths.documents;
       consumptionDirIsPublic = true;
 
       address = if config.components.caddy.enable then "127.0.0.1" else "0.0.0.0";
