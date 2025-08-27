@@ -2,7 +2,7 @@
   config,
   pkgs,
   lib,
-  dataDir ? "/srv",
+  dataPaths,
   ...
 }:
 let
@@ -19,7 +19,6 @@ let
   cfg = config.components.bookmarks;
   cfgCaddy = config.components.caddy;
 
-  configDir = "${dataDir}/config";
   port = 9923;
   url = "https://links.${config.networking.domain}";
 in
@@ -80,11 +79,11 @@ in
             LD_DISABLE_BACKGROUND_TASKS = "False";
             LD_DISABLE_URL_VALIDATION = "False";
             LD_ENABLE_AUTH_PROXY = "False";
-            LD_HOST_DATA_DIR = "${configDir}/linkding";
+            LD_HOST_DATA_DIR = "${dataPaths.containers}/linkding";
             LD_HOST_PORT = toString port;
           };
           environmentFiles = [ "${config.age.secretsDir}/linkding/.env" ];
-          volumes = [ "${configDir}/linkding:/etc/linkding/data:rw" ];
+          volumes = [ "${dataPaths.containers}/linkding:/etc/linkding/data:rw" ];
           ports = [ "${endpoint}:9090/tcp" ];
           log-driver = "journald";
           extraOptions = [
