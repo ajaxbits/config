@@ -20,15 +20,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixos-raspberrypi = {
-      url = "github:nvmd/nixos-raspberrypi/main";
-    };
 
     disko = {
-      # the fork is needed for partition attributes support
-      url = "github:nix-community/disko?ref=pull/1069/merge"; # TODO: go back to mainline whenever possible
-      # url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixos-raspberrypi/nixpkgs";
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     agenix = {
@@ -133,41 +128,7 @@
               lix-module.nixosModules.default
             ];
           };
-        }
-        // (
-          let
-            mkArachne =
-              installer:
-              inputs.nixos-raspberrypi.lib.nixosSystemFull {
-                specialArgs = {
-                  inherit self inputs user;
-                  inherit (inputs) nixos-raspberrypi;
-                };
-                modules =
-                  [
-                    inputs.agenix.nixosModules.age
-                    "${self}/hosts/arachne/configuration.nix"
-                    "${self}/common/users.nix"
-                    "${self}/common/ssh.nix"
-                  ]
-                  ++ (
-                    if !installer then
-                      [
-                        inputs.disko.nixosModules.disko
-                        "${self}/hosts/arachne/disks.nix"
-                      ]
-                    else
-                      [
-                        inputs.nixos-raspberrypi.nixosModules.sd-image
-                      ]
-                  );
-              };
-          in
-          {
-            arachne = mkArachne false;
-            arachneInstaller = mkArachne true;
-          }
-        );
+        };
     };
 
   nixConfig = {
@@ -177,7 +138,6 @@
       "https://cache.lix.systems"
       "https://cache.nix.ajax.casa/default?priority=10"
       "https://nix-community.cachix.org"
-      "https://nixos-raspberrypi.cachix.org"
       "https://numtide.cachix.org"
     ];
     extra-trusted-public-keys = [
@@ -186,7 +146,6 @@
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "default:UWyYKJgYFtej9lMrKcS5imS+WVuVRS6hKi9yaRL1g0s="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
     ];
   };
