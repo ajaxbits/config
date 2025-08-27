@@ -38,17 +38,12 @@
     };
     cd.enable = true;
     cloudflared.enable = true;
-    development.forge.enable = true;
+    # development.forge.enable = true;
     ebooks.enable = true;
-    filesystems = {
-      bcachefs.enable = false;
-      zfs.enable = true;
-    };
     iot.esphome.enable = false;
     mediacenter = {
       enable = true;
       intel.enable = true;
-      invidious.enable = false;
       linux-isos.enable = true;
     };
     miniflux.enable = true;

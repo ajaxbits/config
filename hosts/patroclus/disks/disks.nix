@@ -1,13 +1,8 @@
 {
-  hostName,
-  pkgs ? <nixpkgs>,
+  rootPoolName,
   ...
 }:
 let
-  hostId = builtins.substring 0 8 (builtins.hashString "sha256" hostName);
-  sectorSizeBytes = 512;
-
-  rootPool = "zroot";
   mkDisk =
     { name, device }:
     {
@@ -23,192 +18,29 @@ let
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot/${name}";
-              mountOptions = [ "umask=0077" ];
+              mountOptions = [ "umask=0077" ]; # TODO: analyze
             };
           };
           zfs = {
             size = "100%";
             content = {
               type = "zfs";
-              pool = rootPool;
+              pool = rootPoolName;
             };
           };
         };
       };
     };
 in
-rec {
-  ### DISKS ###
-  disko.devices = {
-    disk = {
-      a = mkDisk {
-        name = "a";
-        device = "/dev/REPLACEME";
-      };
-      b = mkDisk {
-        name = "b";
-        device = "/dev/REPLACEME";
-      };
+{
+  disko.devices.disk = {
+    a = mkDisk {
+      name = "a";
+      device = "/dev/REPLACEME";
     };
-
-    zpool = {
-      ${rootPool} = {
-        type = "zpool";
-        mode = "mirror";
-
-        # zpool properties
-        options = {
-          ashift = builtins.getAttr (builtins.toString sectorSizeBytes) {
-            # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
-            "512" = "9";
-            "4000" = "12";
-            "8000" = "13";
-          };
-          autotrim = "on";
-        };
-
-        # zfs properties
-        rootFsOptions = {
-          # https://jrs-s.net/2018/08/17/zfs-tuning-cheat-sheet/
-          acltype = "posixacl";
-          atime = "off";
-          canmount = "off";
-          compression = "lz4";
-          dnodesize = "auto";
-          mountpoint = "none";
-          # https://rubenerd.com/forgetting-to-set-utf-normalisation-on-a-zfs-pool/
-          normalization = "formD";
-          xattr = "sa";
-          "com.sun:auto-snapshot" = "false";
-        };
-
-        postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${rootPool}@blank$' || zfs snapshot ${rootPool}@blank";
-
-        datasets = {
-
-          # local
-          #     /nix
-          # system
-          #     /root
-          #     /var
-          # srv
-          #     /containers
-          #     /media
-          #     /documents => encrypted
-          #     /config
-
-          reserved = {
-            type = "zfs_fs";
-            options = {
-              mountpoint = "none";
-              reservation = "10GiB";
-            };
-          };
-
-          system = {
-            type = "zfs_fs";
-            options.mountpoint = "none";
-          };
-          local = {
-            type = "zfs_fs";
-            options.mountpoint = "none";
-          };
-          srv = {
-            type = "zfs_fs";
-            options.mountpoint = "none";
-          };
-
-          "local/nix" = {
-            type = "zfs_fs";
-            mountpoint = "/nix";
-            options = {
-              atime = "off";
-              canmount = "on";
-              mountpoint = "legacy";
-              recordsize = "1M";
-              reservation = "20G";
-              "com.sun:auto-snapshot" = "false";
-            };
-          };
-
-          "system/root" = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options.mountpoint = "legacy";
-          };
-          "system/var" = {
-            type = "zfs_fs";
-            mountpoint = "/var";
-            options.mountpoint = "legacy";
-          };
-
-          "srv/media" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/media";
-            options.mountpoint = "legacy";
-          };
-          "srv/media/audiobooks" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/media/audiobooks";
-            options.mountpoint = "legacy";
-          };
-          "srv/documents" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/documents";
-            options.mountpoint = "legacy";
-          };
-          "srv/config" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/config";
-            options.mountpoint = "legacy";
-          };
-          "srv/containers" = {
-            type = "zfs_fs";
-            mountpoint = "/srv/containers";
-            options.mountpoint = "legacy";
-          };
-        };
-      };
+    b = mkDisk {
+      name = "b";
+      device = "/dev/REPLACEME";
     };
-  };
-
-  ### FILESYSTEM ###
-  networking.hostId = hostId;
-  boot = {
-    kernelParams = [ "elevator=none" ]; # https://grahamc.com/blog/nixos-on-zfs/
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = disko.devices.disk.a.content.partitions.ESP.content.mountpoint;
-    };
-    supportedFilesystems = [ "zfs" ];
-    zfs.forceImportRoot = false;
-  };
-  services.zfs = {
-    autoScrub.enable = true;
-    trim.enable = disko.devices.zpool.${rootPool}.options.autotrim == "on";
-  };
-  fileSystems."/srv".neededForBoot = true;
-
-  systemd.services.boot-sync = {
-    description = "Mirror boot files to backup NVMe";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "nixos-rebuild.service" ];
-    path = with pkgs; [ rsync ];
-
-    # run every time a new generation appears
-    startAt = "multi-user.target";
-
-    script =
-      let
-        bootPaths = builtins.mapAttrs (
-          _: diskConfig: diskConfig.content.partitions.ESP.content.mountpoint
-        ) disko.devices.disk;
-      in
-      ''
-        set -euo pipefail
-        rsync -a --delete ${bootPaths.a} ${bootPaths.b}
-        bootctl install --esp-path=${bootPaths.b} --entry-token=auto
-      '';
   };
 }

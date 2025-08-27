@@ -118,6 +118,7 @@
               "${self}/hosts/patroclus/configuration.nix"
               home-manager.nixosModules.home-manager
               inputs.authentik-nix.nixosModules.default
+              inputs.disko.nixosModules.disko
               lix-module.nixosModules.default
             ];
           };
