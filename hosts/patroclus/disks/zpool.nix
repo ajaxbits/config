@@ -75,6 +75,14 @@ rec {
         type = "zfs_fs";
         options.mountpoint = "none";
       };
+      "local/log" = {
+        type = "zfs_fs";
+        mountpoint = "/var/log";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
+      };
       "local/nix" = {
         type = "zfs_fs";
         mountpoint = "/nix";
@@ -116,17 +124,26 @@ rec {
       "srv/media/audiobooks" = {
         type = "zfs_fs";
         mountpoint = dataPaths.audiobooks;
-        options.mountpoint = "legacy";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
       };
       "srv/documents" = {
         type = "zfs_fs";
         mountpoint = dataPaths.documents;
-        options.mountpoint = "legacy";
+        options = {
+          "com.sun:auto-snapshot" = "true";
+          mountpoint = "legacy";
+        };
       };
       "srv/config" = {
         type = "zfs_fs";
         mountpoint = dataPaths.config;
-        options.mountpoint = "legacy";
+        options = {
+          mountpoint = "legacy";
+          "com.sun:auto-snapshot" = "true";
+        };
       };
       "srv/containers" = {
         type = "zfs_fs";
