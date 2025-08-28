@@ -7,6 +7,8 @@
 }:
 let
   hostId = builtins.substring 0 8 (builtins.hashString "sha256" hostName);
+
+  initialEncryptionPasswordFile = "/tmp/encryption-passphrase"; # TODO: add this to script
 in
 rec {
   ### GENERAL ZFS CONFIG ###
@@ -134,8 +136,12 @@ rec {
         mountpoint = dataPaths.documents;
         options = {
           "com.sun:auto-snapshot" = "true";
+          keylocation = "file://${initialEncryptionPasswordFile}";
           mountpoint = "legacy";
         };
+        postCreateHook = ''
+          zfs set keylocation="file://${age.secretsDir}/zfs/documents-encryption-passphrase" ${rootPoolName}/srv/documents
+        '';
       };
       "srv/config" = {
         type = "zfs_fs";
@@ -150,6 +156,16 @@ rec {
         mountpoint = dataPaths.containers;
         options.mountpoint = "legacy";
       };
+    };
+  };
+
+  age = {
+    secretsDir = "/run/agenix";
+    secrets."zfs/documents-encryption-passphrase" = {
+      file = ../../../secrets/zfs/documents-encryption-passphrase.age;
+      mode = "440";
+      owner = "root";
+      group = "root";
     };
   };
 }
