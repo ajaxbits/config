@@ -1,5 +1,7 @@
 {
+  hostName,
   rootPoolName,
+  sectorSizeBytes,
   ...
 }:
 let
@@ -39,6 +41,7 @@ let
     };
 in
 rec {
+  imports = [ (import ./zpool.nix { inherit hostName rootPoolName sectorSizeBytes; }) ];
   disko.devices.disk = {
     a = mkDisk {
       name = "a";

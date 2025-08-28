@@ -14,6 +14,5 @@ in
   imports = [
     ./boot.nix
     ./disks.nix
-    ./zpool.nix
   ];
 }

@@ -1,20 +1,19 @@
 {
-  config,
   hostName,
   rootPoolName,
   sectorSizeBytes,
-  dataPaths,
+  dataPaths ? (import ./dataPaths.nix),
   ...
 }:
 let
   hostId = builtins.substring 0 8 (builtins.hashString "sha256" hostName);
 in
-{
+rec {
   ### GENERAL ZFS CONFIG ###
   networking.hostId = hostId;
   services.zfs = {
     autoScrub.enable = true;
-    trim.enable = config.disko.devices.zpool.${rootPoolName}.options.autotrim == "on";
+    trim.enable = disko.devices.zpool.${rootPoolName}.options.autotrim == "on";
   };
   fileSystems."/srv".neededForBoot = true;
 
