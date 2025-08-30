@@ -73,7 +73,7 @@ in
     # photos.enable = true;
     tailscale = {
       enable = true;
-      initialAuthKey = "tskey-auth-kCJEH64CNTRL-KDvHnxkzYEQEwhQC9v2L8QgQ8Lu8HcYnN";
+      initialAuthKey = "tskey-auth-kY5D6u8meo11CNTRL-uuf3JU6pap58yxeNVu46m5o47czDkpvb";
       tags = [
         "ajax"
         "homelab"
