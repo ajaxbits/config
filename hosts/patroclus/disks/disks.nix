@@ -11,13 +11,15 @@ let
       inherit name device;
       type = "disk";
       content = {
-        type = "gpt";
+        type = "table";
+        format = "gpt";
         partitions = {
           ESP = {
             size = "512M";
             type = "EF00";
             content = {
               type = "filesystem";
+              bootable = true;
               format = "vfat";
               mountpoint = "/boot/${name}";
               mountOptions = [ "umask=0077" ]; # TODO: analyze
@@ -27,7 +29,10 @@ let
             size = "8G";
             type = "8200";
             label = "swap-${name}";
-            content.type = "swap";
+            content = {
+              type = "swap";
+              randomEncryption = true;
+            };
           };
           zfs = {
             size = "100%";
