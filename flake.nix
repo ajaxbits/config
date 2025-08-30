@@ -163,10 +163,8 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://cache.nix.ajax.casa/default?priority=10"
       "https://cache.garnix.io"
       "https://cache.lix.systems"
-      "https://cache.nix.ajax.casa/default?priority=10"
       "https://nix-community.cachix.org"
       "https://numtide.cachix.org"
     ];
