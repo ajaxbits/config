@@ -1,7 +1,7 @@
 {
   hostName,
-  rootPoolName,
   sectorSizeBytes,
+  rootPoolName,
   ...
 }:
 let
@@ -45,11 +45,11 @@ rec {
   disko.devices.disk = {
     a = mkDisk {
       name = "a";
-      device = "/dev/REPLACEME";
+      device = "/dev/disk/by-id/nvme-Samsung_SSD_990_EVO_Plus_2TB_S7U6NU0Y702592E";
     };
     b = mkDisk {
       name = "b";
-      device = "/dev/REPLACEME";
+      device = "/dev/disk/by-id/nvme-Samsung_SSD_990_EVO_Plus_2TB_S7U6NJ0Y709421M";
     };
   };
 
