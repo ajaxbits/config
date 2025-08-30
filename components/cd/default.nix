@@ -8,10 +8,10 @@ let
 in
 {
   options.components.cd.enable = lib.mkEnableOption "Enable CI/CD through Garnix";
-  options.components.cd.repo = lib.mkOption {
+  options.components.cd.flake = lib.mkOption {
     type = lib.types.str;
-    description = "Repo that is used to pull config from";
-    default = "ajaxbits/config";
+    description = "Flake that is used to pull config from";
+    default = "github:ajaxbits/config#${config.networking.hostName}";
   };
 
   config = lib.mkIf cfg.enable {
@@ -20,7 +20,7 @@ in
     system.autoUpgrade = {
       enable = true;
 
-      flake = "github:${cfg.repo}#${config.networking.hostName}";
+      inherit (cfg) flake;
 
       dates = "minutely";
       flags = [

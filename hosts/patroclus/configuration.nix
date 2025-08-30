@@ -1,9 +1,16 @@
 {
+  isStripped ? false,
+  lib,
+  ...
+}:
+let
+  isFull = !isStripped;
+in
+{
   imports = [
-    ./authentik.nix
     ./disks
     ./hardware-configuration.nix
-  ];
+  ] ++ lib.optionals isFull [ ./authentik.nix ];
   virtualisation = {
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
@@ -20,14 +27,16 @@
   components = {
     audiobookshelf = {
       enable = true;
-      backups.enable = true;
-      backups.healthchecksUrl = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
+      backups = {
+        enable = isFull;
+        healthchecksUrl = "https://hc-ping.com/e7c85184-7fcf-49a2-ab4f-7fae49a80d9c";
+      };
     };
     binary-cache.enable = true;
     bookmarks = {
       enable = true;
       backups = {
-        enable = true;
+        enable = isFull;
         healthchecksUrl = "https://hc-ping.com/6bbcb9d3-52c5-48e7-b9f8-20b58264f57e";
       };
     };
@@ -35,11 +44,16 @@
       enable = true;
       cloudflare.enable = true;
     };
-    cd.enable = true;
-    cloudflared.enable = true;
-    # development.forge.enable = true;
+    cd = {
+      enable = true;
+      flake =
+        if isStripped then
+          "github:ajaxbits/config#patroclusStripped"
+        else
+          "github:ajaxbits/config#patroclus";
+    };
+    cloudflared.enable = isFull;
     ebooks.enable = true;
-    iot.esphome.enable = false;
     mediacenter = {
       enable = true;
       intel.enable = true;
@@ -51,7 +65,7 @@
     documents = {
       paperless = {
         enable = true;
-        backups.enable = true;
+        backups.enable = isFull;
         backups.healthchecksUrl = "https://hc-ping.com/2667f610-dc7f-40db-a753-31101446c823";
       };
       stirlingPdf.enable = true;

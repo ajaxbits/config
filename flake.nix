@@ -117,6 +117,20 @@
               lix-module.nixosModules.default
             ];
           };
+          patroclusStripped = nixpkgs.lib.nixosSystem {
+            inherit specialArgs system;
+            modules = [
+              "${self}/common"
+              "${self}/components"
+              (import ./hosts/patroclus/configuration.nix {
+                inherit lib;
+                isStripped = true;
+              })
+              home-manager.nixosModules.home-manager
+              inputs.disko.nixosModules.disko
+              lix-module.nixosModules.default
+            ];
+          };
           hermes = nixpkgs.lib.nixosSystem {
             inherit specialArgs system;
             modules = [
