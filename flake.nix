@@ -54,6 +54,7 @@
       home-manager,
       neovim,
       nur,
+      disko,
       agenix,
       nixos-hardware, # deadnix: skip
       lix-module,
@@ -69,12 +70,27 @@
       perSystem =
         { pkgs, system, ... }:
         {
-          devShells.default = pkgs.mkShell {
-            packages = [
-              pkgs.bashInteractive
-              agenix.packages.${system}.default
-            ];
-          };
+          devShells =
+            let
+              commonPkgs = with pkgs; [
+                agenix.packages.${system}.default
+                bashInteractive
+              ];
+            in
+            {
+              default = pkgs.mkShell {
+                packages = commonPkgs;
+              };
+              installer = pkgs.mkShell {
+                packages = [
+                  disko.packages.${system}.disko
+                  pkgs.git
+                  pkgs.jq
+                  pkgs.neovim
+                  pkgs.nix-output-monitor
+                ] ++ commonPkgs;
+              };
+            };
         };
 
       flake.nixosConfigurations =
