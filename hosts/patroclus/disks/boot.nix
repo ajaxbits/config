@@ -16,7 +16,6 @@ in
       };
     };
     supportedFilesystems = [ "zfs" ];
-    zfs.forceImportRoot = false;
   };
 
   # if the backup boot isn't present, don't fail

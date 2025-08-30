@@ -18,6 +18,7 @@ rec {
     trim.enable = disko.devices.zpool.${rootPoolName}.options.autotrim == "on";
   };
   # fileSystems."/srv".neededForBoot = true;
+  boot.zfs.forceImportRoot = true;
 
   ### ZPOOL ###
   disko.devices.zpool.${rootPoolName} = {
