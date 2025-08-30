@@ -137,12 +137,8 @@ rec {
         mountpoint = dataPaths.documents;
         options = {
           "com.sun:auto-snapshot" = "true";
-          keylocation = "file://${initialEncryptionPasswordFile}";
           mountpoint = "legacy";
         };
-        postCreateHook = ''
-          zfs set keylocation="file://${age.secretsDir}/zfs/documents-encryption-passphrase" ${rootPoolName}/srv/documents
-        '';
       };
       "srv/config" = {
         type = "zfs_fs";
