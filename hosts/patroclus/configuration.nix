@@ -1,6 +1,5 @@
 {
   isStripped ? false,
-  lib,
   ...
 }:
 let
@@ -8,9 +7,10 @@ let
 in
 {
   imports = [
+    ./authentik.nix
     ./disks
     ./hardware-configuration.nix
-  ] ++ lib.optionals isFull [ ./authentik.nix ];
+  ];
   virtualisation = {
     libvirtd.enable = true;
     spiceUSBRedirection.enable = true;
@@ -52,7 +52,7 @@ in
         else
           "github:ajaxbits/config#patroclus";
     };
-    cloudflared.enable = isFull;
+    cloudflared.enable = true;
     ebooks.enable = true;
     mediacenter = {
       enable = true;
