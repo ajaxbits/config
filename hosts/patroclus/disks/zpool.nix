@@ -17,7 +17,7 @@ rec {
     autoScrub.enable = true;
     trim.enable = disko.devices.zpool.${rootPoolName}.options.autotrim == "on";
   };
-  fileSystems."/srv".neededForBoot = true;
+  # fileSystems."/srv".neededForBoot = true;
 
   ### ZPOOL ###
   disko.devices.zpool.${rootPoolName} = {
@@ -68,6 +68,7 @@ rec {
       reserved = {
         type = "zfs_fs";
         options = {
+          canmount = "off";
           mountpoint = "none";
           reservation = "10GiB";
         };
