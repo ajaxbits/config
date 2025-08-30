@@ -82,61 +82,17 @@ in
   };
 
   config = mkIf cfg.enable {
+    services.audiobookshelf = {
+      inherit (cfg)
+        enable
+        group
+        port
+        user
+        ;
+      host = cfg.address;
+      package = pkgsUnstable.audiobookshelf;
+    };
     systemd = {
-      services.audiobookshelf = {
-        description = "Audiobookshelf";
-        after = [ "network.target" ];
-        requires = [ "network.target" ];
-        wantedBy = [ "multi-user.target" ];
-        serviceConfig = {
-          WorkingDirectory = lib.mkDefault "/var/lib/audiobookshelf";
-          ExecStart = "${pkgsUnstable.audiobookshelf}/bin/audiobookshelf --host ${cfg.address} --port ${builtins.toString cfg.port} --config ${cfg.configDir}/config --metadata ${cfg.configDir}/metadata";
-          ExecReload = "kill -HUP $MAINPID";
-          Restart = "always";
-          User = cfg.user;
-          Group = cfg.group;
-          StateDirectory = lib.mkDefault "audiobookshelf";
-          StateDirectoryMode = "0700";
-          ProtectHome = true;
-          PrivateDevices = true;
-          ProtectHostname = true;
-          ProtectClock = true;
-          RestrictRealtime = true;
-          RestrictSUIDSGID = true;
-          RemoveIPC = true;
-          PrivateMounts = true;
-          Type = "simple";
-          TimeoutSec = 15;
-          NoNewPrivileges = true;
-          SystemCallArchitectures = "native";
-          RestrictNamespaces = !config.boot.isContainer;
-          ProtectControlGroups = !config.boot.isContainer;
-          ProtectKernelLogs = !config.boot.isContainer;
-          ProtectKernelModules = !config.boot.isContainer;
-          ProtectKernelTunables = !config.boot.isContainer;
-          LockPersonality = true;
-          PrivateTmp = !config.boot.isContainer;
-          SystemCallFilter = [
-            "~@clock"
-            "~@aio"
-            "~@chown"
-            "~@cpu-emulation"
-            "~@debug"
-            "~@keyring"
-            "~@memlock"
-            "~@module"
-            "~@mount"
-            "~@obsolete"
-            "~@privileged"
-            "~@raw-io"
-            "~@reboot"
-            "~@setuid"
-            "~@swap"
-          ];
-          SystemCallErrorNumber = "EPERM";
-        };
-      };
-
       # FIXME: I know. This sux. I will learn what is actually happening one day.
       services.libation-hack =
         let
