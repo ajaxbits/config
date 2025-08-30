@@ -84,6 +84,7 @@
               installer = pkgs.mkShell {
                 packages = [
                   disko.packages.${system}.disko
+                  pkgs.bitwarden-cli
                   pkgs.git
                   pkgs.jq
                   pkgs.neovim
