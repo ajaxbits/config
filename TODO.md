@@ -1,5 +1,7 @@
 - [x] Download libation and recreate the DB
 - [ ] add libation to the backups for ABS
+- [ ] import all paperless documents again
 - [ ] re-set up openvpn for qbittorrent
 - [ ] consider tailcale thing with the 172 addresses over ssh
 - [ ] Figure out perms issue for unifi
+- [ ] Finally make vpod a service
