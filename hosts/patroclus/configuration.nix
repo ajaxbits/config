@@ -9,6 +9,7 @@ in
   imports = [
     ./disks
     ./hardware-configuration.nix
+    ./scrutiny.nix
   ];
   virtualisation = {
     libvirtd.enable = true;
