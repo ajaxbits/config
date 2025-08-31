@@ -107,6 +107,7 @@ in
           description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
           serviceConfig.User = "root";
         };
+
       timers.libation-hack = {
         description = "Horrible hack to set unix permissions for libation-liberated files on a schedule.";
         wantedBy = [ "timers.target" ];
@@ -119,31 +120,53 @@ in
     };
     users.users = mkIf (cfg.user == "audiobookshelf") {
       audiobookshelf = {
+        uid = 986;
         isSystemUser = true;
         group = "audiobookshelf";
         extraGroups = [
           "mediaoperators"
           "configoperators"
         ];
-        uid = 986;
+      };
+      libation = {
+        uid = 2212;
+        isSystemUser = true;
+        group = "libation";
+        extraGroups = [
+          "mediaoperators"
+          "configoperators"
+        ];
       };
     };
     users.groups = mkIf (cfg.group == "audiobookshelf") {
       audiobookshelf.gid = 983;
-      mediaoperators.gid = 986;
       configoperators.gid = 982;
+      libation.gid = 2212;
+      mediaoperators.gid = 986;
     };
 
     virtualisation.oci-containers.backend = "docker";
 
-    virtualisation.oci-containers.containers.libation = {
-      image = "rmcrackan/libation:${libationVersion}";
-      environment.SLEEP_TIME = "10m";
-      volumes = [
-        "${cfg.audiobooksDir}:/data"
-        "${cfg.libationDataDir}:/config"
-      ];
-    };
+    virtualisation.oci-containers.containers.libation =
+      let
+        inherit (config.users) users;
+        inherit (config.users) groups;
+      in
+      {
+        image = "rmcrackan/libation:${libationVersion}";
+        environment.SLEEP_TIME = "10m";
+        user = "${builtins.toString users.libation.uid}:${builtins.toString groups.libation.gid}";
+        extraOptions = [
+          "--group-add"
+          (builtins.toString groups.configoperators.gid)
+          "--group-add"
+          (builtins.toString groups.mediaoperators.gid)
+        ];
+        volumes = [
+          "${cfg.audiobooksDir}:/data"
+          "${cfg.libationDataDir}:/config"
+        ];
+      };
     services = {
       caddy.virtualHosts = mkIf config.components.caddy.enable {
         "https://audiobooks.ajax.casa".extraConfig = ''
