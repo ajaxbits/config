@@ -15,7 +15,7 @@ let
     ;
 
   cfg = config.components.audiobookshelf;
-  libationVersion = "11.0.4";
+  libationVersion = "12.5.3";
 in
 {
   imports = [ ./backup.nix ];
@@ -138,6 +138,7 @@ in
 
     virtualisation.oci-containers.containers.libation = {
       image = "rmcrackan/libation:${libationVersion}";
+      environment.SLEEP_TIME = "10m";
       volumes = [
         "${cfg.audiobooksDir}:/data"
         "${cfg.libationDataDir}:/config"
