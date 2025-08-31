@@ -7,7 +7,6 @@ let
 in
 {
   imports = [
-    ./authentik.nix
     ./disks
     ./hardware-configuration.nix
   ];
@@ -52,7 +51,7 @@ in
         else
           "github:ajaxbits/config#patroclus";
     };
-    cloudflared.enable = true;
+    cloudflared.enable = false;
     ebooks.enable = true;
     mediacenter = {
       enable = true;
