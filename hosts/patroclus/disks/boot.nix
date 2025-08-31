@@ -32,8 +32,8 @@ in
 
     script = ''
       set -euo pipefail
-      rsync -a --delete ${bootPaths.a} ${bootPaths.b}
-      bootctl install --esp-path=${bootPaths.b} --entry-token=auto
+      rsync -a --delete ${bootPaths.a}/ ${bootPaths.b}
+      bootctl install --esp-path=${bootPaths.b}
     '';
   };
 }
