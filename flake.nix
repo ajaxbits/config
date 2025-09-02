@@ -75,6 +75,7 @@
               commonPkgs = with pkgs; [
                 agenix.packages.${system}.default
                 bashInteractive
+                git-bug
               ];
             in
             {
