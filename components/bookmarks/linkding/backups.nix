@@ -62,6 +62,9 @@ in
         };
       };
 
+    users.users.linkding.extraGroups = [ "rcloneoperators" ];
+    users.groups.rcloneoperators = { };
+
     systemd.timers.linkding-backup = {
       description = "Run a linkding backup on a schedule";
       wantedBy = [ "timers.target" ];
@@ -69,6 +72,15 @@ in
         OnCalendar = "daily";
         WakeSystem = true;
         Persistent = true;
+      };
+    };
+
+    age.secrets = {
+      "rclone/rclone.conf" = {
+        file = ../../../secrets/rclone/rclone.conf.age;
+        mode = "440";
+        owner = config.users.users.paperless.name;
+        group = config.users.groups.rcloneoperators.name;
       };
     };
   };
