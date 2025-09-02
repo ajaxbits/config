@@ -36,7 +36,7 @@ in
     bookmarks = {
       enable = true;
       backups = {
-        enable = isFull;
+        enable = true;
         healthchecksUrl = "https://hc-ping.com/6bbcb9d3-52c5-48e7-b9f8-20b58264f57e";
       };
     };
