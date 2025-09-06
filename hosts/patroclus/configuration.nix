@@ -10,6 +10,7 @@ in
     ./disks
     ./hardware-configuration.nix
     ./scrutiny.nix
+    ./vpod.nix
   ];
   virtualisation = {
     libvirtd.enable = true;
@@ -52,7 +53,7 @@ in
         else
           "github:ajaxbits/config#patroclus";
     };
-    cloudflared.enable = false;
+    cloudflared.enable = true;
     ebooks.enable = true;
     mediacenter = {
       enable = true;

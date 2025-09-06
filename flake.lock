@@ -278,6 +278,24 @@
         "type": "github"
       }
     },
+    "flake-parts_6": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_4"
+      },
+      "locked": {
+        "lastModified": 1741352980,
+        "narHash": "sha256-+u2UunDA4Cl5Fci3m7S643HzKmIDAe+fiXrLqYsR2fs=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f4330d22f1c5d2ba72d3d22df5597d123fdb60a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": [
@@ -614,6 +632,21 @@
         "type": "github"
       }
     },
+    "nixpkgs-lib_4": {
+      "locked": {
+        "lastModified": 1740877520,
+        "narHash": "sha256-oiwv/ZK/2FhGxrCkQkB83i7GnWXPPLzoqFHpDD3uYpk=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "147dee35aab2193b174e4c0868bd80ead5ce755c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1742669843,
@@ -837,7 +870,8 @@
         "nixpkgs": "nixpkgs_6",
         "nur": "nur",
         "unfree": "unfree",
-        "unstable": "unstable"
+        "unstable": "unstable",
+        "vpod": "vpod"
       }
     },
     "systems": {
@@ -961,6 +995,44 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "vpod": {
+      "inputs": {
+        "flake-parts": "flake-parts_6",
+        "nixpkgs": [
+          "unstable"
+        ],
+        "yt-dlp": "yt-dlp"
+      },
+      "locked": {
+        "lastModified": 1757188638,
+        "narHash": "sha256-l1OF4Tb2qiElCnBnQSBbOkOXGcWhVHCCDW78Xz4aQqo=",
+        "owner": "ajaxbits",
+        "repo": "vpod-go",
+        "rev": "bfd1d1d23c6e1f48ec60b352a907e5421b4023a7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ajaxbits",
+        "repo": "vpod-go",
+        "type": "github"
+      }
+    },
+    "yt-dlp": {
+      "locked": {
+        "lastModified": 1745778752,
+        "narHash": "sha256-cSpQuNn2RFIcds4xjITyMJm63wR/FgGa0ucpu1uX2IA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c1f9d2265b853f148304c50bad66885deb5ab47c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
         "type": "github"
       }
     }

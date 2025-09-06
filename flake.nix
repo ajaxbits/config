@@ -42,6 +42,10 @@
     };
     neovim.url = "github:ajaxbits/nvim";
     nur.url = "github:nix-community/NUR";
+    vpod = {
+      url = "github:ajaxbits/vpod-go";
+      inputs.nixpkgs.follows = "unstable";
+    };
   };
 
   outputs =
@@ -133,6 +137,8 @@
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
               lix-module.nixosModules.default
+
+              inputs.vpod.nixosModules.default
             ];
           };
           patroclusStripped = nixpkgs.lib.nixosSystem {
@@ -148,6 +154,8 @@
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
               lix-module.nixosModules.default
+
+              inputs.vpod.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
