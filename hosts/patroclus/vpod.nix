@@ -18,7 +18,7 @@ in
         enable = true;
         settings = {
           inherit baseUrl;
-          frontend.passwordFile = "/tmp/passwordfile";
+          frontend.passwordFile = config.age.secrets."vpod/passwordfile".path;
           port = 9989;
         };
       };
@@ -37,6 +37,13 @@ in
           import cloudflare
         '';
       };
+    };
+
+    age.secrets."vpod/passwordfile" = {
+      file = ../../secrets/vpod/passwordfile.age;
+      mode = "440";
+      owner = config.services.vpod.user;
+      inherit (config.services.vpod) group;
     };
   };
 }

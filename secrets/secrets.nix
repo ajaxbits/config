@@ -66,6 +66,9 @@ in
   # attic
   "attic/atticd.env.age".publicKeys = writers ++ [ patroclus ];
 
+  # vpod
+  "vpod/passwordfile.age".publicKeys = writers ++ [ patroclus ];
+
   # zfs
   "zfs/documents-encryption-passphrase.age".publicKeys = writers ++ [ patroclus ];
 }
