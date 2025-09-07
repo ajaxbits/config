@@ -46,6 +46,9 @@
       url = "github:ajaxbits/vpod-go";
       inputs.nixpkgs.follows = "unstable";
     };
+
+    inputs.microvm.url = "github:microvm-nix/microvm.nix";
+    inputs.microvm.inputs.nixpkgs.follows = "unstable";
   };
 
   outputs =
@@ -156,6 +159,58 @@
               lix-module.nixosModules.default
 
               inputs.vpod.nixosModules.default
+
+              inputs.microvm.nixosModules.host
+              {
+                microvm.vms = {
+                  vpod = {
+                    imports = [ inputs.vpod.nixosModules.default ];
+                    # The package set to use for the microvm. This also determines the microvm's architecture.
+                    # Defaults to the host system's package set if not given.
+                    pkgs = import nixpkgs { system = "x86_64-linux"; };
+
+                    # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
+                    #specialArgs = {};
+
+                    # The configuration for the MicroVM.
+                    # Multiple definitions will be merged as expected.
+                    config = {
+                      # It is highly recommended to share the host's nix-store
+                      # with the VMs to prevent building huge images.
+                      microvm.shares = [
+                        {
+                          source = "/nix/store";
+                          mountPoint = "/nix/.ro-store";
+                          tag = "ro-store";
+                          proto = "virtiofs";
+                        }
+                        # {
+                        #   proto = "virtiofs";
+                        #   tag = "vpodData";
+                        #   # Source path can be absolute or relative
+                        #   # to /var/lib/microvms/$hostName
+                        #   source = "data";
+                        #   mountPoint = "/var/lib/vpod";
+                        # }
+                      ];
+                      microvm.interfaces = [
+                        {
+                          type = "macvtap";
+                          id = "vpod-vm";
+                          mac = "02:00:00:00:00:01";
+                          macvtap = {
+                            link = "eno2";
+                            mode = "bridge";
+                          };
+                        }
+                      ];
+
+                      # Any other configuration for your MicroVM
+                      # [...]
+                    };
+                  };
+                };
+              }
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
