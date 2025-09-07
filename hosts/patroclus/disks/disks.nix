@@ -59,7 +59,7 @@ rec {
   };
 
   swapDevices = builtins.map (disk: {
-    device = "/dev/disk/by-label/${disk.content.partitions.swap.label}";
+    device = "/dev/disk/by-partlabel/${disk.content.partitions.swap.label}";
   }) (builtins.attrValues disko.devices.disk);
 
   ### GENERAL ZFS CONFIG ###
