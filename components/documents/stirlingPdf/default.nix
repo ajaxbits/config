@@ -9,7 +9,7 @@ let
   inherit (lib) mkIf mkOverride;
   cfg = config.components.documents.stirlingPdf;
 
-  version = "0.21.0";
+  version = "1.3.2";
   configDir = "${dataPaths.containers}/stirling-pdf/extraConfigs";
   internalPort = 8124;
   internalAddress =
@@ -26,8 +26,8 @@ in
     };
     virtualisation.oci-containers.backend = "docker";
 
-    virtualisation.oci-containers.containers."stirling-pdf-stirling-pdf" = {
-      image = "frooodle/s-pdf:${version}";
+    virtualisation.oci-containers.containers."stirling-pdf" = {
+      image = "ghcr.io/stirling-tools/stirling-pdf:${version}-fat";
       environment = {
         DOCKER_ENABLE_SECURITY = "false";
       };
@@ -43,7 +43,7 @@ in
         "--network=stirling-pdf-default"
       ];
     };
-    systemd.services."docker-stirling-pdf-stirling-pdf" = {
+    systemd.services."docker-stirling-pdf" = {
       serviceConfig.Restart = mkOverride 500 "no";
       after = [ "docker-network-stirling-pdf-default.service" ];
       requires = [ "docker-network-stirling-pdf-default.service" ];
