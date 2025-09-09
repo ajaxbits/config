@@ -60,6 +60,8 @@ rec {
 
   swapDevices = builtins.map (disk: {
     device = "/dev/disk/by-partlabel/${disk.content.partitions.swap.label}";
+    randomEncryption.enable = true;
+    randomEncryption.allowDiscards = true;  # important for TRIM on SSD/NVMe
   }) (builtins.attrValues disko.devices.disk);
 
   ### GENERAL ZFS CONFIG ###
