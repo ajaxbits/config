@@ -5,7 +5,12 @@
   ...
 }:
 let
-  inherit (lib) concatLines mkIf optional;
+  inherit (lib)
+    concatLines
+    mkIf
+    optional
+    getExe
+    ;
   cfg = config.components.audiobookshelf;
 in
 {
@@ -14,30 +19,44 @@ in
       let
         rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
 
+        curl = getExe pkgs.curl;
+        rclone = getExe pkgs.rclone;
+
         backup = pkgs.writeShellScript "audiobookshelf-backup" (
           concatLines (
-            [ "set -eux" ]
-            ++ optional cfg.backups.audiobooks.enable ''
-              ${pkgs.rclone}/bin/rclone sync \
-                --config ${rcloneConfigFile} \
-                --verbose \
-                --checksum \
-                --ignore-existing \
-                --transfers=4 \
-                ${cfg.audiobooksDir} b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/audiobooks
-            ''
+            [
+              "set -eux"
+              ''
+                ${rclone} sync \
+                  --config ${rcloneConfigFile} \
+                  --verbose \
+                  --checksum \
+                  --ignore-existing \
+                  --transfers=4 \
+                  ${cfg.audiobooksDir} b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/audiobooks
+              ''
+              ''
+                ${rclone} sync \
+                  --config ${rcloneConfigFile} \
+                  --verbose \
+                  --checksum \
+                  --ignore-existing \
+                  --transfers=4 \
+                  ${cfg.libationDataDir}/LibationContext.db b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/libation
+              ''
+            ]
             ++ optional cfg.backups.metadata.enable ''
-              ${pkgs.rclone}/bin/rclone sync \
+              ${rclone} sync \
                 --config ${rcloneConfigFile} \
                 --verbose \
                 --checksum \
                 --ignore-existing \
                 --transfers=4 \
-                ${cfg.configDir}/audiobookshelf/metadata/backups b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/backups
+                ${cfg.configDir}/metadata/backups b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/backups
             ''
             ++ optional (
               cfg.backups.healthchecksUrl != ""
-            ) "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
+            ) "${curl} -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"
           )
         );
       in

@@ -64,11 +64,6 @@ in
     };
     backups = {
       enable = mkEnableOption "Enable backups";
-      audiobooks.enable = mkOption {
-        description = "Enable audiobook file backup";
-        type = types.bool;
-        default = true;
-      };
       metadata.enable = mkOption {
         description = "Enable backup for audiobookshelf metadata files";
         type = types.bool;
