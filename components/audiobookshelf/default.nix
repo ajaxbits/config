@@ -169,28 +169,28 @@ in
           reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
           import cloudflare
         '';
-        "https://audiobooks.ajax.lol".extraConfig = ''
-          encode gzip zstd
-          reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
-          import cloudflare
-        '';
+        # "https://audiobooks.ajax.lol".extraConfig = ''
+        #   encode gzip zstd
+        #   reverse_proxy http://${cfg.address}:${builtins.toString cfg.port}
+        #   import cloudflare
+        # '';
       };
 
-      cloudflared = mkIf config.components.cloudflared.enable {
-        tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f".ingress =
-          let
-            url = "audiobooks.ajax.lol";
-          in
-          {
-            ${url} = {
-              service = "https://localhost:443";
-              originRequest = {
-                originServerName = url;
-                httpHostHeader = url;
-              };
-            };
-          };
-      };
+      # cloudflared = mkIf config.components.cloudflared.enable {
+      #   tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f".ingress =
+      #     let
+      #       url = "audiobooks.ajax.lol";
+      #     in
+      #     {
+      #       ${url} = {
+      #         service = "https://localhost:443";
+      #         originRequest = {
+      #           originServerName = url;
+      #           httpHostHeader = url;
+      #         };
+      #       };
+      #     };
+      # };
     };
   };
 }
