@@ -9,20 +9,14 @@ zigbee.ajax.casa {
     encode gzip zstd
 }
 
-yt.ajax.casa {
-    import cloudflare
-    reverse_proxy 127.0.0.1:6666
-    encode gzip zstd
-}
-
-companion.yt.ajax.casa {
-    import cloudflare
-    reverse_proxy 127.0.0.1:8282
-    encode gzip zstd
-}
-
 esphome.ajax.casa {
     import cloudflare
     reverse_proxy 0.0.0.0:6052
+    encode gzip zstd
+}
+
+n8n.ajax.casa {
+    import cloudflare
+    reverse_proxy localhost:5678
     encode gzip zstd
 }
