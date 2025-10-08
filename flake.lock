@@ -66,22 +66,17 @@
       }
     },
     "caddy": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
       "locked": {
-        "lastModified": 1729527061,
-        "narHash": "sha256-9nP6nUAQJ0XOXMkFAhxjHK0+SlRXzMYfEYBMzckd0qk=",
-        "owner": "ajaxbits",
-        "repo": "nixos-caddy-patched",
-        "rev": "ec268cce1140c7423138b3db93a0859ec685f354",
+        "lastModified": 1759295910,
+        "narHash": "sha256-w6XBQd3UCYKzSpWq/ckTCKmdFqIIDE1JcDBJFZdZCaw=",
+        "owner": "vincentbernat",
+        "repo": "caddy-nix",
+        "rev": "516fabe2f03631e389b786062e0892343615cbb8",
         "type": "github"
       },
       "original": {
-        "owner": "ajaxbits",
-        "repo": "nixos-caddy-patched",
+        "owner": "vincentbernat",
+        "repo": "caddy-nix",
         "type": "github"
       }
     },

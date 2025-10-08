@@ -47,7 +47,10 @@ in
     }
     (mkIf cfg.cloudflare.enable {
       services.caddy = {
-        package = pkgsCaddyPatched.caddy-patched;
+        package = pkgsCaddyPatched.caddy.withPlugins {
+          plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
+          hash = "sha256-p9AIi6MSWm0umUB83HPQoU8SyPkX5pMx989zAi8d/74=";
+        };
         extraConfig = lib.mkBefore ''
           (cloudflare) {
             tls {

@@ -32,10 +32,7 @@
     };
 
     # custom pkgs
-    caddy = {
-      url = "github:ajaxbits/nixos-caddy-patched";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    caddy.url = "github:vincentbernat/caddy-nix";
     centerpiece = {
       url = "github:friedow/centerpiece";
       inputs.nixpkgs.follows = "unstable";
@@ -62,7 +59,6 @@
       agenix,
       nixos-hardware, # deadnix: skip
       lix-module,
-      caddy,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
