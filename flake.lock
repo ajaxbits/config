@@ -167,11 +167,11 @@
         "pyproject-nix": "pyproject-nix_2"
       },
       "locked": {
-        "lastModified": 1754978539,
-        "narHash": "sha256-nrDovydywSKRbWim9Ynmgj8SBm8LK3DI2WuhIqzOHYI=",
+        "lastModified": 1750272463,
+        "narHash": "sha256-udleaLnEHK3A5RZVCEQnE6Zeww6yq03NUcqJ/TcUQVc=",
         "owner": "nix-community",
         "repo": "dream2nix",
-        "rev": "fbec3263cb4895ac86ee9506cdc4e6919a1a2214",
+        "rev": "bd83ed026b859acb34c52c3fdc15631c8766af8e",
         "type": "github"
       },
       "original": {
@@ -927,24 +927,18 @@
       }
     },
     "pyproject-nix_2": {
-      "inputs": {
-        "nixpkgs": [
-          "vpod",
-          "yt-dlp",
-          "dream2nix",
-          "nixpkgs"
-        ]
-      },
+      "flake": false,
       "locked": {
-        "lastModified": 1752481895,
-        "narHash": "sha256-luVj97hIMpCbwhx3hWiRwjP2YvljWy8FM+4W9njDhLA=",
-        "owner": "pyproject-nix",
+        "lastModified": 1702448246,
+        "narHash": "sha256-hFg5s/hoJFv7tDpiGvEvXP0UfFvFEDgTdyHIjDVHu1I=",
+        "owner": "davhau",
         "repo": "pyproject.nix",
-        "rev": "16ee295c25107a94e59a7fc7f2e5322851781162",
+        "rev": "5a06a2697b228c04dd2f35659b4b659ca74f7aeb",
         "type": "github"
       },
       "original": {
-        "owner": "pyproject-nix",
+        "owner": "davhau",
+        "ref": "dream2nix",
         "repo": "pyproject.nix",
         "type": "github"
       }
@@ -1126,11 +1120,11 @@
         "yt-dlp": "yt-dlp"
       },
       "locked": {
-        "lastModified": 1761319522,
-        "narHash": "sha256-owXW2ex3jNMuV/NmTrOooBmLh7N5we3+mNdjBkuoljw=",
+        "lastModified": 1761320140,
+        "narHash": "sha256-IIHuyU/5QVANXYQW+5PaemxX4FnzF9QfrJ0bpXZU1lQ=",
         "owner": "ajaxbits",
         "repo": "vpod-go",
-        "rev": "c615cde59811045702fc20456d4e31ffc9f6ad31",
+        "rev": "8b87c16490ab7a25bc699da401abeafa2847bb40",
         "type": "github"
       },
       "original": {
@@ -1151,11 +1145,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1761221489,
+        "lastModified": 1761320063,
         "narHash": "sha256-/zca115n1ivUGcyHZUJNP1bXwDtBxVqSUxragaBUaKs=",
         "owner": "ajaxbits",
         "repo": "yt-dlp-flake",
-        "rev": "4361c7e86cf6e989ee7e42e82cb0469a8384fde7",
+        "rev": "db8ee143ae50912a9afc0a81799ae3df13926ec9",
         "type": "github"
       },
       "original": {
