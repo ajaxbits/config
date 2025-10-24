@@ -40,7 +40,7 @@
     neovim.url = "github:ajaxbits/nvim";
     nur.url = "github:nix-community/NUR";
     vpod = {
-      url = "github:ajaxbits/vpod-go";
+      url = "github:ajaxbits/vpod-go/nightly";
       inputs.nixpkgs.follows = "unstable";
     };
   };
