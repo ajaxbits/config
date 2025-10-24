@@ -164,7 +164,7 @@ in
       youtube = mkIf cfg.youtube.enable { };
     };
 
-    hardware.opengl = mkIf cfg.intel.enable {
+    hardware.graphics = mkIf cfg.intel.enable {
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
