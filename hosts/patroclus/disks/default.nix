@@ -9,5 +9,6 @@ in
   imports = [
     ./boot.nix
     ./disks.nix
+    ./snapshots.nix
   ];
 }

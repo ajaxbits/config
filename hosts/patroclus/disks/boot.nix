@@ -18,6 +18,7 @@ in
     supportedFilesystems = [ "zfs" ];
   };
 
+
   # if the backup boot isn't present, don't fail
   fileSystems.${bootPaths.b}.options = [ "nofail" ];
 
