@@ -3,17 +3,19 @@
   self,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.components.monitoring;
   nodeExport = hostname: {
     job_name = hostname;
     static_configs = [
       {
-        targets = ["0.0.0.0:${toString config.services.prometheus.exporters.node.port}"];
+        targets = [ "0.0.0.0:${toString config.services.prometheus.exporters.node.port}" ];
       }
     ];
   };
-in {
+in
+{
   imports = [
     ./edgerouterx.nix
     ./nextdns.nix
@@ -26,9 +28,15 @@ in {
       exporters = {
         node = {
           enable = true;
-          enabledCollectors = ["systemd"];
+          enabledCollectors = [ "systemd" ];
           port = 9002;
+          extraFlags = [
+            "--collector.ethtool"
+            "--collector.softirqs"
+            "--collector.tcpstat"
+          ];
         };
+        nut.enable = true;
         # TODO: bring under unifi networking umbrella
         unpoller = lib.mkIf cfg.networking.enable {
           enable = true;
@@ -62,7 +70,7 @@ in {
           scrape_interval = "30s";
           static_configs = [
             {
-              targets = ["127.0.0.1:9130"];
+              targets = [ "127.0.0.1:9130" ];
             }
           ];
         };

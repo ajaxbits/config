@@ -27,7 +27,17 @@ in
                 }
               ];
             }
-
+            {
+              job_name = "nut-exporter-${hostName}";
+              scrape_interval = "30s";
+              metrics_path = "/ups_metrics";
+              static_configs = [
+                {
+                  targets = [ "localhost:9199" ];
+                  labels.host = hostName;
+                }
+              ];
+            }
           ];
       };
     };
