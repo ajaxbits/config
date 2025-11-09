@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "unstable";
+    };
+
     # custom pkgs
     caddy.url = "github:vincentbernat/caddy-nix";
     centerpiece = {
@@ -149,6 +154,7 @@
               home-manager.nixosModules.home-manager
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
+              inputs.microvm.nixosModules.host
               lix-module.nixosModules.default
 
               inputs.vpod.nixosModules.default

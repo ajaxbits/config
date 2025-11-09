@@ -9,6 +9,7 @@ in
   imports = [
     ./disks
     ./hardware-configuration.nix
+    ./hypervisor.nix
     ./monitor.nix
     ./scrutiny.nix
     ./vpod.nix
