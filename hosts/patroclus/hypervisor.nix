@@ -16,14 +16,6 @@ in
     "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
   ) [ "test1" ];
 
-  microvm.forwardPorts = [
-    {
-      from = "host";
-      host.port = 2324;
-      guest.port = 22;
-    }
-  ];
-
   networking.useNetworkd = true;
   systemd.network = {
     enable = true;
