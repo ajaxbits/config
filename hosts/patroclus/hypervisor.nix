@@ -6,6 +6,24 @@ let
   v4CIDR = "172.22.0.10/15"; # the static ip, followe by the whole range
 in
 {
+
+  systemd.tmpfiles.rules = map (
+    vmHost:
+    let
+      machineId = "b7a4f2c83e914e1ebc3a4a2e8e9d5f01";
+    in
+    # creates a symlink of each MicroVM's journal under the host's /var/log/journal
+    "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
+  ) [ "test1" ];
+
+  microvm.forwardPorts = [
+    {
+      from = "host";
+      host.port = 2324;
+      guest.port = 22;
+    }
+  ];
+
   networking.useNetworkd = true;
   systemd.network = {
     enable = true;

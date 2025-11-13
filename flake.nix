@@ -158,6 +158,12 @@
               lix-module.nixosModules.default
 
               inputs.vpod.nixosModules.default
+
+              (import ./test.nix {
+                inherit (inputs) nixpkgs;
+                microvm = inputs.microvm.nixosModules;
+                hostName = "test1";
+              })
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {

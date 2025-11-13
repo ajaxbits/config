@@ -61,18 +61,14 @@
     #
     # Example configuration:
     #
-    #   input type:touchpad {
+    #   input "2:14:SynPS/2_Synaptics_TouchPad" {
     #       dwt enabled
     #       tap enabled
     #       natural_scroll enabled
     #       middle_emulation enabled
     #   }
     #
-    #   input type:keyboard {
-    #       xkb_layout "eu"
-    #   }
-    #
-    # You can also configure each device individually.
+    # You can get the names of your inputs by running: swaymsg -t get_inputs
     # Read `man 5 sway-input` for more information about this section.
 
     ### Key bindings
