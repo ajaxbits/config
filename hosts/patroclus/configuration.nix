@@ -48,7 +48,7 @@ in
       cloudflare.enable = true;
     };
     cd = {
-      enable = false;
+      enable = true;
       flake =
         if isStripped then
           "github:ajaxbits/config#patroclusStripped"
