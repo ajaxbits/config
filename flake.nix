@@ -159,10 +159,9 @@
 
               inputs.vpod.nixosModules.default
 
-              (import ./test.nix {
+              (import ./hosts/vms/vpod {
                 inherit (inputs) nixpkgs;
                 microvm = inputs.microvm.nixosModules;
-                hostName = "test1";
               })
             ];
           };
