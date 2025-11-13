@@ -6,6 +6,36 @@ in
   imports = [
     ./paperless.nix
   ];
+
+  microvm = {
+    mem = 2048;
+    interfaces = [
+      {
+        type = "tap";
+        id = "vm-${hostName}";
+        mac = "02:00:00:00:00:02";
+      }
+    ];
+    shares = [
+      {
+        source = "/nix/store";
+        mountPoint = "/nix/.ro-store";
+        tag = "ro-store";
+        proto = "virtiofs";
+      }
+
+      # {
+      #   # On the host
+      #   source = "/var/lib/microvms/${hostName}/journal";
+      #   # In the MicroVM
+      #   mountPoint = "/var/log/journal";
+      #   tag = "journal";
+      #   proto = "virtiofs";
+      #   socket = "journal.sock";
+      # }
+    ];
+  };
+
   environment.etc."machine-id" = {
     mode = "0644";
     text = "2cfdf6c7cdba4ce1a9f45efaa8cfc740" + "\n";
@@ -43,31 +73,4 @@ in
     };
   };
 
-  microvm = {
-    interfaces = [
-      {
-        type = "tap";
-        id = "vm-${hostName}";
-        mac = "02:00:00:00:00:02";
-      }
-    ];
-    shares = [
-      {
-        source = "/nix/store";
-        mountPoint = "/nix/.ro-store";
-        tag = "ro-store";
-        proto = "virtiofs";
-      }
-
-      # {
-      #   # On the host
-      #   source = "/var/lib/microvms/${hostName}/journal";
-      #   # In the MicroVM
-      #   mountPoint = "/var/log/journal";
-      #   tag = "journal";
-      #   proto = "virtiofs";
-      #   socket = "journal.sock";
-      # }
-    ];
-  };
 }
