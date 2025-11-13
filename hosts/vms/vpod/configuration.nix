@@ -38,6 +38,7 @@
   };
 
   microvm = {
+    mem = 1024;
     interfaces = [
       {
         type = "tap";
@@ -51,6 +52,13 @@
         mountPoint = "/nix/.ro-store";
         tag = "ro-store";
         proto = "virtiofs";
+      }
+      {
+        source = "/run/agenix";
+        mountPoint = "/run/agenix";
+        tag = "agenix";
+        proto = "virtiofs";
+        readOnly = true;
       }
 
       # {
