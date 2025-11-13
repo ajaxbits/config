@@ -163,6 +163,11 @@
                 inherit (inputs) nixpkgs;
                 microvm = inputs.microvm.nixosModules;
               })
+              (import ./hosts/vms/documents {
+                inherit (inputs) nixpkgs;
+                components = ./components;
+                microvm = inputs.microvm.nixosModules;
+              })
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
