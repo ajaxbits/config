@@ -56,7 +56,7 @@ in
           "github:ajaxbits/config#patroclus";
     };
     cloudflared.enable = true;
-    ebooks.enable = true;
+    ebooks.enable = false;
     mediacenter = {
       enable = true;
       intel.enable = true;
