@@ -1,11 +1,17 @@
 { hostName, ... }:
 {
+  imports = [
+    # Be careful here
+    # ./debugging.nix
+  ];
+
   services.vpod = {
     enable = true;
     settings = {
       baseUrl = "https://podcasts.ajax.lol";
       frontend.passwordFile = "/run/agenix/vpod/passwordfile";
       port = 4119;
+      monitoring.victoriaLogsEndpoint = "http://172.22.0.10:9428";
     };
   };
 
@@ -23,19 +29,6 @@
       ];
     };
   };
-
-  # services.openssh = {
-  #   enable = true;
-  #   settings.PasswordAuthentication = true;
-  # };
-  # users = {
-  #   mutableUsers = true;
-  #   users.admin = {
-  #     isNormalUser = true;
-  #     extraGroups = [ "wheel" ];
-  #     initialPassword = "pleasehackme";
-  #   };
-  # };
 
   systemd.network = {
     enable = true;
