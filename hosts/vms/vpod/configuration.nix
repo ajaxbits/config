@@ -1,6 +1,8 @@
 { hostName, ... }:
 {
   imports = [
+    ./monitoring.nix
+
     # Be careful here
     # ./debugging.nix
   ];

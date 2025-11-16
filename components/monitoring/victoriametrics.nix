@@ -28,6 +28,18 @@ in
               ];
             }
             {
+              job_name = "node-exporter-vpod";
+              scrape_interval = "30s";
+              metrics_path = "/metrics";
+              static_configs = [
+                {
+                  targets = [ "172.22.2.51:9002" ];
+                  labels.type = "node";
+                  labels.host = "vpod";
+                }
+              ];
+            }
+            {
               job_name = "nut-exporter-${hostName}";
               scrape_interval = "30s";
               metrics_path = "/ups_metrics";

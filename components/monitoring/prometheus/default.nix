@@ -6,11 +6,11 @@
 }:
 let
   cfg = config.components.monitoring;
-  nodeExport = hostname: {
+  nodeExport = hostname: ip: {
     job_name = hostname;
     static_configs = [
       {
-        targets = [ "0.0.0.0:${toString config.services.prometheus.exporters.node.port}" ];
+        targets = [ "${ip}:${toString config.services.prometheus.exporters.node.port}" ];
       }
     ];
   };
@@ -63,7 +63,8 @@ in
 
       scrapeConfigs =
         [
-          (nodeExport "${config.networking.hostName}")
+          (nodeExport "${config.networking.hostName}" "0.0.0.0")
+          (nodeExport "vpod" "172.22.2.51")
         ]
         ++ lib.optional cfg.networking.enable {
           job_name = "unifipoller";
