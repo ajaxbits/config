@@ -1,16 +1,13 @@
-{
-  nixpkgs,
-  # microvm refers to microvm.nixosModules
-  microvm,
-  ...
-}:
+{ inputs, ... }:
 let
   hostName = "vpod";
 
-  pkgs = import nixpkgs { system = "x86_64-linux"; };
+  pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
 in
 {
-  imports = [ microvm.host ];
+  imports = [
+    inputs.microvm.nixosModules.host
+  ];
   microvm.vms.${hostName} = {
     # The package set to use for the microvm. This also determines the microvm's architecture.
     # Defaults to the host system's package set if not given.
@@ -18,8 +15,13 @@ in
 
     # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
     specialArgs = {
-      inherit pkgs hostName;
+      inherit hostName;
     };
+
+    extraModules = [
+      inputs.agenix.nixosModules.age
+      inputs.vpod.nixosModules.default
+    ];
 
     config = import ./configuration.nix;
   };

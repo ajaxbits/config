@@ -14,14 +14,14 @@ in
     };
 
     services = {
-      vpod = {
-        enable = true;
-        settings = {
-          inherit baseUrl;
-          frontend.passwordFile = config.age.secrets."vpod/passwordfile".path;
-          port = 9989;
-        };
-      };
+      # vpod = {
+      #   enable = true;
+      #   settings = {
+      #     inherit baseUrl;
+      #     frontend.passwordFile = config.age.secrets."vpod/passwordfile".path;
+      #     port = 9989;
+      #   };
+      # };
 
       cloudflared.tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f".ingress.${domain} = {
         service = "https://localhost:443";
@@ -32,18 +32,19 @@ in
       };
       caddy.virtualHosts.${baseUrl} = {
         extraConfig = ''
-          encode gzip zstd
-          reverse_proxy ${config.services.vpod.settings.host}:${builtins.toString config.services.vpod.settings.port}
           import cloudflare
+          encode gzip zstd
+
+          reverse_proxy 172.22.2.51:4119
         '';
       };
     };
 
-    age.secrets."vpod/passwordfile" = {
-      file = ../../secrets/vpod/passwordfile.age;
-      mode = "440";
-      owner = config.services.vpod.user;
-      inherit (config.services.vpod) group;
-    };
+    # age.secrets."vpod/passwordfile" = {
+    #   file = ../../secrets/vpod/passwordfile.age;
+    #   mode = "440";
+    #   owner = config.services.vpod.user;
+    #   inherit (config.services.vpod) group;
+    # };
   };
 }

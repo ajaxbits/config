@@ -159,10 +159,7 @@
 
               inputs.vpod.nixosModules.default
 
-              (import ./hosts/vms/vpod {
-                inherit (inputs) nixpkgs;
-                microvm = inputs.microvm.nixosModules;
-              })
+              (import ./hosts/vms/vpod { inherit inputs; })
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
