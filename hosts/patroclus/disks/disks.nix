@@ -32,6 +32,7 @@ let
             label = "swap-${name}";
             content = {
               type = "swap";
+              discardPolicy = "both";
               randomEncryption = true;
             };
           };
@@ -57,12 +58,6 @@ rec {
       device = "/dev/disk/by-id/nvme-Samsung_SSD_990_EVO_Plus_2TB_S7U6NJ0Y709421M";
     };
   };
-
-  swapDevices = builtins.map (disk: {
-    device = "/dev/disk/by-partlabel/${disk.content.partitions.swap.label}";
-    randomEncryption.enable = true;
-    randomEncryption.allowDiscards = true;  # important for TRIM on SSD/NVMe
-  }) (builtins.attrValues disko.devices.disk);
 
   ### GENERAL ZFS CONFIG ###
   networking.hostId = hostId;
