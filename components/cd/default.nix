@@ -1,10 +1,16 @@
 {
   config,
+  inputs,
   lib,
+  pkgs,
   ...
 }:
 let
   cfg = config.components.cd;
+
+  # thanks to yomaq the GOAT for this tech
+  # https://github.com/yomaq/nix-config/blob/ca913788f2c3f54475e2c8e6d9076e8f5b68b6a8/modules/hosts/autoUpgradeNix/nixos.nix#L19
+  isClean = inputs.self ? rev;
 in
 {
   options.components.cd.enable = lib.mkEnableOption "Enable CI/CD through Garnix";
@@ -18,7 +24,7 @@ in
     nix.extraOptions = "!include ${config.age.secretsDir}/garnix/github-access-token";
 
     system.autoUpgrade = {
-      enable = true;
+      enable = isClean;
 
       inherit (cfg) flake;
 
