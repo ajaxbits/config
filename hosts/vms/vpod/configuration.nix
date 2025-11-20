@@ -56,6 +56,8 @@
   fileSystems."/identities".neededForBoot = true;
 
   microvm = {
+    hypervisor = "cloud-hypervisor";
+    hotplugMem = 1536;
     interfaces = [
       {
         type = "tap";
