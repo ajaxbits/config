@@ -16,6 +16,7 @@ in
     # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
     specialArgs = {
       inherit hostName;
+      inherit (pkgs) lib;
     };
 
     extraModules = [

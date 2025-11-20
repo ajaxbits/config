@@ -1,5 +1,5 @@
-{ hostName, ... }:
-{
+{ hostName, lib, ... }:
+rec {
   imports = [
     ./monitoring.nix
 
@@ -53,7 +53,10 @@
     group = "vpod";
   };
   age.identityPaths = [ "/identities/ssh_host_ed25519_key" ];
-  fileSystems."/identities".neededForBoot = true;
+
+  fileSystems = lib.genAttrs (map (share: share.mountPoint) microvm.shares) (_: {
+    neededForBoot = true;
+  });
 
   microvm = {
     hypervisor = "cloud-hypervisor";
@@ -61,8 +64,18 @@
     interfaces = [
       {
         type = "tap";
-        id = "vm-${hostName}";
-        mac = "02:00:00:00:00:01";
+        id = "vm-${
+          if builtins.stringLength hostName <= 8 then
+            hostName
+          else
+            builtins.substring (builtins.stringLength hostName - 8) 8 hostName
+        }";
+        mac =
+          let
+            hash = builtins.hashString "sha256" hostName;
+            octets = lib.genList (i: builtins.substring (i * 2) 2 hash) 5;
+          in
+          "02:${lib.concatStringsSep ":" octets}";
       }
     ];
     shares = [
@@ -85,6 +98,7 @@
         socket = "identities.socket";
       }
     ];
+
     volumes = [
       {
         # on host
