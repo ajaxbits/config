@@ -1,6 +1,6 @@
 { inputs, ... }:
 let
-  hostName = "vpod";
+  guestHostName = "vpod";
 
   pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
   inherit (pkgs) lib;
@@ -11,14 +11,14 @@ in
   ];
   config = lib.mkMerge [
     {
-      microvm.vms.${hostName} = {
+      microvm.vms.${guestHostName} = {
         # The package set to use for the microvm. This also determines the microvm's architecture.
         # Defaults to the host system's package set if not given.
         inherit pkgs;
 
         # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
         specialArgs = {
-          inherit hostName;
+          hostName = guestHostName;
           inherit (pkgs) lib;
         };
 
@@ -30,6 +30,6 @@ in
         config = import ./configuration.nix;
       };
     }
-    (import ./monitoring.nix)
+    (import ./monitoring.nix { inherit guestHostName; })
   ];
 }
