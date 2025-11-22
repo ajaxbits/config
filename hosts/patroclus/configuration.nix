@@ -11,6 +11,7 @@ in
     ./hardware-configuration.nix
     ./hypervisor.nix
     ./monitor.nix
+    ./gatus.nix
     ./scrutiny.nix
     ./vpod.nix
   ];
