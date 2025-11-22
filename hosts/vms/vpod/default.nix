@@ -1,8 +1,9 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 let
   hostName = "vpod";
 
   pkgs = import inputs.nixpkgs { system = "x86_64-linux"; };
+  inherit (pkgs) lib;
 in
 {
   imports = [
