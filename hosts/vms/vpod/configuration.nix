@@ -58,6 +58,7 @@ rec {
 
   microvm = {
     hypervisor = "cloud-hypervisor";
+    vsock.cid = 8;
     hotplugMem = 1536;
     interfaces = [
       {
