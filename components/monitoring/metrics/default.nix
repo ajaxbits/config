@@ -41,21 +41,6 @@ in
       {
         services.victoriametrics = {
           enable = true;
-          # TODO factor this out
-          prometheusConfig.scrape_configs = [
-            {
-              job_name = "node-exporter-vpod";
-              scrape_interval = "30s";
-              metrics_path = "/metrics";
-              static_configs = [
-                {
-                  targets = [ "172.22.2.51:9002" ];
-                  labels.type = "node";
-                  labels.host = "vpod";
-                }
-              ];
-            }
-          ];
         };
 
         services.caddy.virtualHosts.${externalUrl} = mkIf config.components.caddy.enable {
