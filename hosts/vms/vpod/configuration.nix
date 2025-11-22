@@ -1,8 +1,6 @@
 { hostName, lib, ... }:
 rec {
   imports = [
-    ./monitoring.nix
-
     # Be careful here
     # ./debugging.nix
   ];

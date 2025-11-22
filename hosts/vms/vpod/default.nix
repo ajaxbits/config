@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 let
   hostName = "vpod";
 
@@ -8,22 +8,27 @@ in
   imports = [
     inputs.microvm.nixosModules.host
   ];
-  microvm.vms.${hostName} = {
-    # The package set to use for the microvm. This also determines the microvm's architecture.
-    # Defaults to the host system's package set if not given.
-    inherit pkgs;
+  config = lib.mkMerge [
+    {
+      microvm.vms.${hostName} = {
+        # The package set to use for the microvm. This also determines the microvm's architecture.
+        # Defaults to the host system's package set if not given.
+        inherit pkgs;
 
-    # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
-    specialArgs = {
-      inherit hostName;
-      inherit (pkgs) lib;
-    };
+        # (Optional) A set of special arguments to be passed to the MicroVM's NixOS modules.
+        specialArgs = {
+          inherit hostName;
+          inherit (pkgs) lib;
+        };
 
-    extraModules = [
-      inputs.agenix.nixosModules.age
-      inputs.vpod.nixosModules.default
-    ];
+        extraModules = [
+          inputs.agenix.nixosModules.age
+          inputs.vpod.nixosModules.default
+        ];
 
-    config = import ./configuration.nix;
-  };
+        config = import ./configuration.nix;
+      };
+    }
+    ./monitoring.nix
+  ];
 }
