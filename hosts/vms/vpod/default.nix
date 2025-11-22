@@ -30,6 +30,6 @@ in
         config = import ./configuration.nix;
       };
     }
-    ./monitoring.nix
+    (import ./monitoring.nix)
   ];
 }
