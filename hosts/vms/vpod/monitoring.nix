@@ -17,6 +17,10 @@
       ];
       port = 9002;
     };
+    services.journald.upload = {
+      enable = true;
+      settings.Upload.URL = "http://172.22.0.10/insert/journald"; # TODO: factor
+    };
   };
 
   # host config
