@@ -21,7 +21,12 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       services = {
-        victorialogs.enable = true;
+        victorialogs = {
+          enable = true;
+          extraOptions = [
+            "-journald.streamFields=_MACHINE_ID,_HOSTNAME,_SYSTEMD_UNIT,_TRANSPORT"
+          ];
+        };
 
         journald.upload = {
           enable = true;
