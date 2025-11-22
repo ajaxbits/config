@@ -34,6 +34,7 @@ let
   mongoInit = pkgs.writeShellScript "init-mongo.sh" (readFile ./init-mongo.sh);
 in
 {
+  imports = [ ./monitoring.nix ];
   config = mkIf cfg.enable {
     virtualisation = {
       docker = {
