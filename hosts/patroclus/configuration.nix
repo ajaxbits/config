@@ -13,7 +13,6 @@ in
     ./monitor.nix
     ./gatus.nix
     ./scrutiny.nix
-    ./vpod.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
@@ -70,7 +69,7 @@ in
       };
       stirlingPdf.enable = true;
     };
-    # photos.enable = true;
+    podcasts.vpod.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kY5D6u8meo11CNTRL-uuf3JU6pap58yxeNVu46m5o47czDkpvb";

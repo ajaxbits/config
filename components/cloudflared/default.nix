@@ -6,19 +6,28 @@
   ...
 }:
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.components.cloudflared;
 in
 {
   options.components.cloudflared = {
     enable = mkEnableOption "Enable cloudflared tunnel for public services.";
+    tunnelId = mkOption {
+      type = types.str;
+      default = "a5466e3c-1170-4a2a-ae62-1a992509f36f";
+    };
   };
 
   config = mkIf cfg.enable {
     services.cloudflared = {
       enable = true;
       package = pkgs.cloudflared;
-      tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f" = {
+      tunnels.${cfg.tunnelId} = {
         credentialsFile = config.age.secrets."cloudflared/creds.json".path;
         default = "http_status:404";
       };

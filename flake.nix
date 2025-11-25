@@ -155,11 +155,8 @@
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
               inputs.microvm.nixosModules.host
-              lix-module.nixosModules.default
-
               inputs.vpod.nixosModules.default
-
-              (import ./hosts/vms/vpod { inherit inputs; })
+              lix-module.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
