@@ -1193,11 +1193,11 @@
         "yt-dlp": "yt-dlp"
       },
       "locked": {
-        "lastModified": 1763332648,
-        "narHash": "sha256-fLTXlAspz5pz6iEjwxeY8TurD5NT8OYrZUXU3PEKEOY=",
+        "lastModified": 1764523671,
+        "narHash": "sha256-y56X6nFr9LL30ES+9dgzZf675QHDcSrfXzCBXQRm2kk=",
         "owner": "ajaxbits",
         "repo": "vpod-go",
-        "rev": "131f2e248ed2dd4259c648af99a9665c48b0c39d",
+        "rev": "0518239a6084bc8b87a21072f44a76d047b9d3d9",
         "type": "github"
       },
       "original": {
@@ -1217,16 +1217,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1761739977,
-        "narHash": "sha256-ihT0cJhS0aBMqEITaQ20d9c4lnS53G6fWk2Bc7tua9I=",
+        "lastModified": 1764523647,
+        "narHash": "sha256-z3EY42lCj6heNgfZ9/mFylAlDxjebMRMZRjj7a4AFuw=",
         "owner": "ajaxbits",
         "repo": "yt-dlp-flake",
-        "rev": "da84f6893d14a509c31066b5c0a66de6db93af62",
+        "rev": "f977dac0216545fa50cce93ec35911cb16db6577",
         "type": "github"
       },
       "original": {
         "owner": "ajaxbits",
-        "ref": "nightly",
         "repo": "yt-dlp-flake",
         "type": "github"
       }
