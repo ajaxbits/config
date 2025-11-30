@@ -1159,6 +1159,22 @@
         "type": "github"
       }
     },
+    "unstable_2": {
+      "locked": {
+        "lastModified": 1764242076,
+        "narHash": "sha256-sKoIWfnijJ0+9e4wRvIgm/HgE27bzwQxcEmo2J/gNpI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2fad6eac6077f03fe109c4d4eb171cf96791faa4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "uv2nix": {
       "inputs": {
         "nixpkgs": [
@@ -1193,11 +1209,11 @@
         "yt-dlp": "yt-dlp"
       },
       "locked": {
-        "lastModified": 1763332648,
-        "narHash": "sha256-fLTXlAspz5pz6iEjwxeY8TurD5NT8OYrZUXU3PEKEOY=",
+        "lastModified": 1764530125,
+        "narHash": "sha256-QBb54XjtBWMyFkJ/NZtCvcyCP5vG/5LawYFgW5A+JW8=",
         "owner": "ajaxbits",
         "repo": "vpod-go",
-        "rev": "131f2e248ed2dd4259c648af99a9665c48b0c39d",
+        "rev": "4dece48383c844215161229dc12af2f76f9e3668",
         "type": "github"
       },
       "original": {
@@ -1209,24 +1225,18 @@
     "yt-dlp": {
       "inputs": {
         "dream2nix": "dream2nix",
-        "nixpkgs": [
-          "vpod",
-          "yt-dlp",
-          "dream2nix",
-          "nixpkgs"
-        ]
+        "unstable": "unstable_2"
       },
       "locked": {
-        "lastModified": 1761739977,
-        "narHash": "sha256-ihT0cJhS0aBMqEITaQ20d9c4lnS53G6fWk2Bc7tua9I=",
+        "lastModified": 1764529786,
+        "narHash": "sha256-eTR6r3bWjGUPiQifqodx0yR0tT7ukeT2zPvL1jyOJAk=",
         "owner": "ajaxbits",
         "repo": "yt-dlp-flake",
-        "rev": "da84f6893d14a509c31066b5c0a66de6db93af62",
+        "rev": "c6d666435fa9bb35e71241192b0e0b3698f3d75b",
         "type": "github"
       },
       "original": {
         "owner": "ajaxbits",
-        "ref": "nightly",
         "repo": "yt-dlp-flake",
         "type": "github"
       }
