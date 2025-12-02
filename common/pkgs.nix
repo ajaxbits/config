@@ -15,7 +15,7 @@ with pkgs; [
   sd
   tmux
   unzip
-  wezterm.terminfo
+  ghostty.terminfo
   wget
   xh
 ]
