@@ -167,11 +167,11 @@ in
     hardware.graphics = mkIf cfg.intel.enable {
       enable = true;
       extraPackages = with pkgs; [
-        intel-media-driver
-        vaapi-intel-hybrid
-        vaapiVdpau
-        libvdpau-va-gl
         intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+        intel-media-driver
+        libva-vdpau-driver
+        libvdpau-va-gl
+        vaapi-intel-hybrid
       ];
     };
 

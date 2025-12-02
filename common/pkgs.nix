@@ -3,7 +3,7 @@ with pkgs;
 [
   bat
   btop
-  du-dust
+  dust
   fd
   ghostty.terminfo
   git
