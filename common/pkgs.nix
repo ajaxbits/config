@@ -1,12 +1,15 @@
-{pkgs, ...}:
-with pkgs; [
+{ pkgs, ... }:
+with pkgs;
+[
   bat
   btop
   du-dust
   fd
-  hck
+  ghostty.terminfo
   git
+  hck
   jq
+  jujutsu
   neovim
   nix-output-monitor
   rclone
@@ -15,7 +18,6 @@ with pkgs; [
   sd
   tmux
   unzip
-  ghostty.terminfo
   wget
   xh
 ]
