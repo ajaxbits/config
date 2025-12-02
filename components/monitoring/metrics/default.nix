@@ -18,7 +18,7 @@ let
   cfg = monCfg.metrics;
 
   ensureHost = addr: if hasPrefix ":" addr then "0.0.0.0${addr}" else addr;
-  internalUrl = ensureHost config.services.victoriametrics.listenAddress;
+  internalUrl = "http://${ensureHost config.services.victoriametrics.listenAddress}";
   externalUrl = "https://metrics.ajax.casa";
 in
 {
