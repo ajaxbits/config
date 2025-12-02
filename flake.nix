@@ -9,11 +9,6 @@
 
     authentik-nix.url = "github:marcelcoding/authentik-nix";
 
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.2-1.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -63,7 +58,6 @@
       disko,
       agenix,
       nixos-hardware, # deadnix: skip
-      lix-module,
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -137,7 +131,6 @@
               home-manager.nixosModules.home-manager
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
-              lix-module.nixosModules.default
 
               inputs.vpod.nixosModules.default
             ];
@@ -156,7 +149,6 @@
               inputs.disko.nixosModules.disko
               inputs.microvm.nixosModules.host
               inputs.vpod.nixosModules.default
-              lix-module.nixosModules.default
             ];
           };
           hermes = nixpkgs.lib.nixosSystem {
@@ -167,7 +159,6 @@
               "${self}/hosts/hermes/configuration.nix"
               home-manager.nixosModules.home-manager
               inputs.nur.modules.nixos.default
-              lix-module.nixosModules.default
             ];
           };
         };
