@@ -65,21 +65,6 @@
         "type": "github"
       }
     },
-    "caddy": {
-      "locked": {
-        "lastModified": 1759295910,
-        "narHash": "sha256-w6XBQd3UCYKzSpWq/ckTCKmdFqIIDE1JcDBJFZdZCaw=",
-        "owner": "vincentbernat",
-        "repo": "caddy-nix",
-        "rev": "516fabe2f03631e389b786062e0892343615cbb8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vincentbernat",
-        "repo": "caddy-nix",
-        "type": "github"
-      }
-    },
     "centerpiece": {
       "inputs": {
         "crane": "crane",
@@ -920,7 +905,6 @@
       "inputs": {
         "agenix": "agenix",
         "authentik-nix": "authentik-nix",
-        "caddy": "caddy",
         "centerpiece": "centerpiece",
         "disko": "disko",
         "flake-parts": "flake-parts_2",

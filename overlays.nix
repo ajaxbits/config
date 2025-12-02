@@ -5,7 +5,6 @@
   ...
 }:
 {
-  caddy = inputs.caddy.overlays.default;
   neovim = _self: _super: {
     neovim = inputs.neovim.packages.${system}.default;
   };

@@ -2,15 +2,12 @@
   config,
   lib,
   pkgs,
-  overlays,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf mkMerge;
 
   cfg = config.components.caddy;
-
-  pkgsCaddyPatched = pkgs.extend overlays.caddy;
 
   monitorConfig = mkIf (cfg.enable && config.components.monitoring.enable) {
     services.caddy.globalConfig = ''
@@ -47,9 +44,9 @@ in
     }
     (mkIf cfg.cloudflare.enable {
       services.caddy = {
-        package = pkgsCaddyPatched.caddy.withPlugins {
-          plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-          hash = "sha256-p9AIi6MSWm0umUB83HPQoU8SyPkX5pMx989zAi8d/74=";
+        package = pkgs.caddy.withPlugins {
+          plugins = [ "github.com/caddy-dns/cloudflare@v0.2.2" ];
+          hash = "sha256-ea8PC/+SlPRdEVVF/I3c1CBprlVp1nrumKM5cMwJJ3U=";
         };
         extraConfig = lib.mkBefore ''
           (cloudflare) {
@@ -70,9 +67,6 @@ in
           owner = config.services.caddy.user;
         };
       };
-
-      # TODO: Address in 23.11
-      systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
     })
 
     monitorConfig

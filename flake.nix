@@ -32,7 +32,6 @@
     };
 
     # custom pkgs
-    caddy.url = "github:vincentbernat/caddy-nix";
     centerpiece = {
       url = "github:friedow/centerpiece";
       inputs.nixpkgs.follows = "unstable";
