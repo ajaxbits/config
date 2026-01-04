@@ -79,7 +79,7 @@ in
         "nixos"
       ];
       advertiseExitNode = true;
-      advertiseRoutes = [ "172.22.0.0/15" ];
+      advertiseRoutes = [ "172.22.0.0/15" "192.168.1.0/24" ];
     };
   };
 
