@@ -33,6 +33,7 @@ in
     exporters = mkOption {
       type = types.listOf types.str;
       default = [
+        "blackboxExporter"
         "nodeExporter"
         "nut"
       ];
