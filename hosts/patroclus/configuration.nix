@@ -69,14 +69,7 @@ in
       };
       stirlingPdf.enable = true;
     };
-    podcasts.vpod = {
-      enable = true;
-      monitoring.victoriaLogsEndpoint = "http://192.168.1.137:9428";
-      vm = {
-        gatewayCIDR = "192.168.1.1/24";
-        ip = "192.168.1.123";
-      };
-    };
+    podcasts.vpod.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kY5D6u8meo11CNTRL-uuf3JU6pap58yxeNVu46m5o47czDkpvb";
@@ -86,10 +79,7 @@ in
         "nixos"
       ];
       advertiseExitNode = true;
-      advertiseRoutes = [
-        "172.22.0.0/15"
-        "192.168.1.0/24"
-      ];
+      advertiseRoutes = [ "172.22.0.0/15" ];
     };
   };
 

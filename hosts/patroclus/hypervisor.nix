@@ -2,9 +2,8 @@ let
   ethernetIface = "eno2"; # this is what the iface is named in the system
   bridgeIface = "br0"; # created by this file
 
-  routerIP = "192.168.1.1";
-  v4CIDR = "192.168.1.137/24"; # the static ip, followe by the whole range
-  # v4CIDR = "172.22.0.10/15"; # the static ip, followe by the whole range
+  routerIP = "172.22.0.1";
+  v4CIDR = "172.22.0.10/15"; # the static ip, followe by the whole range
 in
 {
 
@@ -15,7 +14,7 @@ in
     in
     # creates a symlink of each MicroVM's journal under the host's /var/log/journal
     "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
-  ) [ "test1" ]; # TODO: fix
+  ) [ "test1" ];
 
   networking.useNetworkd = true;
   systemd.network = {
