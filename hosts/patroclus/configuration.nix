@@ -13,7 +13,6 @@ in
     ./monitor.nix
     ./gatus.nix
     ./scrutiny.nix
-    ./netbox.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
