@@ -299,11 +299,11 @@
         "nixpkgs-lib": "nixpkgs-lib_4"
       },
       "locked": {
-        "lastModified": 1741352980,
-        "narHash": "sha256-+u2UunDA4Cl5Fci3m7S643HzKmIDAe+fiXrLqYsR2fs=",
+        "lastModified": 1769996383,
+        "narHash": "sha256-AnYjnFWgS49RlqX7LrC4uA+sCCDBj0Ry/WOJ5XWAsa0=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f4330d22f1c5d2ba72d3d22df5597d123fdb60a9",
+        "rev": "57928607ea566b5db3ad13af0e57e921e6b12381",
         "type": "github"
       },
       "original": {
@@ -623,11 +623,11 @@
     },
     "nixpkgs-lib_4": {
       "locked": {
-        "lastModified": 1740877520,
-        "narHash": "sha256-oiwv/ZK/2FhGxrCkQkB83i7GnWXPPLzoqFHpDD3uYpk=",
+        "lastModified": 1769909678,
+        "narHash": "sha256-cBEymOf4/o3FD5AZnzC3J9hLbiZ+QDT/KDuyHXVJOpM=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "147dee35aab2193b174e4c0868bd80ead5ce755c",
+        "rev": "72716169fe93074c333e8d0173151350670b824c",
         "type": "github"
       },
       "original": {
@@ -1133,11 +1133,11 @@
         "yt-dlp": "yt-dlp"
       },
       "locked": {
-        "lastModified": 1770423397,
-        "narHash": "sha256-fxyauT+opHLo04LcXI552Y8UeUZ2CbHAKCa2E/X1CdY=",
+        "lastModified": 1772325353,
+        "narHash": "sha256-99VORF9gbrf4+NTKs5AyI9DjIo/dOAIrAa406nQ2GWQ=",
         "owner": "ajaxbits",
         "repo": "vpod-go",
-        "rev": "55249d7b0c1d8ccfd1b44522143a8bd6c3a22c10",
+        "rev": "64020cfd67f97f3f524d5a8084b13a905112af13",
         "type": "github"
       },
       "original": {
