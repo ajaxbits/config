@@ -144,15 +144,15 @@ in
                   readOnly = true;
                   socket = "identities.socket";
                 }
-              ];
-
-              volumes = [
                 {
                   # on host
-                  image = "/var/lib/microvms/vpod/data.img";
+                  source = "/var/lib/vpod";
                   # on guest
                   mountPoint = "/var/lib/vpod";
-                  size = 4096; # 4 Gib
+                  tag = "data";
+                  proto = "virtiofs";
+                  readOnly = false;
+                  socket = "data.socket";
                 }
               ];
             };
