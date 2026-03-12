@@ -1133,11 +1133,11 @@
         "yt-dlp": "yt-dlp"
       },
       "locked": {
-        "lastModified": 1772346234,
-        "narHash": "sha256-mWxGUe8xzp+s6y3H86b73zrfdPi734p3sjho+iBf8X0=",
+        "lastModified": 1773355053,
+        "narHash": "sha256-T68qGbFXpNpRvlvlw05BNMqDHbrzUAN0l2/0gRyxr7A=",
         "owner": "ajaxbits",
         "repo": "vpod-go",
-        "rev": "d035db6702e10fd5c7f4449666464b1709a2a844",
+        "rev": "e9bace88a221c870696ba9c5524aaf0898a742a4",
         "type": "github"
       },
       "original": {
