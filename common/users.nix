@@ -21,6 +21,7 @@
       ];
       hashedPasswordFile = config.age.secrets."users/adminPass".path;
       openssh.authorizedKeys.keys = [
+        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAKzlHopLocPWMR0dDaqRkzU5/5WnWvg8qw+xHOPAw91PMtYifOOJrW+vvcTQE83MP5M3KodXT/Ge9b2mZiGzuk="
         "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPocbRyxNvg6osesgjnD0cqCR8pqwhbNbmD793Y6uSQHNX3WDBcfQn3BVdDx36WgFeP/3uLzKIomIjuiJyn+ugQ="
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILd+8Pi5rRPT8aLaRAd1YPeBba2zEbTST+9YtzHVugBz"
