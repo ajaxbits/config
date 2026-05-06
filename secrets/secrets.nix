@@ -71,4 +71,9 @@ in
 
   # zfs
   "zfs/documents-encryption-passphrase.age".publicKeys = writers ++ [ patroclus ];
+
+  # syncthing
+  "syncthing/guiPass.age".publicKeys = writers ++ [ patroclus ];
+  "syncthing/key.age".publicKeys = writers ++ [ patroclus ];
+  "syncthing/cert.age".publicKeys = writers ++ [ patroclus ];
 }

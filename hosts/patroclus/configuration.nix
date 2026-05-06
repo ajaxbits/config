@@ -74,6 +74,7 @@ in
       enable = true;
       healthchecksUrl = "https://hc-ping.com/5788a530-fac5-44e0-b366-11822fb15259";
     };
+    syncthing.enable = true;
     tailscale = {
       enable = true;
       initialAuthKey = "tskey-auth-kY5D6u8meo11CNTRL-uuf3JU6pap58yxeNVu46m5o47czDkpvb";
