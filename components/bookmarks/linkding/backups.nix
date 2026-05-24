@@ -34,6 +34,7 @@ in
                     --config ${rcloneConfigFile} \
                     --verbose \
                     --checksum \
+                    --fast-list \
                     --ignore-existing \
                     --transfers=4 \
                     $BACKUP_TEMP_DIR/backup.zip b2-linkding-backups:ajaxbits-linkding-backup/bookmarks

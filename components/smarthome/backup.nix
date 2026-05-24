@@ -49,7 +49,7 @@ in
           ${rclone} sync \
             --config ${rcloneConfigFile} \
             --verbose \
-            --checksum \
+            --fast-list \
             --transfers=4 \
             "$SNAP_PATH/" ${b2Dest}
 

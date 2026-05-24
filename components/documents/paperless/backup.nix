@@ -65,6 +65,7 @@ in
             ${rclone} sync \
               --config ${rcloneConfigFile} \
               --verbose \
+              --fast-list \
               ${exportPath} b2-paperless-backups:paperless-backups
 
             ${optionalString (

@@ -31,6 +31,7 @@ in
                   --config ${rcloneConfigFile} \
                   --verbose \
                   --checksum \
+                  --fast-list \
                   --ignore-existing \
                   --transfers=4 \
                   ${cfg.audiobooksDir} b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/audiobooks
@@ -40,6 +41,7 @@ in
                   --config ${rcloneConfigFile} \
                   --verbose \
                   --checksum \
+                  --fast-list \
                   --ignore-existing \
                   --transfers=4 \
                   ${cfg.libationDataDir}/LibationContext.db b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/libation
@@ -50,6 +52,7 @@ in
                 --config ${rcloneConfigFile} \
                 --verbose \
                 --checksum \
+                --fast-list \
                 --ignore-existing \
                 --transfers=4 \
                 ${cfg.configDir}/metadata/backups b2-audiobookshelf-backups:ajaxbits-audiobookshelf-backup/backups
