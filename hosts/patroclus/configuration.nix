@@ -10,6 +10,7 @@ in
     ./disks
     ./hardware-configuration.nix
     ./hypervisor.nix
+    ./k3s.nix
     ./monitor.nix
     ./gatus.nix
     ./scrutiny.nix
