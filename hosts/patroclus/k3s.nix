@@ -18,6 +18,15 @@ in
     BindPaths = "/run/current-system/sw/bin:/bin";
   };
 
+  fileSystems."/var/lib/longhorn" = {
+    device = "/dev/zvol/zroot/local/longhorn";
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "noatime"
+    ];
+  };
+
   # Route *.k.ajax.casa → traefik. New services only need a kubectl ingress
   # rule; no Nix rebuild required.
   services.caddy.virtualHosts."https://*.k.ajax.casa".extraConfig = ''
