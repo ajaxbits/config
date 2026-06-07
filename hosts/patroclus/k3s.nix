@@ -13,6 +13,10 @@ in
     enable = true;
     name = "${config.networking.hostName}-initiatorhost";
   };
+  systemd.services.iscsid.serviceConfig = {
+    PrivateMounts = "yes";
+    BindPaths = "/run/current-system/sw/bin:/bin";
+  };
 
   # Route *.k.ajax.casa → traefik. New services only need a kubectl ingress
   # rule; no Nix rebuild required.
