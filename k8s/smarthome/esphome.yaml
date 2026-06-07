@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: smarthome
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: esphome
+  namespace: smarthome
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: esphome
+  template:
+    metadata:
+      labels:
+        app: esphome
+    spec:
+      containers:
+        - name: esphome
+          image: ghcr.io/esphome/esphome:stable
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: esphome
+  namespace: smarthome
+spec:
+  selector:
+    app: esphome
+  ports:
+    - port: 6052
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: esphome
+  namespace: smarthome
+spec:
+  rules:
+    - host: esphome.k.ajax.casa
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: esphome
+                port:
+                  number: 6052
