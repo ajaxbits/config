@@ -1,10 +1,18 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   mainIp = "172.22.0.10";
   mainBridge = "br0";
 in
 {
   age.secrets."k3s/common-secret".file = ../../secrets/k3s/common-secret.age;
+
+  # Longhorn requirements: nsenter must be findable at /usr/local/bin.
+  environment.systemPackages = [ pkgs.util-linux ];
+  systemd.tmpfiles.rules = [ "L+ /usr/local/bin - - - - /run/current-system/sw/bin/" ];
+  services.openiscsi = {
+    enable = true;
+    name = "${config.networking.hostName}-initiatorhost";
+  };
 
   # Route *.k.ajax.casa → traefik. New services only need a kubectl ingress
   # rule; no Nix rebuild required.
