@@ -23,7 +23,10 @@ in
     # flannel picks the default-route iface and may grab tailscale0 or a
     # docker bridge, clobbering routes (k3s-io/k3s#12459).
     nodeIP = mainIp;
-    extraFlags = [ "--flannel-iface=${mainBridge}" ];
+    extraFlags = [
+      "--flannel-iface=${mainBridge}"
+      "--tls-san=${mainIp}"
+    ];
 
     # Drain pods before reboot; system.autoUpgrade reboots nightly.
     gracefulNodeShutdown.enable = true;
