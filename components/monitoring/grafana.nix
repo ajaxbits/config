@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }:
 let
@@ -12,6 +13,13 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
+    age.secrets."grafana/secret-key" = {
+      file = "${self}/secrets/grafana/secret-key.age";
+      mode = "440";
+      owner = "grafana";
+      group = "grafana";
+    };
+
     services.grafana = {
       declarativePlugins = with pkgs.grafanaPlugins; [
         grafana-clock-panel
@@ -20,6 +28,7 @@ in
       enable = true;
       settings = {
         analytics.reporting_enabled = false;
+        security.secret_key = "$__file{${config.age.secrets."grafana/secret-key".path}}";
         server = {
           inherit domain;
           protocol = "http";

@@ -38,6 +38,9 @@ in
   # forgejo
   "forgejo/postgresql-pass.age".publicKeys = allKeys;
 
+  # grafana
+  "grafana/secret-key.age".publicKeys = writers ++ [ patroclus ];
+
   # miniflux
   "miniflux/adminCredentialsFile.age".publicKeys = allKeys;
 
