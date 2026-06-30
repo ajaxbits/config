@@ -27,7 +27,7 @@
     };
 
     microvm = {
-      url = "github:ajaxbits/microvm.nix/extramodules";
+      url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "unstable";
     };
 
