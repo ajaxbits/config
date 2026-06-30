@@ -1,7 +1,7 @@
 {
   description = "NixOS configurations";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     unfree.url = "github:numtide/nixpkgs-unfree";
     unfree.inputs.nixpkgs.follows = "nixpkgs";
@@ -9,7 +9,7 @@
 
     authentik-nix.url = "github:marcelcoding/authentik-nix";
 
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
