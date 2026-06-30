@@ -46,25 +46,25 @@ in
           user = "admin";
           insecureSkipHostcheck = true;
         };
-      };
-      folders =
-        let
-          inherit (config.services.syncthing) dataDir;
-        in
-        {
-          insensitive = {
-            path = "${dataDir}/insensitive";
-            type = "sendreceive";
-            # NOTE: this is probably not necessary for insensitive, only for sensitive
-            versioning = {
-              type = "staggered";
-              params = {
-                cleanInterval = "3600";
-                maxAge = "31536000"; # 1 year
+        folders =
+          let
+            inherit (config.services.syncthing) dataDir;
+          in
+          {
+            insensitive = {
+              path = "${dataDir}/insensitive";
+              type = "sendreceive";
+              # NOTE: this is probably not necessary for insensitive, only for sensitive
+              versioning = {
+                type = "staggered";
+                params = {
+                  cleanInterval = "3600";
+                  maxAge = "31536000"; # 1 year
+                };
               };
             };
           };
-        };
+      };
     };
 
     services.caddy.virtualHosts."https://syncthing.ajax.casa" = {

@@ -51,10 +51,10 @@ in
         user = "bazarr";
         group = "bazarr";
       };
-      jellyseerr = lib.mkIf cfg.linux-isos.enable {
+      seerr = lib.mkIf cfg.linux-isos.enable {
         enable = false; # TODO: enable once 2.0.1 is avail on nixpkgs
         openFirewall = true;
-        package = pkgsUnstable.jellyseerr;
+        package = pkgsUnstable.seerr;
       };
 
       caddy = lib.mkIf config.components.caddy.enable {

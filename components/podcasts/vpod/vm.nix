@@ -61,6 +61,8 @@ in
               text = "b7a4f2c83e914e1ebc3a4a2e8e9d5f01" + "\n";
             };
 
+            system.stateVersion = "26.05";
+
             systemd.network = {
               enable = true;
               networks."20-lan" = {
