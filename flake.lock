@@ -14,7 +14,7 @@
         "rev": "564595d0ad4be7277e07fa63b5a991b3c645655d",
         "revCount": 278,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/ryantm/agenix/0.14.1/018c881c-43eb-7268-8c31-114bc555963f/source.tar.gz?rev=564595d0ad4be7277e07fa63b5a991b3c645655d&revCount=278"
+        "url": "https://api.flakehub.com/f/pinned/ryantm/agenix/0.14.1/018c881c-43eb-7268-8c31-114bc555963f/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -623,11 +623,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1784432872,
-        "narHash": "sha256-n3gKTBIV4ZA5VQpUakffBe3KGu4+mhPoA34rrqS0GkA=",
+        "lastModified": 1784707089,
+        "narHash": "sha256-2V/6imsUgB7mPZlHY54oeVBRDoZbPKnvzwkAHUSSufk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fd1462031fdee08f65fd0b4c6b64e22239a77870",
+        "rev": "b3fe9581c9061c749abef42b6d4ee7b7c05c33fa",
         "type": "github"
       },
       "original": {
@@ -695,11 +695,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1784764840,
-        "narHash": "sha256-aeO+35mAIOYTmlYnB7VT8nP3c9Oc1LlvvCqwtXz3j40=",
+        "lastModified": 1784861281,
+        "narHash": "sha256-oCHEPdYq2X43wWUWGW9GJdZzrgZW/nds8lfBCKv9dR8=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b38c04f415e8063b0d5f24751b90a3dd5f6be200",
+        "rev": "bf7a5d208e4837cbdffe0d7eb4b790637ea2feec",
         "type": "github"
       },
       "original": {
