@@ -67,6 +67,15 @@ in
           owner = config.services.caddy.user;
         };
       };
+      
+      
+      services.cloudflared.tunnels."a5466e3c-1170-4a2a-ae62-1a992509f36f".ingress."beach.ajax.lol" = {
+        service = "https://localhost:443";
+        originRequest = {
+          originServerName = "beach.ajax.lol";
+          httpHostHeader = "beach.ajax.lol";
+        };
+      };
     })
 
     monitorConfig
