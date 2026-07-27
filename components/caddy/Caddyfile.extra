@@ -23,7 +23,7 @@ n8n.ajax.casa {
 
 beach.ajax.lol {
     import cloudflare
-    reverse_proxy localhost:6867
+    reverse_proxy 0.0.0.0:6867
     encode gzip zstd
     
     basic_auth {
