@@ -14,6 +14,7 @@ in
     ./monitor.nix
     ./gatus.nix
     ./scrutiny.nix
+    ./hister.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
