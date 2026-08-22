@@ -47,6 +47,14 @@ in
     extraFlags = [
       "--flannel-iface=${mainBridge}"
       "--tls-san=${mainIp}"
+      # Caddy owns host ports 80/443 and fronts everything (incl. *.k.ajax.casa
+      # → traefik nodePort 30080). Without this, k3s ServiceLB (klipper) runs an
+      # svclb-traefik daemonset that binds host 80/443 via CNI portmap DNAT,
+      # hijacking traffic to ${mainIp}:443 away from Caddy and returning
+      # traefik's default "404 page not found" for every .ajax.casa vhost. The
+      # traefik HelmChartConfig below is meant to set service.type=NodePort but
+      # the value merge silently fails, so disable ServiceLB outright.
+      "--disable=servicelb"
     ];
 
     # Drain pods before reboot; system.autoUpgrade reboots nightly.
