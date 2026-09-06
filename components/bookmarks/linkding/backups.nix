@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }:
 let
@@ -80,7 +81,7 @@ in
 
     age.secrets = {
       "rclone/rclone.conf" = {
-        file = ../../../secrets/rclone/rclone.conf.age;
+        file = "${self}/secrets/rclone/rclone.conf.age";
         mode = "440";
         owner = config.users.users.paperless.name;
         group = config.users.groups.rcloneoperators.name;

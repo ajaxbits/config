@@ -127,7 +127,10 @@
         in
         {
           patroclus = nixpkgs.lib.nixosSystem {
-            inherit specialArgs system;
+            inherit system;
+            # Module arguments with a function default still need to be
+            # supplied through specialArgs when loaded by the module system.
+            specialArgs = specialArgs // { isStripped = false; };
             modules = [
               "${self}/common"
               "${self}/components"
