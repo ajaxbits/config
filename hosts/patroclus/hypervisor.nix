@@ -1,3 +1,4 @@
+{ config, pkgs, ... }:
 let
   ethernetIface = "eno2"; # this is what the iface is named in the system
   bridgeIface = "br0"; # created by this file
@@ -19,6 +20,10 @@ in
   networking.useNetworkd = true;
   systemd.network = {
     enable = true;
+    # Tailscale owns policy rules 5210-5270. networkd otherwise removes them
+    # when it starts/reconfigures links, which can interrupt tailnet routing
+    # and the host's MagicDNS path. Leave rules owned by other services alone.
+    config.networkConfig.ManageForeignRoutingPolicyRules = false;
     netdevs.${bridgeIface}.netdevConfig = {
       Name = bridgeIface;
       Kind = "bridge";
@@ -45,5 +50,10 @@ in
         linkConfig.RequiredForOnline = "routable";
       };
     };
+  };
+
+  system.build.networkdRoutingPolicyTest = import ./tests/networkd-routing-policy.nix {
+    inherit pkgs;
+    networkConfig = config.systemd.network.config.networkConfig;
   };
 }
