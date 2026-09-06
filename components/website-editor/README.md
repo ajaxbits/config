@@ -16,6 +16,62 @@ Guest services start inside the VM, not on the host.
 - Guest: `192.168.83.2/24`, gateway `192.168.83.1`
 - Host bridge: `agentbr0`, containing only the `agent-grace` tap.
 
+## Guest access and first boot
+
+From the homelab's `admin` account:
+
+```sh
+ssh grace-editor
+```
+
+The host alias uses `~/.ssh/grace-editor`; its public key is declared in
+`components.website-editor.authorizedKeys`. The private key stays on the host.
+Guest SSH accepts key authentication from the bridge gateway only; port 22 is
+not forwarded from the LAN. From another device, SSH into patroclus first.
+The guest has passwordless sudo. Its own SSH host key persists on the home
+volume, so rebuilding/rebooting it does not change the server identity.
+
+The private website repository requires a guest-specific GitHub deploy key.
+Before the initial clone, create one **inside the guest**:
+
+```sh
+install -d -m 700 ~/.ssh
+ssh-keygen -t ed25519 -N '' -C grace-editor -f ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+```
+
+Add that public key to `ajaxbits/gracebobber` → Settings → Deploy keys, enabling
+write access for publishing. Keep the private half inside the guest. The
+bootstrap uses SSH transport and a pinned GitHub host key; it never receives
+the administrator's broad GitHub token. Bootstrap initially fails until this
+deploy key is provisioned; guest SSH remains available independently.
+Deploy keys authenticate Git operations only. Watching private Actions runs
+with `gh` additionally requires a repository-scoped token with Actions read
+access; Copilot authentication is not a substitute for that permission.
+
+Then run **inside the guest**:
+
+```sh
+sudo systemctl restart grace-editor-bootstrap
+sudo systemctl start opencode2-grace-editor grace-editor-preview
+sudo systemctl status grace-editor-bootstrap opencode2-grace-editor grace-editor-preview
+```
+
+For bootstrap errors, use `sudo journalctl -u grace-editor-bootstrap -b` in
+the guest. Its home filesystem is explicitly mounted before boot activation,
+then tmpfiles sets the volume root's ownership to `agent:users`. Dependency
+installation is stamped only after `npm ci` succeeds and repeated after a
+lockfile/Node version change or incomplete install.
+
+OpenCode's generated server password is available to the guest administrator
+in `sudo journalctl -u opencode2-grace-editor -b`. Use it to connect the web UI,
+then connect GitHub Copilot there. That OAuth connection and the repository
+deploy key serve separate purposes. Both OpenCode state and the checkout are
+on `/home/agent` and survive a VM restart.
+
+`just dev` checks the preview over guest loopback, while reporting the LAN URL
+to Grace. The agent is deliberately unable to connect to that host URL itself.
+
 ## Network ownership
 
 This component does **not** enable the NixOS global nftables/NAT services or
