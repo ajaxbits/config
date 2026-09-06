@@ -5,6 +5,11 @@ in
 {
   options.components.website-editor = {
     enable = mkEnableOption "Grace Bobber's isolated website-editor MicroVM";
+    authorizedKeys = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = "Public SSH keys for the guest agent account. SSH is reachable from the host only, not forwarded to the LAN.";
+    };
     lan = {
       interface = mkOption {
         type = types.strMatching "[a-zA-Z0-9_.-]+";

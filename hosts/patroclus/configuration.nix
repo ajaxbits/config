@@ -54,7 +54,13 @@ in
           "github:ajaxbits/config#patroclus";
     };
     cloudflared.enable = true;
-    website-editor.enable = true;
+    website-editor = {
+      enable = true;
+      authorizedKeys = [
+        # Private key stays on patroclus in ~admin/.ssh/grace-editor.
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICDgXkJ7RFsYogbUgTKwxRcGx70e5pULOzDFl8e5i9yp patroclus grace-editor administration"
+      ];
+    };
     ebooks.enable = false;
     mediacenter = {
       enable = true;
