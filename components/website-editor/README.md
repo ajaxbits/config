@@ -45,6 +45,9 @@ write access for publishing. Keep the private half inside the guest. The
 bootstrap uses SSH transport and a pinned GitHub host key; it never receives
 the administrator's broad GitHub token. Bootstrap initially fails until this
 deploy key is provisioned; guest SSH remains available independently.
+Deploy keys authenticate Git operations only. Watching private Actions runs
+with `gh` additionally requires a repository-scoped token with Actions read
+access; Copilot authentication is not a substitute for that permission.
 
 Then run **inside the guest**:
 
