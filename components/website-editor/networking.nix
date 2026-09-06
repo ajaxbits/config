@@ -1,12 +1,22 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.components.website-editor;
   bridge = "agentbr0";
+  rules = pkgs.writeText "grace-editor-firewall.nft" (import ./firewall-rules.nix { inherit cfg; });
+  cleanup = pkgs.writeText "grace-editor-firewall-stop.nft" ''
+    table inet grace_editor;
+    delete table inet grace_editor;
+  '';
 in
 {
   config = lib.mkIf cfg.enable {
-    # This is deliberately separate from br0.  The guest has Internet access
-    # through NAT but cannot initiate connections to the homelab or its LAN.
+    assertions = [
+      {
+        assertion = cfg.editorPort != cfg.previewPort;
+        message = "The website editor and preview must use different ports.";
+      }
+    ];
+
     systemd.network = {
       netdevs."30-${bridge}".netdevConfig = {
         Name = bridge;
@@ -16,53 +26,63 @@ in
         "30-${bridge}" = {
           matchConfig.Name = bridge;
           address = [ "${cfg.vm.gateway}/${toString cfg.vm.cidr}" ];
-          networkConfig.ConfigureWithoutCarrier = true;
+          networkConfig = {
+            ConfigureWithoutCarrier = true;
+            DHCP = "no";
+            IPv6AcceptRA = false;
+            LinkLocalAddressing = "no";
+          };
+          linkConfig.RequiredForOnline = "no";
         };
         "31-agent-grace" = {
           matchConfig.Name = "agent-grace";
-          networkConfig.Bridge = bridge;
+          networkConfig = {
+            Bridge = bridge;
+            DHCP = "no";
+            IPv6AcceptRA = false;
+            LinkLocalAddressing = "no";
+          };
+          linkConfig.RequiredForOnline = "no";
         };
       };
     };
 
-    networking = {
-      nat = {
-        enable = true;
-        internalInterfaces = [ bridge ];
-        externalInterface = "br0";
-        forwardPorts = [
-          {
-            sourcePort = cfg.editorPort;
-            destination = "${cfg.vm.ip}:${toString cfg.editorPort}";
-            proto = "tcp";
-          }
-          {
-            sourcePort = cfg.previewPort;
-            destination = "${cfg.vm.ip}:${toString cfg.previewPort}";
-            proto = "tcp";
-          }
-        ];
-      };
-      nftables.enable = true;
-      nftables.tables.agent-isolation = {
-        family = "inet";
-        content = ''
-          chain forward {
-            type filter hook forward priority filter - 1; policy accept;
+    boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-            # Do not let this autonomous guest reach the host, LAN, tailnet,
-            # Kubernetes ranges, or RFC1918 destinations.
-            iifname "${bridge}" ip daddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } drop
-            iifname "${bridge}" ip6 daddr { ::1/128, fc00::/7, fe80::/10 } drop
-
-            # Only the two explicitly forwarded services are reachable from
-            # the LAN. Replies to guest-originated Internet traffic continue
-            # to work through the normal connection tracker.
-            iifname "br0" oifname "${bridge}" ip daddr ${cfg.vm.ip} tcp dport { ${toString cfg.editorPort}, ${toString cfg.previewPort} } accept
-            iifname "br0" oifname "${bridge}" drop
-          }
-        '';
+    # Do NOT enable networking.nftables or networking.nat here. On this host's
+    # stateVersion, the global nftables service defaults to flushing all tables
+    # (including Docker, k3s and Tailscale) and blacklists ip_tables. This service
+    # owns exactly one table; nft applies each replacement as one transaction.
+    system.build.graceEditorFirewall = rules;
+    system.build.graceEditorFirewallCleanup = cleanup;
+    system.build.graceEditorNetworkTest = pkgs.writeShellApplication {
+      name = "check-grace-editor-network";
+      runtimeInputs = with pkgs; [ iproute2 nftables util-linux ];
+      text = ''
+        # The test creates interfaces, routes and rules only after unshare.
+        exec unshare --mount --net --pid --fork --mount-proc \
+          ${pkgs.python3}/bin/python3 ${./test-network.py} ${rules} ${cleanup}
+      '';
+    };
+    systemd.services.grace-editor-firewall = {
+      description = "Network isolation and LAN port forwarding for Grace's editor";
+      before = [ "microvm@grace-editor.service" ];
+      reloadIfChanged = true;
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.nftables}/bin/nft --file ${rules}";
+        ExecReload = "${pkgs.nftables}/bin/nft --file ${rules}";
+        ExecStop = "${pkgs.nftables}/bin/nft --file ${cleanup}";
       };
+    };
+
+    # BindsTo plus After means a stopped/failed firewall also stops the guest;
+    # on shutdown, the guest stops before its isolation rules are removed.
+    systemd.services."microvm@grace-editor" = {
+      requires = [ "install-microvm-grace-editor.service" ];
+      bindsTo = [ "grace-editor-firewall.service" ];
+      after = [ "install-microvm-grace-editor.service" "grace-editor-firewall.service" ];
     };
   };
 }

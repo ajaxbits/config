@@ -10,11 +10,13 @@ in
     # when the editing environment is wanted.
     microvm.vms.${hostName} = {
       inherit pkgs;
+      autostart = false;
       config = {
         system.stateVersion = "26.05";
         networking = {
           inherit hostName;
           useDHCP = false;
+          enableIPv6 = false;
           firewall.enable = true;
           firewall.allowedTCPPorts = [ cfg.editorPort cfg.previewPort ];
         };
@@ -24,7 +26,12 @@ in
             matchConfig.Type = "ether";
             address = [ "${cfg.vm.ip}/${toString cfg.vm.cidr}" ];
             routes = [ { Gateway = cfg.vm.gateway; } ];
-            networkConfig.DNS = [ "1.1.1.1" "1.0.0.1" ];
+            networkConfig = {
+              DNS = [ "1.1.1.1" "1.0.0.1" ];
+              DHCP = "no";
+              IPv6AcceptRA = false;
+              LinkLocalAddressing = "no";
+            };
           };
         };
 
