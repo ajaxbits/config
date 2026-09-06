@@ -72,6 +72,9 @@ in
   # vpod
   "vpod/passwordfile.age".publicKeys = writers ++ [ patroclus ];
 
+  # Grace's website editor
+  "grace-editor/opencode.env.age".publicKeys = writers ++ [ patroclus ];
+
   # zfs
   "zfs/documents-encryption-passphrase.age".publicKeys = writers ++ [ patroclus ];
 

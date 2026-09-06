@@ -1,11 +1,18 @@
 { config, lib, inputs, pkgs, ... }:
 let
   cfg = config.components.website-editor;
+  hostConfig = config;
   hostName = "grace-editor";
   repo = "https://github.com/ajaxbits/gracebobber.git";
 in
 {
   config = lib.mkIf cfg.enable {
+    age.secrets."grace-editor/opencode.env" = {
+      file = ../../secrets/grace-editor/opencode.env.age;
+      path = "/run/grace-editor-secrets/opencode.env";
+      mode = "0400";
+    };
+
     # Intentionally no autostart: run `systemctl start microvm@grace-editor`
     # when the editing environment is wanted.
     microvm.vms.${hostName} = {
@@ -89,6 +96,15 @@ in
             }
           ];
           writableStoreOverlay = "/nix/.rw-store";
+          # This is the only host secret made visible to the guest. It is a
+          # read-only directory, rather than the host-wide agenix directory.
+          shares = [ {
+            source = "/run/grace-editor-secrets";
+            mountPoint = "/run/grace-editor-secrets";
+            tag = "opencode-env";
+            proto = "virtiofs";
+            readOnly = true;
+          } ];
         };
 
         systemd.services.grace-editor-bootstrap = {
@@ -127,6 +143,7 @@ in
               "HOME=/home/agent"
               "GRACE_EDITOR_PREVIEW_URL=http://172.22.0.10:${toString cfg.previewPort}"
             ];
+            EnvironmentFile = hostConfig.age.secrets."grace-editor/opencode.env".path;
             ExecStart = "${inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2}/bin/opencode2 serve --hostname 0.0.0.0 --port ${toString cfg.editorPort}";
             Restart = "on-failure";
             RestartSec = 5;
