@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "unstable";
+    };
+
     # custom pkgs
     centerpiece = {
       url = "github:friedow/centerpiece";
