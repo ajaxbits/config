@@ -32,7 +32,6 @@ let
 in
 {
   config = lib.mkIf cfg.enable {
-
     programs.ssh.extraConfig = ''
       Host grace-editor
         HostName ${cfg.vm.ip}
@@ -45,9 +44,10 @@ in
       file = ../../secrets/grace-editor/opencode.env.age;
       path = "/run/grace-editor-secrets/opencode.env";
       mode = "0400";
+      # The guest mounts this directory. A real file is required because the
+      # agenix default symlink points into /run/agenix, which is not shared.
+      symlink = false;
     };
-
-
     # Intentionally no autostart: run `systemctl start microvm@grace-editor`
     # when the editing environment is wanted.
     microvm.vms.${hostName} = {
