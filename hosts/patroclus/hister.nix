@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  self,
   unstable,
   pkgsUnstable,
   ...
@@ -21,6 +22,9 @@ in
   services.hister = {
     enable = true;
     package = pkgsUnstable.hister;
+    # Hister maps this environment variable to app.access_token, keeping MCP
+    # authentication out of the world-readable Nix store.
+    environmentFile = config.age.secrets."hister/env".path;
 
     settings = {
       app = {
@@ -40,6 +44,8 @@ in
       # pgvector-backed semantic search, neither of which applies here.
     };
   };
+
+  age.secrets."hister/env".file = "${self}/secrets/hister/env.age";
 
   services.caddy.virtualHosts.${url} = mkIf config.components.caddy.enable {
     extraConfig = ''
