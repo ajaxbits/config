@@ -25,6 +25,20 @@ in
     firewall.enable = false;
   };
 
+  users = {
+    groups.smarthome-editors = { };
+    users = {
+      admin.extraGroups = [ "smarthome-editors" ];
+      smarthome-agent = {
+        isNormalUser = true;
+        description = "Restricted smart-home configuration agent";
+        group = "smarthome-editors";
+        createHome = true;
+        hashedPassword = "!";
+      };
+    };
+  };
+
   components = {
     audiobookshelf = {
       enable = true;
