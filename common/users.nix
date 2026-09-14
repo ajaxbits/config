@@ -23,6 +23,7 @@
       openssh.authorizedKeys.keys = [
         "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAKzlHopLocPWMR0dDaqRkzU5/5WnWvg8qw+xHOPAw91PMtYifOOJrW+vvcTQE83MP5M3KodXT/Ge9b2mZiGzuk="
         "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPocbRyxNvg6osesgjnD0cqCR8pqwhbNbmD793Y6uSQHNX3WDBcfQn3BVdDx36WgFeP/3uLzKIomIjuiJyn+ugQ="
+        "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHIgivPNGYyzNby0wcHFpHAhLlHa4ARXVCT+sogXpbMUYOHpHm5tbfCl4dKpoSV7lrd1STXa89JUnJdzB7cXO9g="
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID7omQh72mDWAsnJlXmcNaQOhGKfSj1xpjUVGjAQ5AdB"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILd+8Pi5rRPT8aLaRAd1YPeBba2zEbTST+9YtzHVugBz"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM1HH8/qgcU63wichBiB5nvSv0+9B9xxWdy2AYQr3oyr"
