@@ -21,5 +21,6 @@ in
     ./grafana.nix
     ./logs
     ./metrics
+    ./traces
   ];
 }
