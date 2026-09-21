@@ -12,6 +12,7 @@ in
     ./hypervisor.nix
     ./k3s.nix
     ./monitor.nix
+    ./nixbuild.nix
     ./gatus.nix
     ./scrutiny.nix
     ./hister.nix
