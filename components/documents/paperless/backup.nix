@@ -1,95 +1,115 @@
 {
   config,
   lib,
-  self,
   pkgs,
+  self,
   ...
 }:
 let
   inherit (lib) mkIf optionalString;
-
   cfg = config.components.documents.paperless;
-
-  backupEncryptionPassword = "Baggage-Crisping-Gloating5"; # not a secret, only for cloud privacy
+  dataDir = "/var/lib/paperless";
+  exportDir = "${dataDir}/export";
+  uploadMarker = "${exportDir}/.upload-ready";
+  stagingDir = "/var/cache/paperless-backup";
 in
 {
   config = mkIf cfg.backups.enable {
-    services.paperless.exporter = {
-      enable = true;
-      onCalendar = null;
-      settings = {
-        compare-checksums = true; # Compare file checksums when determining whether to export a file or not. If not specified, file size and time modified is used instead.
-        delete = true; # After exporting, delete files in the export directory that do not belong to the current export, such as files from deleted documents.
-        no-color = true;
-        no-progress-bar = true;
-        passphrase = backupEncryptionPassword;
-        split-manifest = true; # Export document information in individual manifest json files.
-        zip = true;
-        zip-name = "paperlessExportEncrypted"; # .zip is automatically appended by the system
+
+    system.build.paperlessBackupExportTest = pkgs.writeShellApplication {
+      name = "check-paperless-backup-export";
+      runtimeInputs = [ pkgs.python3 ];
+      text = ''
+        exec ${pkgs.python3}/bin/python3 ${./.}/test_backup_export.py
+      '';
+    };
+    # The guest writes the encrypted export; only the host uploads it.
+    microvm.vms.paperless.config = {
+      services.paperless.exporter = {
+        enable = true;
+        directory = exportDir;
+        onCalendar = null;
+        settings = {
+          compare-checksums = true;
+          delete = true;
+          no-color = true;
+          no-progress-bar = true;
+          passphrase = "Baggage-Crisping-Gloating5";
+          split-manifest = true;
+          zip = true;
+          zip-name = "paperlessExportEncrypted";
+        };
+      };
+      systemd.timers.paperless-exporter = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnCalendar = "daily";
+          Persistent = true;
+        };
+      };
+      systemd.services.paperless-exporter = {
+        serviceConfig.Type = "oneshot";
+        postStart = ''
+          ${pkgs.coreutils}/bin/date --iso-8601=seconds > ${uploadMarker}
+        '';
       };
     };
 
-    systemd.timers.paperless-exporter = {
-      description = "Run a paperless export on a schedule";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "daily";
-        WakeSystem = true;
-        Persistent = true;
-      };
-    };
-
-    systemd.services.paperless-backup =
-      let
-        inherit (cfg.backups) healthchecksUrl;
-
-        rcloneConfigFile = "${config.age.secretsDir}/rclone/rclone.conf";
-        exporterService = [ "paperless-exporter.service" ];
-
-        exportDir = config.services.paperless.exporter.directory;
-        exportName = "${config.services.paperless.exporter.settings.zip-name}.zip";
-        exportPath = "${exportDir}/${exportName}";
-
-        backup =
-          let
-            curl = lib.getExe pkgs.curl;
-            rclone = lib.getExe pkgs.rclone;
-          in
-          pkgs.writeShellScript "paperless-backup" ''
-            set -eux
-
-            ${rclone} sync \
-              --config ${rcloneConfigFile} \
-              --verbose \
-              ${exportPath} r2:paperless-backup
-            ${rclone} sync \
-              --config ${rcloneConfigFile} \
-              --verbose \
-              --fast-list \
-              ${exportPath} b2-paperless-backups:paperless-backups
-
-            ${optionalString (
-              healthchecksUrl != ""
-            ) "${curl} -fsS -m 10 --retry 5 -o /dev/null ${healthchecksUrl}"}
-          '';
-      in
-      {
-        script = "${backup}";
-        serviceConfig.User = config.services.paperless.user;
-        after = exporterService;
-        requires = exporterService;
-      };
-
-    users.users.paperless.extraGroups = [ "rcloneoperators" ];
     users.groups.rcloneoperators = { };
+    users.users.paperless.extraGroups = [ "rcloneoperators" ];
+    age.secrets."rclone/rclone.conf" = {
+      file = "${self}/secrets/rclone/rclone.conf.age";
+      mode = "440";
+      owner = config.users.users.paperless.name;
+      group = config.users.groups.rcloneoperators.name;
+    };
 
-    age.secrets = {
-      "rclone/rclone.conf" = {
-        file = "${self}/secrets/rclone/rclone.conf.age";
-        mode = "440";
-        owner = config.users.users.paperless.name;
-        group = config.users.groups.rcloneoperators.name;
+    systemd.tmpfiles.settings."10-paperless-backup"."${stagingDir}".d = {
+      mode = "0700";
+      user = "paperless";
+      group = "paperless";
+    };
+
+    systemd.paths.paperless-backup = {
+      description = "Upload a completed Paperless export";
+      wantedBy = [ "multi-user.target" ];
+      pathConfig = {
+        PathChanged = uploadMarker;
+        Unit = "paperless-backup.service";
       };
+    };
+
+    systemd.services.paperless-backup = {
+      description = "Upload encrypted Paperless export to remote storage";
+      serviceConfig = {
+        Type = "oneshot";
+        User = config.users.users.paperless.name;
+      };
+      script = ''
+        set -eu
+        # A daily export is legitimate; ignore extra guest-initiated triggers.
+        lastUpload=${stagingDir}/.last-upload
+        now="$(${pkgs.coreutils}/bin/date +%s)"
+        if [ -e "$lastUpload" ] && [ $((now - $(${pkgs.coreutils}/bin/stat -c %Y "$lastUpload"))) -lt 72000 ]; then
+          echo "Skipping: last Paperless upload was less than 20h ago."
+          exit 0
+        fi
+        stagedExport="$(${pkgs.python3}/bin/python3 ${./backup_export.py} ${dataDir} ${stagingDir})"
+        trap 'rm -f -- "$stagedExport"' EXIT
+        stamp="$(${pkgs.coreutils}/bin/date -u +%Y%m%dT%H%M%S.%N)"
+        # ponytail: append-only exports grow; apply bucket lifecycle retention if storage cost matters.
+        ${pkgs.rclone}/bin/rclone copyto --immutable \
+          --config ${config.age.secretsDir}/rclone/rclone.conf \
+          --verbose \
+          "$stagedExport" "r2:paperless-backup/paperlessExportEncrypted-$stamp.zip"
+        ${pkgs.rclone}/bin/rclone copyto --immutable \
+          --config ${config.age.secretsDir}/rclone/rclone.conf \
+          --verbose \
+          "$stagedExport" "b2-paperless-backups:paperless-backups/paperlessExportEncrypted-$stamp.zip"
+        ${pkgs.coreutils}/bin/touch "$lastUpload"
+        ${optionalString (cfg.backups.healthchecksUrl != "") "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 -o /dev/null ${cfg.backups.healthchecksUrl}"}
+      '';
+      unitConfig.ConditionPathExists = uploadMarker;
     };
   };
 }
