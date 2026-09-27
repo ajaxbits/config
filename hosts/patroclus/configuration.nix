@@ -93,7 +93,7 @@ in
       };
       stirlingPdf.enable = true;
     };
-    podcasts.vpod.enable = true;
+    podcasts.vpod.enable = false;
     smarthome.backups = {
       enable = true;
       healthchecksUrl = "https://hc-ping.com/5788a530-fac5-44e0-b366-11822fb15259";
