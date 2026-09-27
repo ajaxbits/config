@@ -20,3 +20,9 @@ n8n.ajax.casa {
     reverse_proxy localhost:5678
     encode gzip zstd
 }
+
+yt.ajax.casa {
+    import cloudflare
+    reverse_proxy 127.0.0.1:9987
+    encode gzip zstd
+}
