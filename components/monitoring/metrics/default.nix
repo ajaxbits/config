@@ -34,7 +34,6 @@ in
       type = types.listOf types.str;
       default = [
         "blackboxExporter"
-        "moto"
         "nodeExporter"
         "nut"
       ];

@@ -12,3 +12,8 @@ services while retaining encrypted disk swap. After a reboot, check
 `/sys/module/zfs/parameters/zfs_arc_max` and `sysctl vm.swappiness`; use
 memory pressure, swap I/O, and ARC hit rate under load before retuning.
 These settings do not immediately empty already-used swap.
+
+## Patroclus metrics
+
+VictoriaMetrics scrapes the blackbox, node, and NUT exporters, plus the
+separately configured UniFi poller.
