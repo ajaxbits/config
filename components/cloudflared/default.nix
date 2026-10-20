@@ -33,14 +33,29 @@ in
       };
     };
 
+    # Run the tunnel as the fixed cloudflared account (not a DynamicUser) so
+    # host firewall rules (e.g. components/umami) can match its UID.
+    systemd.services."cloudflared-tunnel-${cfg.tunnelId}".serviceConfig = {
+      DynamicUser = lib.mkForce false;
+      User = "cloudflared";
+      Group = "cloudflared";
+      ProtectSystem = "strict";
+      ProtectHome = true;
+      PrivateTmp = true;
+      NoNewPrivileges = true;
+      RemoveIPC = true;
+      RestrictSUIDSGID = true;
+    };
+
     users = {
       users.cloudflared = {
+        uid = 981;
         createHome = true;
         group = "cloudflared";
         home = "/home/cloudflared";
         isSystemUser = true;
       };
-      groups.cloudflared = { };
+      groups.cloudflared.gid = 975;
     };
 
     age.secrets = {
