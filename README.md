@@ -18,6 +18,13 @@ These settings do not immediately empty already-used swap.
 VictoriaMetrics scrapes the blackbox, node, and NUT exporters, plus the
 separately configured UniFi poller.
 
+The node exporter textfile collector publishes `system_version` as the numeric
+system-profile generation on boot and activation. To mark deployments on an
+existing Grafana dashboard, add an annotation using the
+`Prometheus (VictoriaMetrics)` datasource with the query
+`changes(system_version{host="patroclus"}[5m]) > 0` and show it on all panels.
+Annotations are dashboard-scoped; this repo does not manage dashboards.
+
 ## Patroclus audit
 
 The 64-bit `execve` audit rule remains enabled. The audit backlog is 8192
