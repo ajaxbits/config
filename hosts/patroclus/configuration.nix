@@ -26,6 +26,9 @@ in
     firewall.enable = false;
   };
 
+  # Buffer bursts from the execve audit rule without disabling audit logging.
+  security.audit.backlogLimit = 8192;
+
   users = {
     groups.smarthome-editors = { };
     users = {

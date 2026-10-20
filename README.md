@@ -17,3 +17,11 @@ These settings do not immediately empty already-used swap.
 
 VictoriaMetrics scrapes the blackbox, node, and NUT exporters, plus the
 separately configured UniFi poller.
+
+## Patroclus audit
+
+The 64-bit `execve` audit rule remains enabled. The audit backlog is 8192
+at boot and when rules load. After reboot, check `sudo auditctl -s` for
+`backlog_limit 8192` and watch whether `lost` increases under load. A larger
+backlog absorbs bursts, not sustained overload; if events are still lost,
+investigate auditd throughput and the broad `execve` rule.
