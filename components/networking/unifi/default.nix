@@ -144,6 +144,9 @@ in
       extraConfig = ''
         encode gzip zstd
         reverse_proxy 127.0.0.1:${webPortalInternalPort} {
+          # Caddy >= 2.11 rewrites Host to the upstream for HTTPS upstreams; UniFi
+          # rejects logins (403) when Origin doesn't match Host.
+          header_up Host {host}
           transport http {
             tls_insecure_skip_verify
           }
