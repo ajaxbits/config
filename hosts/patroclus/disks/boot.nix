@@ -7,7 +7,13 @@ let
 in
 {
   boot = {
-    kernelParams = [ "elevator=none" ]; # https://grahamc.com/blog/nixos-on-zfs/
+    kernelParams = [
+      "elevator=none" # https://grahamc.com/blog/nixos-on-zfs/
+      # Reserve headroom for the two 6 GiB microVMs and host services.
+      "zfs.zfs_arc_max=25769803776" # 24 GiB
+    ];
+    # Prefer reclaiming cache over swapping application and guest memory.
+    kernel.sysctl."vm.swappiness" = 20;
     loader = {
       systemd-boot.enable = true;
       efi = {
