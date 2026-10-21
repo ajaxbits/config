@@ -22,7 +22,7 @@
     };
 
     agenix = {
-      url = "https://flakehub.com/f/ryantm/agenix/0.14.0.tar.gz";
+      url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

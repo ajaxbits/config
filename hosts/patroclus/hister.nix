@@ -2,8 +2,6 @@
   config,
   lib,
   self,
-  unstable,
-  pkgsUnstable,
   ...
 }:
 let
@@ -13,15 +11,8 @@ let
   url = "https://hister.${config.networking.domain}";
 in
 {
-  # The services.hister module does not exist in the stable nixpkgs (26.05),
-  # so pull it in directly from the nixos-unstable input rather than switching
-  # the whole system to unstable. The package likewise only exists in unstable,
-  # so point the module at pkgsUnstable.hister.
-  imports = [ "${unstable}/nixos/modules/services/web-apps/hister.nix" ];
-
   services.hister = {
     enable = true;
-    package = pkgsUnstable.hister;
     # Hister maps this environment variable to app.access_token, keeping MCP
     # authentication out of the world-readable Nix store.
     environmentFile = config.age.secrets."hister/env".path;
