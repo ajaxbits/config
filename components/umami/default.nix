@@ -279,6 +279,7 @@ in
         fileSystems."/var".neededForBoot = true;
         microvm = {
           hypervisor = "cloud-hypervisor";
+          storeDiskDirect = false; # see paperless: 1M ZFS DIO alignment breaks virtio-blk
           vcpu = 2;
           mem = 2048;
           vsock.cid = null;

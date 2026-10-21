@@ -132,6 +132,8 @@ in
         };
         microvm = {
           hypervisor = "cloud-hypervisor";
+          # ZFS recordsize=1M makes STATX_DIOALIGN 1 MiB; direct=on passes that as blk_size, guest rejects >64K.
+          storeDiskDirect = false;
           vcpu = 4;
           mem = 6144;
           vsock.cid = 10;

@@ -132,6 +132,7 @@ in
 
         microvm = {
           hypervisor = "cloud-hypervisor";
+          storeDiskDirect = false; # see paperless: 1M ZFS DIO alignment breaks virtio-blk
           vcpu = 4;
           mem = 6144;
           vsock.cid = 9;
