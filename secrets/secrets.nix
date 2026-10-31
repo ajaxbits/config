@@ -85,4 +85,7 @@ in
   "syncthing/guiPass.age".publicKeys = writers ++ [ patroclus ];
   "syncthing/key.age".publicKeys = writers ++ [ patroclus ];
   "syncthing/cert.age".publicKeys = writers ++ [ patroclus ];
+
+  # navidrome
+  "navidrome/env.age".publicKeys = writers ++ [ patroclus ];
 }

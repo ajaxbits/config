@@ -96,6 +96,7 @@ in
       };
       stirlingPdf.enable = true;
     };
+    music.enable = true;
     podcasts.vpod.enable = false;
     smarthome.backups = {
       enable = true;
