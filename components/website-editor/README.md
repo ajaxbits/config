@@ -11,10 +11,18 @@ Deploy the host configuration first. Starting the VM also requests its
 installation unit and the `grace-editor-firewall` unit. It does not autostart.
 Guest services start inside the VM, not on the host.
 
-- Editor: `http://172.22.0.10:4096`
+- Editor: `https://editor-grace.ajax.casa` (LAN/tailnet only; also `http://172.22.0.10:4096`)
 - Preview: `http://172.22.0.10:4321`
 - Guest: `192.168.83.2/24`, gateway `192.168.83.1`
 - Host bridge: `agentbr0`, containing only the `agent-grace` tap.
+
+Every new OpenCode chat is one editing session. Before its first prompt runs,
+the `session-sync.js` plugin calls `grace-editor-sync`: fetch `origin`, start a
+new empty change on top of `main@origin`, and reinstall dependencies if the
+lockfile changed. If the checkout has edits that are not on `main@origin`, or
+GitHub is unreachable, it leaves the checkout alone and tells the agent to
+explain why to Grace. It assumes nobody else edits the site during a chat.
+Run `grace-editor-sync` in the guest to sync by hand.
 
 ## Guest access and first boot
 

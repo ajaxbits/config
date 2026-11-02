@@ -29,6 +29,54 @@ let
     update = "disable";
     warming = false;
   });
+  checkout = "/home/agent/gracebobber";
+  # Reinstall dependencies when the lockfile or Node changed. A failed npm ci
+  # may leave node_modules behind, so only record a successful installation.
+  depsScript = pkgs.writeShellApplication {
+    name = "grace-editor-deps";
+    runtimeInputs = tools;
+    text = ''
+      cd ${checkout}
+      signature="$(sha256sum package-lock.json | cut -d ' ' -f1):$(node --version)"
+      if [ -x node_modules/.bin/astro ] &&
+         [ "$(cat node_modules/.grace-editor-deps 2>/dev/null || true)" = "$signature" ]; then
+        exit 0
+      fi
+      npm ci
+      printf '%s\n' "$signature" > node_modules/.grace-editor-deps
+      # A running dev server keeps the old modules loaded. Not running at boot.
+      if systemctl is-active --quiet grace-editor-preview; then
+        /run/wrappers/bin/sudo systemctl restart grace-editor-preview
+      fi
+    '';
+  };
+  # Run before the first prompt of each new chat (session-sync.js). Assumes
+  # nobody else edits the site while a chat is in progress.
+  syncScript = pkgs.writeShellApplication {
+    name = "grace-editor-sync";
+    runtimeInputs = tools ++ [ depsScript ];
+    text = ''
+      cd ${checkout}
+      export GIT_SSH_COMMAND="ssh -o BatchMode=yes -o ConnectTimeout=15"
+      if ! jj git fetch --remote origin; then
+        echo "Could not download the latest website from GitHub."
+        exit 1
+      fi
+      unpublished="$(jj log --no-graph -r 'main@origin..@ ~ empty()' \
+        -T 'change_id.short() ++ " " ++ description.first_line() ++ "\n"')"
+      if [ -n "$unpublished" ]; then
+        echo "Earlier edits were never published, so the checkout was left as it is:"
+        echo "$unpublished"
+        exit 3
+      fi
+      jj new main@origin
+      grace-editor-deps
+    '';
+  };
+  sessionSyncPlugin = pkgs.replaceVars ./session-sync.js {
+    repo = checkout;
+    sync = lib.getExe syncScript;
+  };
 in
 {
   config = lib.mkIf cfg.enable {
@@ -88,7 +136,7 @@ in
         };
         security.sudo.wheelNeedsPassword = false;
 
-        environment.systemPackages = tools;
+        environment.systemPackages = tools ++ [ syncScript ];
         nix.settings.experimental-features = [ "nix-command" "flakes" ];
         # GitHub's published Ed25519 host key (https://api.github.com/meta).
         # First-boot cloning must not block on an interactive trust prompt.
@@ -128,6 +176,9 @@ in
           # Update policy is global-only in V2. L (without +) preserves an
           # existing guest configuration rather than overwriting user edits.
           "L /home/agent/.config/opencode/opencode.json - - - - ${globalOpenCodeConfig}"
+          "d /home/agent/.config/opencode/plugins 0700 agent users -"
+          # Owned by this config, so always point at the current build.
+          "L+ /home/agent/.config/opencode/plugins/session-sync.js - - - - ${sessionSyncPlugin}"
         ];
 
         microvm = {
@@ -174,7 +225,7 @@ in
           wantedBy = [ "multi-user.target" ];
           after = [ "network-online.target" ];
           wants = [ "network-online.target" ];
-          path = tools;
+          path = tools ++ [ depsScript ];
           environment.HOME = "/home/agent";
           unitConfig.RequiresMountsFor = "/home/agent";
           serviceConfig = {
@@ -200,14 +251,7 @@ in
               jj git init --colocate
               jj bookmark track main --remote=origin
             fi
-            # A failed npm ci may leave node_modules behind. Only record the
-            # lockfile and Node version once an installation actually succeeds.
-            signature="$(sha256sum package-lock.json | cut -d ' ' -f1):$(node --version)"
-            if [ ! -x node_modules/.bin/astro ] ||
-               [ "$(cat node_modules/.grace-editor-deps 2>/dev/null || true)" != "$signature" ]; then
-              npm ci
-              printf '%s\n' "$signature" > node_modules/.grace-editor-deps
-            fi
+            grace-editor-deps
           '';
         };
         systemd.services.opencode2-grace-editor = {

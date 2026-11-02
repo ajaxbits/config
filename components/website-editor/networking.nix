@@ -77,6 +77,18 @@ in
       };
     };
 
+    # Same LAN + tailnet gate as analytics-grace.ajax.casa, judged by socket peer.
+    services.caddy.virtualHosts."https://editor-grace.ajax.casa".extraConfig = ''
+      import cloudflare
+      route {
+        @self remote_ip 127.0.0.0/8 ::1 172.22.0.10 100.122.241.27 fd7a:115c:a1e0::f101:f11d
+        respond @self 403
+        @outside not remote_ip 172.22.0.0/16 100.64.0.0/10 fd7a:115c:a1e0::/48
+        respond @outside 403
+        reverse_proxy http://${cfg.vm.ip}:${toString cfg.editorPort}
+      }
+    '';
+
     # BindsTo plus After means a stopped/failed firewall also stops the guest;
     # on shutdown, the guest stops before its isolation rules are removed.
     systemd.services."microvm@grace-editor" = {
