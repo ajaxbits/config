@@ -73,7 +73,7 @@ in
     };
     cloudflared.enable = true;
     website-editor = {
-      enable = true;
+      enable = false;
       authorizedKeys = [
         # Private key stays on patroclus in ~admin/.ssh/grace-editor.
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICDgXkJ7RFsYogbUgTKwxRcGx70e5pULOzDFl8e5i9yp patroclus grace-editor administration"
