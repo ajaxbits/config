@@ -63,8 +63,10 @@ let
         echo "Could not download the latest website from GitHub."
         exit 1
       fi
-      unpublished="$(jj log --no-graph -r 'main@origin..@ ~ empty()' \
-        -T 'change_id.short() ++ " " ++ description.first_line() ++ "\n"')"
+      # Commits already on GitHub (e.g. an old feature branch) are not edits
+      # anyone could lose; only local-only work blocks the sync.
+      unpublished="$(jj log --no-graph -r '(main@origin..@) ~ empty() ~ ::remote_bookmarks()' \
+        -T 'if(description, description.first_line(), "(unsaved edits)") ++ "\n"')"
       if [ -n "$unpublished" ]; then
         echo "Earlier edits were never published, so the checkout was left as it is:"
         echo "$unpublished"
