@@ -16,6 +16,7 @@ let
     jujutsu
     jq
     just
+    netlify-cli
     nodejs_22
     openssh
     poppler-utils

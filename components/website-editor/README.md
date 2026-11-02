@@ -77,6 +77,11 @@ then connect GitHub Copilot there. That OAuth connection and the repository
 deploy key serve separate purposes. Both OpenCode state and the checkout are
 on `/home/agent` and survive a VM restart.
 
+Publishing runs `just publish` in the guest, which deploys with the `netlify`
+CLI. It needs `NETLIFY_AUTH_TOKEN` (a Netlify personal access token) in
+`secrets/grace-editor/opencode.env.age`. Add it with `agenix -e` and restart
+the VM. Without it, publishing stops before pushing anything.
+
 `just dev` checks the preview over guest loopback, while reporting the LAN URL
 to Grace. The agent is deliberately unable to connect to that host URL itself.
 
