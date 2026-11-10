@@ -36,6 +36,11 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
+    rex = {
+      url = "https://pkgs.superlogical.com/rex/nix/preview.tar.gz";
+      inputs.nixpkgs.follows = "unstable";
+    };
+
     # custom pkgs
     centerpiece = {
       url = "github:friedow/centerpiece";
@@ -139,6 +144,7 @@
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
 
+              inputs.rex.nixosModules.default
               inputs.vpod.nixosModules.default
             ];
           };
@@ -155,6 +161,7 @@
               inputs.authentik-nix.nixosModules.default
               inputs.disko.nixosModules.disko
               inputs.microvm.nixosModules.host
+              inputs.rex.nixosModules.default
               inputs.vpod.nixosModules.default
             ];
           };
