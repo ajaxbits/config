@@ -20,11 +20,11 @@ in
       # Loopback only; Caddy terminates TLS in front of it.
       listen-http = "127.0.0.1:${toString port}";
       behind-proxy = true;
-    };
       # iOS can't hold a connection to a self-hosted server: for each message,
       # ntfy.sh gets a poll request (message ID + hashed topic, no content) and
       # wakes the iOS app over APNs, which then fetches the message from here.
       upstream-base-url = "https://ntfy.sh";
+    };
   };
 
   services.caddy.virtualHosts.${url} = mkIf config.components.caddy.enable {
