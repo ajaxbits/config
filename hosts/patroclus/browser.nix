@@ -33,7 +33,9 @@ in
       environment = {
         WLR_BACKENDS = "headless";
         WLR_LIBINPUT_NO_DEVICES = "1";
-        WLR_RENDERER = "pixman";
+        # Render on the Intel iGPU so Helium exposes real WebGL (no GPU means no WebGL, a bot tell).
+        WLR_RENDERER = "gles2";
+        WLR_RENDER_DRM_DEVICE = "/dev/dri/renderD128";
       };
       serviceConfig = {
         ExecStart = "${config.programs.sway.package}/bin/sway --config ${swayConfig}";
@@ -51,7 +53,6 @@ in
         ExecStart = lib.concatStringsSep " " [
           "${helium}/bin/helium"
           "--ozone-platform=wayland"
-          "--disable-gpu"
           "--password-store=basic"
           "--no-first-run"
           "--no-default-browser-check"
