@@ -18,6 +18,7 @@ in
     ./scrutiny.nix
     ./hister.nix
     ./ntfy.nix
+    ./apartments.nix
     ./rex.nix
   ];
 
