@@ -10,6 +10,7 @@ in
     ./disks
     ./hardware-configuration.nix
     ./hypervisor.nix
+    ./browser.nix
     ./k3s.nix
     ./monitor.nix
     ./nixbuild.nix

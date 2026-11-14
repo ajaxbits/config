@@ -41,6 +41,11 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
+    helium = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "unstable";
+    };
+
     # custom pkgs
     centerpiece = {
       url = "github:friedow/centerpiece";
