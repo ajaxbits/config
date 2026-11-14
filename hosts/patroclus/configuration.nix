@@ -7,6 +7,7 @@ let
 in
 {
   imports = [
+    ./agent-tools.nix
     ./disks
     ./hardware-configuration.nix
     ./hypervisor.nix
