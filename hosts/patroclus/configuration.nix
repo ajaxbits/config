@@ -17,6 +17,7 @@ in
     ./gatus.nix
     ./scrutiny.nix
     ./hister.nix
+    ./ntfy.nix
     ./rex.nix
   ];
 
