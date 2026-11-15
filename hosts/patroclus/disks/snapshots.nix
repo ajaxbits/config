@@ -59,11 +59,12 @@
         "zroot/srv/documents"
         "zroot/srv/media"
         "zroot/system/var"
+        # Holds /home, including the local-only ~/apartments repo.
+        "zroot/system/root"
       ]
       // useTemplate "infrequent" [
         "zroot/local/log"
         "zroot/local/nix"
-        "zroot/system/root"
       ];
   };
 }
