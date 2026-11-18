@@ -33,6 +33,15 @@ at boot and when rules load. After reboot, check `sudo auditctl -s` for
 backlog absorbs bursts, not sustained overload; if events are still lost,
 investigate auditd throughput and the broad `execve` rule.
 
+## Patroclus SCTP mitigation
+
+`hosts/patroclus/disks/boot.nix` blocks loading the unused kernel `sctp`
+module, including socket-triggered autoload, as a temporary mitigation for
+[nginx2root's kernel escalation](https://xint.io/blog/nginx2root-remote-code-execution#63-exploitability-validation-25).
+Remove the `install sctp` rule only after booting a kernel confirmed to
+contain the SCTP fix; a newer version alone is not confirmation. The rule
+takes effect on deployment and does not unload an already-loaded module.
+
 ## Umami (components/umami)
 
 Two ways in, nothing else:

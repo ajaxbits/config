@@ -7,6 +7,10 @@ let
 in
 {
   boot = {
+    # SCTP is unused; remove this nginx2root mitigation after booting a kernel with the confirmed SCTP fix.
+    extraModprobeConfig = ''
+      install sctp ${pkgs.coreutils}/bin/false
+    '';
     kernelParams = [
       "elevator=none" # https://grahamc.com/blog/nixos-on-zfs/
       # Reserve headroom for the two 6 GiB microVMs and host services.
