@@ -42,6 +42,22 @@ Remove the `install sctp` rule only after booting a kernel confirmed to
 contain the SCTP fix; a newer version alone is not confirmation. The rule
 takes effect on deployment and does not unload an already-loaded module.
 
+## Patroclus LAN ownership
+
+`hosts/patroclus/hypervisor.nix` reserves `eno2` and `br0` for
+systemd-networkd. NetworkManager ignores both, including persisted DHCP
+profiles: only `br0` should hold `172.22.0.10/15`; the enslaved `eno2` must
+have no IPv4 address. A DHCP address on `eno2` can add a more-specific
+`172.22.0.0/16` route and break local services while Internet access works.
+
+The isolated regression VM loads the production LAN configuration, supplies
+a DHCP server and a stale autoconnect profile, and checks bridge routing
+and reachability across network-manager restarts. It controls no home devices:
+
+```sh
+nix build --no-link .#nixosConfigurations.patroclusStripped.config.system.build.networkdLanOwnershipTest
+```
+
 ## Umami (components/umami)
 
 Two ways in, nothing else:

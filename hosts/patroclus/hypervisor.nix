@@ -17,7 +17,15 @@ in
     "L+ /var/log/journal/${machineId} - - - - /var/lib/microvms/${vmHost}/journal/${machineId}"
   ) [ "test1" ];
 
-  networking.useNetworkd = true;
+  networking = {
+    useNetworkd = true;
+    # 2026-11-19: an old NM DHCP profile activated on enslaved eno2 at boot.
+    # Its /16 route overrode br0's /15 and broke LAN access; networkd owns both.
+    networkmanager.unmanaged = [
+      "interface-name:${ethernetIface}"
+      "interface-name:${bridgeIface}"
+    ];
+  };
   systemd.network = {
     enable = true;
     # Tailscale owns policy rules 5210-5270. networkd otherwise removes them
@@ -55,5 +63,11 @@ in
   system.build.networkdRoutingPolicyTest = import ./tests/networkd-routing-policy.nix {
     inherit pkgs;
     networkConfig = config.systemd.network.config.networkConfig;
+  };
+
+  system.build.networkdLanOwnershipTest = import ./tests/networkd-lan-ownership.nix {
+    inherit pkgs;
+    unmanaged = config.networking.networkmanager.unmanaged;
+    inherit (config.systemd.network) netdevs networks;
   };
 }
