@@ -50,6 +50,11 @@ profiles: only `br0` should hold `172.22.0.10/15`; the enslaved `eno2` must
 have no IPv4 address. A DHCP address on `eno2` can add a more-specific
 `172.22.0.0/16` route and break local services while Internet access works.
 
+On first activation, an existing DHCP address can remain after NetworkManager
+relinquishes the devices. Once both show as unmanaged, remove only that stale
+address with `sudo ip address del 172.22.0.10/16 dev eno2`, leaving `br0`
+untouched. This one-time cleanup avoids needing a reboot.
+
 The isolated regression VM loads the production LAN configuration, supplies
 a DHCP server and a stale autoconnect profile, and checks bridge routing
 and reachability across network-manager restarts. It controls no home devices:
